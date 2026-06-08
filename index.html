@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ARCHIme｜建築タイプ診断</title>
+<meta name="description" content="20問・約5分。4つの設計軸から、あなたの建築家タイプ（全16種）を診断します。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ARCHIme｜建築タイプ診断">
+<meta property="og:description" content="あなたはどんな建築家タイプ？ 無料・登録不要で診断できます。">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Zen+Maru+Gothic:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --purple: #5b4cdb;
+  --blue: #2a8fc4;
+  --green: #1fa87a;
+  --gold: #e8b84a;
+  --coral: #e85d5d;
+  --ink: #1a2233;
+  --ink-soft: #4d5a70;
+  --ink-mute: #8b97a8;
+  --bg: #f0f2f8;
+  --paper: #ffffff;
+  --line: #dde3ee;
+  --type: var(--purple);
+  --type-soft: #ede9ff;
+  --type-deep: #3d32a8;
+  --radius: 14px;
+  --radius-lg: 22px;
+  --shadow: 0 8px 28px rgba(26,34,51,.08);
+  --shadow-lg: 0 20px 50px rgba(26,34,51,.14);
+  --font: 'Noto Sans JP', system-ui, sans-serif;
+  --font-display: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif;
+  --max: 640px;
+  --axis-v: var(--purple);
+  --axis-f: var(--blue);
+  --axis-c: var(--green);
+  --axis-e: var(--gold);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font);
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+.app { max-width: var(--max); margin: 0 auto; padding: 0 16px 48px; }
+.view { display: none; animation: rise .45s ease both; }
+.view.active { display: block; }
+@keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+/* ── Intro ── */
+.intro-hero {
+  margin-top: 20px;
+  padding: 40px 24px 36px;
+  border-radius: var(--radius-lg);
+  text-align: center;
+  color: #fff;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255,255,255,.18), transparent),
+    linear-gradient(155deg, #4f3fd4, #5b7fd4 45%, #2a9a8a);
+  box-shadow: var(--shadow-lg);
+}
+.intro-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .2em;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.15);
+  border: 1px solid rgba(255,255,255,.3);
+  margin-bottom: 18px;
+}
+.intro-hero h1 {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(28px, 8vw, 38px);
+  line-height: 1.35;
+}
+.intro-hero h1 em { font-style: normal; color: #ffe566; }
+.intro-hero p { margin-top: 14px; font-size: 14px; opacity: .92; font-weight: 500; }
+.intro-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  margin: 24px 0 8px;
+  text-align: center;
+}
+.intro-stats div { padding: 8px 4px; }
+.intro-stats div + div { border-left: 1px solid var(--line); }
+.intro-stats b {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: var(--ink);
+}
+.intro-stats span { font-size: 10px; color: var(--ink-mute); }
+.axes-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 28px 0 32px;
+}
+.axis-card {
+  background: var(--paper);
+  border-radius: var(--radius);
+  padding: 14px;
+  box-shadow: var(--shadow);
+  border-top: 3px solid var(--ac);
+}
+.axis-card .sym { font-size: 18px; color: var(--ac); }
+.axis-card h3 { font-size: 14px; margin: 6px 0 4px; }
+.axis-card p { font-size: 11px; color: var(--ink-soft); line-height: 1.55; }
+.btn-primary {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
+  padding: 16px 24px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--purple);
+  background: #fff;
+  box-shadow: 0 10px 28px rgba(0,0,0,.18);
+  transition: transform .2s, box-shadow .2s;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(0,0,0,.22); }
+.foot { text-align: center; font-size: 11px; color: var(--ink-mute); margin-top: 28px; }
+
+/* ── Quiz (scroll) ── */
+.quiz-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  margin: 0 -16px;
+  padding: 12px 16px 14px;
+  background: rgba(240,242,248,.94);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.quiz-progress-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 700;
+}
+.quiz-progress-meta .count { color: var(--purple); font-family: var(--font-display); }
+.quiz-track {
+  height: 6px;
+  border-radius: 99px;
+  background: var(--line);
+  overflow: hidden;
+}
+.quiz-fill {
+  height: 100%;
+  width: 0;
+  border-radius: 99px;
+  background: linear-gradient(90deg, var(--purple), var(--blue), var(--green));
+  transition: width .4s cubic-bezier(.4,0,.2,1);
+}
+.quiz-hint-top {
+  margin-top: 8px;
+  font-size: 11px;
+  color: var(--ink-mute);
+  text-align: center;
+}
+.q-list { padding: 20px 0 100px; display: flex; flex-direction: column; gap: 16px; }
+.q-card {
+  background: var(--paper);
+  border-radius: var(--radius-lg);
+  padding: 22px 20px;
+  box-shadow: var(--shadow);
+  border: 2px solid transparent;
+  transition: border-color .3s, opacity .3s, transform .3s;
+  scroll-margin-top: 88px;
+}
+.q-card.answered { border-color: color-mix(in srgb, var(--ac, var(--purple)) 35%, transparent); }
+.q-card.current { border-color: var(--ac, var(--purple)); box-shadow: 0 0 0 4px color-mix(in srgb, var(--ac, var(--purple)) 12%, transparent); }
+.q-card.dim { opacity: .55; }
+.q-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.q-num { font-family: var(--font-display); font-weight: 900; font-size: 22px; }
+.q-axis {
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--ac) 12%, #fff);
+  color: var(--ac);
+}
+.q-stem { font-size: 13px; font-weight: 700; color: var(--ink-soft); margin-bottom: 12px; }
+.q-ab { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+.q-line {
+  display: flex;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  font-size: 13px;
+  line-height: 1.65;
+}
+.q-line.a { background: #f3f1ff; }
+.q-line.b { background: #fff8ec; }
+.q-tag {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 13px;
+  color: #fff;
+}
+.q-line.a .q-tag { background: var(--purple); }
+.q-line.b .q-tag { background: var(--gold); }
+.q-scale { text-align: center; font-size: 11px; color: var(--ink-mute); margin-bottom: 10px; }
+.q-opts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.q-opt {
+  padding: 10px 6px;
+  border-radius: 12px;
+  border: 2px solid var(--line);
+  background: var(--paper);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.4;
+  transition: all .15s;
+}
+.q-opt small { display: block; font-size: 9px; font-weight: 500; color: var(--ink-mute); margin-top: 2px; }
+.q-opt:hover:not(:disabled) { border-color: var(--purple); background: #f8f7ff; }
+.q-opt.sel { border-color: var(--purple); background: var(--purple); color: #fff; }
+.q-opt.sel small { color: rgba(255,255,255,.75); }
+.q-opt:disabled { cursor: default; }
+.q-done-badge {
+  display: none;
+  margin-top: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--green);
+  text-align: center;
+}
+.q-card.answered .q-done-badge { display: block; }
+
+.quiz-fab {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(120px);
+  z-index: 60;
+  padding: 14px 32px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 15px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--purple), #7b5cf0);
+  box-shadow: 0 12px 32px rgba(91,76,219,.45);
+  transition: transform .4s cubic-bezier(.34,1.56,.64,1), opacity .3s;
+  opacity: 0;
+  pointer-events: none;
+}
+.quiz-fab.show { transform: translateX(-50%) translateY(0); opacity: 1; pointer-events: auto; }
+
+/* ── Loading ── */
+.load-wrap {
+  min-height: 70dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 12px;
+}
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid var(--line);
+  border-top-color: var(--purple);
+  border-radius: 50%;
+  animation: spin .8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.load-wrap p { font-weight: 800; font-size: 17px; }
+.load-wrap span { font-size: 13px; color: var(--ink-mute); }
+
+/* ── Result ── */
+.result-hero { margin-top: 16px; }
+
+/* Puzzle & Dragons style monster card */
+.monster-card {
+  position: relative;
+  border-radius: 20px;
+  padding: 3px;
+  background: linear-gradient(145deg, #ffe566 0%, #ff9f1a 25%, #ffd700 50%, #c9a227 75%, #ffe566 100%);
+  box-shadow:
+    0 0 0 1px rgba(255,220,100,.5),
+    0 16px 48px rgba(0,0,0,.25),
+    0 0 60px color-mix(in srgb, var(--type) 40%, transparent);
+}
+.monster-inner {
+  border-radius: 17px;
+  overflow: hidden;
+  background: linear-gradient(180deg, #1e1248 0%, #2a1860 40%, #12082e 100%);
+  text-align: center;
+  color: #fff;
+  padding: 20px 20px 24px;
+}
+.monster-rarity {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: #ffe566;
+  letter-spacing: 2px;
+  text-shadow: 0 0 8px rgba(255,220,80,.8);
+}
+.monster-code {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 14px;
+  letter-spacing: .35em;
+  opacity: .85;
+  margin-bottom: 4px;
+}
+.monster-frame {
+  position: relative;
+  margin: 12px auto 16px;
+  width: min(200px, 70vw);
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.monster-glow {
+  position: absolute;
+  inset: -20%;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--type) 55%, transparent), transparent 70%);
+  animation: pulse 3s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100% { opacity: .7; transform: scale(1); } 50% { opacity: 1; transform: scale(1.05); } }
+.monster-emoji {
+  position: relative;
+  font-size: clamp(88px, 22vw, 120px);
+  line-height: 1;
+  filter: drop-shadow(0 8px 24px rgba(0,0,0,.4));
+  animation: float 4s ease-in-out infinite;
+}
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+.monster-name {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(22px, 6vw, 28px);
+  text-shadow: 0 2px 12px rgba(0,0,0,.4);
+}
+.monster-tagline {
+  margin-top: 8px;
+  font-size: 13px;
+  opacity: .9;
+  font-weight: 500;
+}
+.type-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 16px;
+}
+.type-pills span {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.2);
+}
+
+.result-block {
+  background: var(--paper);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  margin-top: 14px;
+  overflow: hidden;
+}
+.result-block > summary,
+.result-block > .block-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 18px;
+  font-weight: 800;
+  font-size: 14px;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+.result-block > summary::-webkit-details-marker { display: none; }
+.result-block .block-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: var(--type-soft);
+  color: var(--type);
+  font-size: 11px;
+  margin-right: 8px;
+}
+.result-block .chev { color: var(--ink-mute); font-size: 12px; transition: transform .2s; }
+.result-block[open] .chev { transform: rotate(180deg); }
+.result-block .block-body { padding: 0 18px 18px; }
+.result-desc { font-size: 14px; color: var(--ink-soft); line-height: 1.85; }
+.sw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+.sw-box { border-radius: var(--radius); padding: 14px; }
+.sw-box.s { background: #edf8f2; }
+.sw-box.w { background: #fff3f0; }
+.sw-box h4 { font-size: 12px; margin-bottom: 8px; }
+.sw-box .item { font-size: 12px; padding: 6px 0; border-bottom: 1px dashed rgba(0,0,0,.08); line-height: 1.5; }
+.sw-box .item:last-child { border: none; }
+
+.axis-bars { display: flex; flex-direction: column; gap: 14px; }
+.axis-bar .bar-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.axis-bar .bar-labels .on { color: var(--type); }
+.axis-bar .bar-score { text-align: center; font-size: 11px; color: var(--ink-mute); margin-bottom: 4px; }
+.axis-meter {
+  height: 10px;
+  border-radius: 99px;
+  background: var(--line);
+  position: relative;
+  overflow: hidden;
+}
+.axis-meter i {
+  display: block;
+  height: 100%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, var(--type), color-mix(in srgb, var(--type) 60%, #fff));
+  transition: width .8s cubic-bezier(.4,0,.2,1);
+}
+.axis-meter .thr {
+  position: absolute;
+  left: 46.67%;
+  top: -2px;
+  bottom: -2px;
+  width: 2px;
+  background: var(--ink-mute);
+  opacity: .5;
+}
+
+.linelist .li { font-size: 13px; padding: 8px 0; border-bottom: 1px solid var(--line); line-height: 1.6; }
+.linelist .li:last-child { border: none; }
+.taglist { display: flex; flex-wrap: wrap; gap: 8px; }
+.taglist span { font-size: 12px; padding: 6px 12px; border-radius: 999px; background: var(--type-soft); color: var(--type-deep); font-weight: 600; }
+.compat-grid { display: grid; gap: 12px; }
+.compat-grid h4 { font-size: 12px; margin-bottom: 8px; color: var(--ink-soft); }
+.compat-item { font-size: 12px; padding: 8px 0; border-bottom: 1px solid var(--line); }
+.compat-item b { color: var(--type); }
+
+.share-zone { margin-top: 20px; text-align: center; }
+.share-zone .share-label { font-size: 12px; color: var(--ink-mute); margin-bottom: 12px; }
+.share-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.share-btns button {
+  padding: 13px;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 13px;
+  color: #fff;
+  transition: transform .15s;
+}
+.share-btns button:active { transform: scale(.96); }
+.share-btns .x { background: #0f1419; }
+.share-btns .line { background: #06c755; }
+.share-btns .img { background: var(--type); }
+.share-btns .copy { background: #4a5568; }
+.share-status { font-size: 12px; color: var(--ink-soft); min-height: 20px; margin-top: 10px; }
+.btn-restart {
+  display: block;
+  margin: 24px auto 0;
+  padding: 13px 28px;
+  border-radius: 999px;
+  border: 2px solid var(--line);
+  background: var(--paper);
+  font-weight: 800;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+.sr-canvas { position: fixed; left: -9999px; top: 0; }
+
+@media (max-width: 400px) {
+  .q-opts { grid-template-columns: 1fr 1fr; }
+  .sw-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- イントロ -->
+  <section id="view-intro" class="view active">
+    <div class="intro-hero">
+      <span class="intro-badge">建築タイプ診断</span>
+      <h1>あなたは<br>どんな<em>建築家</em>タイプ？</h1>
+      <p>20の質問に答えるだけ。<br>4つの設計軸から、全16タイプの動物キャラに診断します。</p>
+    </div>
+    <div class="intro-stats">
+      <div><b>約5分</b><span>で完了</span></div>
+      <div><b>20</b><span>問</span></div>
+      <div><b>16</b><span>タイプ</span></div>
+      <div><b>無料</b><span>登録不要</span></div>
+    </div>
+    <div class="axes-grid">
+      <div class="axis-card" style="--ac:var(--axis-v)"><div class="sym">○</div><h3>世界観</h3><p>構想型 ⇔ 現実型<br>理想を描くか、現実を読むか</p></div>
+      <div class="axis-card" style="--ac:var(--axis-f)"><div class="sym">△</div><h3>価値志向</h3><p>造形志向 ⇔ 機能志向<br>「美」か「理」か</p></div>
+      <div class="axis-card" style="--ac:var(--axis-c)"><div class="sym">×</div><h3>働き方</h3><p>組織型 ⇔ 個人型<br>協働か、ひとりの集中か</p></div>
+      <div class="axis-card" style="--ac:var(--axis-e)"><div class="sym">●</div><h3>プロセス</h3><p>探索型 ⇔ 計画型<br>発見か、段取りか</p></div>
+    </div>
+    <button class="btn-primary" onclick="startQuiz()">診断をはじめる</button>
+    <p class="foot">ARCHIme — 建築を学ぶあなたのためのタイプ診断</p>
+  </section>
+
+  <!-- スクロール式クイズ -->
+  <section id="view-quiz" class="view">
+    <div class="quiz-sticky">
+      <div class="quiz-progress-meta">
+        <span class="count" id="prog-text">0 / 20 回答済み</span>
+        <span id="prog-pct">0%</span>
+      </div>
+      <div class="quiz-track"><div class="quiz-fill" id="prog-fill"></div></div>
+      <p class="quiz-hint-top">スクロールしながら、ひとつずつ答えてください</p>
+    </div>
+    <div class="q-list" id="q-list"></div>
+    <button class="quiz-fab" id="quiz-fab" onclick="finishQuiz()">結果を見る →</button>
+  </section>
+
+  <!-- ローディング -->
+  <section id="view-loading" class="view">
+    <div class="load-wrap">
+      <div class="spinner"></div>
+      <p>タイプを分析しています</p>
+      <span>4つの設計軸を計算中…</span>
+    </div>
+  </section>
+
+  <!-- 結果 -->
+  <section id="view-result" class="view">
+    <div class="result-hero">
+      <div class="monster-card" id="monster-card">
+        <div class="monster-inner">
+          <div class="monster-rarity">★★★★★</div>
+          <div class="monster-code" id="r-code"></div>
+          <div class="monster-frame">
+            <div class="monster-glow"></div>
+            <div class="monster-emoji" id="r-emoji"></div>
+          </div>
+          <h2 class="monster-name" id="r-name"></h2>
+          <p class="monster-tagline" id="r-tagline"></p>
+          <div class="type-pills" id="r-pills"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="result-block">
+      <div class="block-head"><span><span class="block-num">01</span>タイプバランス</span></div>
+      <div class="block-body"><div class="axis-bars" id="r-bars"></div></div>
+    </div>
+
+    <div class="result-block">
+      <div class="block-head"><span><span class="block-num">02</span>あなたの人物像</span></div>
+      <div class="block-body"><p class="result-desc" id="r-desc"></p></div>
+    </div>
+
+    <div class="sw-grid">
+      <div class="sw-box s"><h4>▲ 強み</h4><div id="r-str"></div></div>
+      <div class="sw-box w"><h4>▼ 気をつけたい点</h4><div id="r-wek"></div></div>
+    </div>
+
+    <details class="result-block" open>
+      <summary><span><span class="block-num">03</span>建築学生あるある</span><span class="chev">▼</span></summary>
+      <div class="block-body"><div class="linelist" id="r-anec"></div></div>
+    </details>
+    <details class="result-block">
+      <summary><span><span class="block-num">04</span>向いている進路</span><span class="chev">▼</span></summary>
+      <div class="block-body"><div class="taglist" id="r-career"></div></div>
+    </details>
+    <details class="result-block">
+      <summary><span><span class="block-num">05</span>チームでの役割</span><span class="chev">▼</span></summary>
+      <div class="block-body"><div class="linelist" id="r-role"></div></div>
+    </details>
+    <details class="result-block">
+      <summary><span><span class="block-num">06</span>相性</span><span class="chev">▼</span></summary>
+      <div class="block-body"><div class="compat-grid">
+        <div><h4>◆ 相性が良いタイプ</h4><div id="r-good"></div></div>
+        <div><h4>◇ すれ違いやすいタイプ</h4><div id="r-bad"></div></div>
+      </div></div>
+    </details>
+
+    <div class="share-zone">
+      <p class="share-label">結果をシェアする</p>
+      <div class="share-btns">
+        <button class="x" id="sh-x">X（旧Twitter）</button>
+        <button class="line" id="sh-line">LINE</button>
+        <button class="img" id="sh-img">画像を保存</button>
+        <button class="copy" id="sh-copy">リンクをコピー</button>
+      </div>
+      <p class="share-status" id="sh-status"></p>
+    </div>
+    <button class="btn-restart" onclick="restart()">もう一度診断する</button>
+  </section>
+
+</div>
+<canvas id="sr-canvas" class="sr-canvas" width="1080" height="1350"></canvas>
+
+<script>
+/* ═══════════════════════════════════════════
+   ARCHIme — 診断ロジック（スプレッドシート準拠）
+   ・各軸5問 × 4軸 = 20問
+   ・Aに共感=1 / ややA=2 / ややB=3 / Bに共感=4
+   ・各軸合計 ≤12 → 左タイプ、≥13 → 右タイプ
+   ・質問順序：スプレッドシート列9の並び
+   ═══════════════════════════════════════════ */
+
+const AXES = [
+  { key: 'worldview', codeA: 'V', codeB: 'R', nameA: '構想型', nameB: '現実型', color: 'var(--axis-v)' },
+  { key: 'value',     codeA: 'F', codeB: 'S', nameA: '造形志向', nameB: '機能志向', color: 'var(--axis-f)' },
+  { key: 'workstyle', codeA: 'C', codeB: 'I', nameA: '組織型', nameB: '個人型', color: 'var(--axis-c)' },
+  { key: 'process',   codeA: 'E', codeB: 'P', nameA: '探索型', nameB: '計画型', color: 'var(--axis-e)' }
+];
+
+const AXIS_UI = {
+  worldview: { sym: '○', label: '世界観', color: 'var(--axis-v)' },
+  value:     { sym: '△', label: '価値志向', color: 'var(--axis-f)' },
+  workstyle: { sym: '×', label: '働き方', color: 'var(--axis-c)' },
+  process:   { sym: '●', label: 'プロセス', color: 'var(--axis-e)' }
+};
+
+const OPT_LABELS = ['Aに共感', 'ややA', 'ややB', 'Bに共感'];
+const OPT_HINTS  = ['つよく', 'どちらかと', 'どちらかと', 'つよく'];
+
+// 質問データ（スプレッドシート gid=761172376 の行順）
+const QUESTIONS = [
+  { axis: 'value', stem: '設計初期に最も重要視するスタディ手法は？',
+    A: 'スケッチ、粘土模型、3Dレンダリングによる造形の検討',
+    B: 'ダイアグラム、プログラム分析、パラメトリックな数値解析' },
+  { axis: 'worldview',
+    A: 'まだ見ぬ未来のライフスタイルや、社会へのメッセージを提案することにワクワクする。',
+    B: '目の前の敷地課題を解決し、具体的で質の高い空間を実現することにやりがいを感じる。' },
+  { axis: 'worldview',
+    A: '理想の建築像をまず自由に描きたい',
+    B: '条件や制約から最適な形を見つけたい' },
+  { axis: 'value',
+    A: '空間の雰囲気や素材の表情に敏感だ',
+    B: '動線や用途の合理性を意識して設計する' },
+  { axis: 'process',
+    A: '面白い案が見つかるなら、直前でも設計変更を厭わない。プロセスは「発見」のためにある。',
+    B: 'クオリティとリスクを管理するため、決定事項は覆さない。プロセスは「完遂」のためにある。' },
+  { axis: 'process',
+    A: '手を動かしながら試行錯誤して考える',
+    B: '計画を立ててから進める方が安心する' },
+  { axis: 'workstyle',
+    A: 'チーム全体の合意形成を重視したい',
+    B: '最終判断は自分の価値観で決めたい' },
+  { axis: 'workstyle',
+    A: 'チームで話しながら考える方が力を発揮できる',
+    B: '一人で黙々と集中する方が力を発揮できる' },
+  { axis: 'worldview',
+    A: '「いつか実現したい未来」に惹かれる',
+    B: '「今できる現実的な解」に価値を感じる' },
+  { axis: 'workstyle',
+    A: '他者の意見を取り入れながら調整するのが得意',
+    B: '自分の世界観や美学を大切にしている' },
+  { axis: 'process',
+    A: 'とにかく手を動かし、模型やドローイングを大量に作ることで、偶然性の中から答えを探る。',
+    B: '全体の要件を整理し、スケジュールとタスクを明確にしてから、着実に解像度を上げていく。' },
+  { axis: 'value',
+    A: '理屈では説明できない、感覚や情緒に訴えかける「現象的な美しさ」を信じている。',
+    B: '無駄が削ぎ落とされ、すべての要素に理由がある「論理的な美しさ」を信じている。' },
+  { axis: 'workstyle',
+    A: 'スタッフや異分野の専門家とブレインストーミングを行い、議論の中で予期せぬアイデアが出るのを好む。',
+    B: 'まずは一人で集中してスケッチやスタディを行い、自分の中の確固たるコアアイデアを固めるのを好む。' },
+  { axis: 'process',
+    A: '締切直前まで粘って最後に仕上げることが多い',
+    B: '段階的に進めて余裕を持って仕上げたい' },
+  { axis: 'worldview',
+    A: 'コンセプトづくりが一番楽しい',
+    B: '実際に形にしていく過程が好き' },
+  { axis: 'value',
+    A: '美しい形に心が動く',
+    B: '意図に適った機能性に納得感を感じる' },
+  { axis: 'process',
+    A: '全体のスケジュールやタスクに縛られすぎず、柔軟に進めていく方が安心できる。',
+    B: '設計を始める前に、全体のスケジュールとタスクをきっちり決めて、その通りに進まないと不安になる。' },
+  { axis: 'worldview',
+    A: 'まず「あるべき姿」や「強いコンセプト」を言語化・図式化し、そこから具体的な形を導き出す。',
+    B: '敷地の形状、周辺環境、法規といった「与条件」を整理し、パズルを解くように形を導き出す。' },
+  { axis: 'workstyle', stem: '設計上の難問に直面した際、どのように解決策を探るか？',
+    A: 'チームメンバーを集め、ブレインストーミングや議論を行う',
+    B: '一人で静かな場所に籠り、スケッチや思索に没頭する' },
+  { axis: 'value', stem: '魅力的だと感じる建築には、どんな特徴が多いですか？',
+    A: '大胆なフォルムや、視覚的に印象に残る空間構成が多い',
+    B: '使いやすさ・機能性・構造美がバランスよく成立していることが多い' }
+];
+
+// 16タイプ（コード体系は仕様準拠・文案は新規作成）
+const TYPES = {
+  VFCE: { code:'VFCE', name:'ビジョンイルカ', emoji:'🐬', color:'#4fc3f7',
+    tagline:'感性とチームワークで、未来の建築を描く構想家。',
+    desc:'直感と共感力でアイデアの核を見つけるタイプ。批評会では「世界観が伝わる」と評価されやすく、チームの潤滑油にもなれる。一方、図面の詰めや数値根拠の整理は後回しになりがち。企画・都市・空間演出など、物語を扱う分野で力を発揮しやすい。',
+    strengths:['コンセプトを言葉にするのが得意','チームの空気を読んでまとめる','未来志向の企画力','感性を活かしたプレゼン'],
+    weaknesses:['細部のルーティン作業が苦手','論理説明が弱くなりがち','気遣いすぎて疲れやすい','直前の調整で慌てることも'],
+    anecdotes:['スケッチブックに世界観メモが増え続ける','模型の雰囲気作りに異常なこだわり','「コンセプトはいい、根拠は？」と言われがち','窓際に観葉植物を置きがち'],
+    career:['企画開発・都市計画','公共建築の初期構想','デベロッパー企画職','空間演出・ブランディング'],
+    role:['テーマ設定・ストーリー構成','プレゼン冒頭の演出','模型の世界観仕上げ','工程管理は苦手になりやすい'],
+    good:['VFIE（タコ）— 感性×表現の爆発コンビ','VFCP（クジラ）— 構成で感性を支える安定ペア'],
+    bad:['RSCP（ワニ）— 世界観と現実主義が平行線'] },
+  VFCP: { code:'VFCP', name:'マエストロクジラ', emoji:'🐋', color:'#5c6bc0',
+    tagline:'美と秩序で、チームを大海原へ導くリーダー。',
+    desc:'落ち着きと統率力で信頼を集めるタイプ。課題を読んだ時点で全体構成が見え、批評会でも「破綻しない」と評価されやすい。レイアウト・優先順位の判断が鋭い。ただし大胆な挑戦を避けがちで、自由な発想にはやや厳しい面も。',
+    strengths:['全体構成の統率力','安定した美意識','大規模案件での実力','優先順位の判断'],
+    weaknesses:['突飛な案への理解が遅い','正しさ重視で窮屈になりがち','細部の遊びを削りがち'],
+    anecdotes:['要求条件を最初に全部読み込む','レイアウトの無駄を嫌う','1年から批評会で安定感を褒められる','図面チェックが鋭い'],
+    career:['プロジェクトマネージャー','官庁建設・設計監修','公共建築リーダー','組織の主任・主査'],
+    role:['チーム全体の構成整理','プレゼン最終調整','レイアウト・構図の決定','暴走する案を止める安全弁'],
+    good:['VSCE（サメ）— 論理×構成の無音コンビ','RFCE（ペンギン）— 共感と構成の温かい設計'],
+    bad:['VFIP（フィッシュ）— ペースの違いが摩擦に'] },
+  VFIE: { code:'VFIE', name:'アーティストタコ', emoji:'🐙', color:'#ec407a',
+    tagline:'自由な発想で、空間をアートのように紡ぐ夢想家。',
+    desc:'独創性と表現力が突出するタイプ。スケッチも模型もアート寄りで、批評会では「心に残る」と言われやすい。没入すると周囲が見えなくなる集中力がある。説明が感覚的になりすぎるのが課題で、言語化の練習で一気に伸びる。',
+    strengths:['圧倒的な独創性','素材・色彩への感度','アート×建築の融合','没入型の集中力'],
+    weaknesses:['論理説明が苦手','ムードに左右されやすい','スケジュール管理が苦手'],
+    anecdotes:['教室の隅でひそひそ模型作業','素材サンプルが机を占領','Pinterestが参考書','気分で生産性が激変'],
+    career:['アトリエ系演出','展示・インスタレーション','ブランディング空間','独立アトリエ'],
+    role:['コンセプトビジュアル','素材・表現の選定','空間の雰囲気作り','進行管理は任せない方がよい'],
+    good:['VSIE（イカ）— 表現×技術の革新ペア','VFCE（イルカ）— 物語と感性の共鳴'],
+    bad:['RSCE（シロクマ）— 感性と論理の温度差'] },
+  VFIP: { code:'VFIP', name:'ソロタリーフィッシュ', emoji:'🐠', color:'#80deea',
+    tagline:'美を極める、孤高のデザイン職人。',
+    desc:'美意識と精巧さが際立つタイプ。ひとりで黙々と作業すると圧倒的なクオリティを出す。線一本・余白1mmにも意識が届く。批評会では「丁寧で美しい」と評価されやすいが、細部に没頭して進行が遅れがち。',
+    strengths:['審美眼と精巧性','驚異的な集中力','寸法・仕上げの精度','高い完成度'],
+    weaknesses:['協調が苦手','方向転換に弱い','発言が少なく誤解されがち'],
+    anecdotes:['図面の線の太さにこだわる','批評会では寡黙','余白とモノトーンが好き','最終日の徹夜が習慣化'],
+    career:['アトリエ設計','家具・プロダクト','研究職・専門職'],
+    role:['細部図面・仕上げ','模型の最終仕上げ','高品質な作業全般','意見を聞かないと誤解される'],
+    good:['RSIP（シャチ）— 精度と論理の積み上げ','VFCP（クジラ）— 美と構成の静かな最適解'],
+    bad:['RFIE（ラッコ）— 試作ペースの不一致'] },
+  VSCE: { code:'VSCE', name:'ロジックサメ', emoji:'🦈', color:'#546e7a',
+    tagline:'理論とスピードで、構造を制す実務派。',
+    desc:'合理性と情報処理能力に優れたタイプ。「結論は？」と先に考え、図面の矛盾を瞬時に見つける。批評会では鋭い質問で場を整理できる。感性的な議論にはやや距離を感じるが、遊び心を少し混ぜると設計が一気に豊かになる。',
+    strengths:['論理力・分析力','構造的な視点','ブレない判断','問題解決力'],
+    weaknesses:['感情コミュニケーションが苦手','直感型との衝突','感性的な美の議論が難しい'],
+    anecdotes:['要求条件を箇条書きで整理','図面の整合性が合わないと眠れない','「結論から言うと…」が口癖','他人のミスを最終日に発見'],
+    career:['構造・設備設計','BIMエンジニア','建築コンサル','ゼネコン設計部'],
+    role:['要求条件の分析','論理的な図面構成','整合性チェック','プレゼン資料の構造化'],
+    good:['VFCP（クジラ）— 論理×構成の精度コンビ','RSCE（シロクマ）— 精緻と構造化'],
+    bad:['VFIE（タコ）— 整合主義と行動性の衝突'] },
+  VSCP: { code:'VSCP', name:'マネージャーアザラシ', emoji:'🦭', color:'#42a5f5',
+    tagline:'冷静沈着に、プロジェクトを導く調整型リーダー。',
+    desc:'落ち着きと調整力でチームを安定させるタイプ。混乱した現場に入ると空気が整う。スケジュール表やタスク分担を自然に作り、全員の進捗が気になって仕方ない。自分の案より調整を優先しがち。',
+    strengths:['抜群の調整力','現場と設計の橋渡し','冷静な判断力','リスク管理'],
+    weaknesses:['プレッシャーを抱え込みがち','強い個性に押されがち','発想力はやや控えめ'],
+    anecdotes:['グループLINEを管理しがち','課題スケジュールを真っ先に作る','自然と仲裁役になる','資料の清書が上手'],
+    career:['プロジェクトマネージャー','施工管理・設計監修','ゼネコン現場主任','官庁建築系'],
+    role:['進行・タスク管理','メンバー間の調整','現実路線の案のまとめ','批評会準備の段取り'],
+    good:['RFCE（ペンギン）— 調整×共感の現場最強','VFCP（クジラ）— 管理×構成の実務MAX'],
+    bad:['VFIE（タコ）— 管理と破壊的行動の衝突'] },
+  VSIE: { code:'VSIE', name:'イノベーションイカ', emoji:'🦑', color:'#29b6f6',
+    tagline:'技術と遊び心で、新しい建築を生み出す。',
+    desc:'デジタル技術への好奇心が旺盛なタイプ。GrasshopperやBIMをいち早く使いこなし、未来的な作品を作る。試行錯誤とCG表現が得意だが、使われ方の説明が後手になりがち。人の視点を学ぶと完成度が跳ね上がる。',
+    strengths:['技術探究心','改善・改良の提案','新ツール導入','柔軟な問題解決'],
+    weaknesses:['飽きっぽい','積み上げが苦手','時間が足りなくなりがち'],
+    anecdotes:['BIMの新機能を誰より早く試す','レンダリング設定を研究','気づくとパラメトリック設計中','建材ショールームが好き'],
+    career:['BIM開発・研究職','設備設計','ソフト・建材メーカー','デジタルファブリケーション'],
+    role:['デジタル技術導入','新しい模型・表現','改良アイデアの種','モデリングスピード担当'],
+    good:['VFIE（タコ）— 技術×表現の唯一無二','VSCE（サメ）— 実験を論理で固める'],
+    bad:['RSCP（ワニ）— 挑戦心と現実主義の衝突'] },
+  VSIP: { code:'VSIP', name:'マスターカメ', emoji:'🐢', color:'#66bb6a',
+    tagline:'慎重かつ緻密に、確実に積み上げる堅実派。',
+    desc:'丁寧さと正確性で信頼を得るタイプ。一つひとつ確実に積み上げ、最終段階で高い完成度に到達する。周りが焦っても動じないが、短期課題ではスピード不足が目立つことも。',
+    strengths:['正確性と安定性','リスク回避','継続力','寸法検討の充実'],
+    weaknesses:['決断が遅い','変化への対応が苦手','スピード負荷に弱い'],
+    anecdotes:['初日から作業計画を立てる','仕上げに妙な安定感','細部修正が丁寧すぎる','グループで裏方を一人で進める'],
+    career:['構造設計・施工管理','研究職','精度重視の設計職'],
+    role:['詳細図面・寸法担当','模型の仕上げ','精度チェック','暴走を防ぐ見守り役'],
+    good:['RSIP（シャチ）— 深い探索×丁寧の最強ペア','RFCP（フグ）— 誠実と丁寧のライン'],
+    bad:['VFCE（イルカ）— 慎重さと感性の温度差'] },
+  RFCE: { code:'RFCE', name:'コンテクストペンギン', emoji:'🐧', color:'#26a69a',
+    tagline:'環境と人をつなぐ、温かなデザイナー。',
+    desc:'共感力と文脈読解に優れたタイプ。敷地・地域・人の気持ちを自然に設計に反映する。批評会では「温かい」「使いやすい」と評価されやすい。刺激的なコンセプトへの踏み込みは控えめになりがち。',
+    strengths:['高い共感力','公共性・環境性','調和感覚','対話から価値を見つける力'],
+    weaknesses:['強い個性に押されがち','意見を言いにくい','スピード負荷が苦手'],
+    anecdotes:['ワークショップや街歩きが好き','敷地分析が丁寧','「ぬくもり」がキーワードに','模型に小さな人形を置く'],
+    career:['公共建築・都市計画','リフォーム・地域プロジェクト','住民参加型設計'],
+    role:['敷地分析・ヒアリング','使い方・雰囲気の調整','プレゼンの読みやすさ向上','意見の調和役'],
+    good:['VFCP（クジラ）— 共感×構成','RSCE（シロクマ）— 感性と論理の支え合い'],
+    bad:['VSCE（サメ）— 共感と合理の衝突'] },
+  RFCP: { code:'RFCP', name:'プランフグ', emoji:'🐡', color:'#ffa726',
+    tagline:'安定と丁寧さで、空間を整える堅実設計者。',
+    desc:'真面目で丁寧、約束を守るタイプ。派手なひらめきは少ないが、図面・資料・工程の基本を確実に押さえる。チームに一人いると全体が安定する。自分から大きな案を出すことは少ない。',
+    strengths:['丁寧さと正確性','読みやすい図面','スケジュール遵守','聴き役として優秀'],
+    weaknesses:['アイデア創出が苦手','主張が弱い','急な方針転換に弱い'],
+    anecdotes:['図面がいつもきれい','「基本がきっちり」と褒められる','作業スペースが整理されている','徹夜は淡々と作業'],
+    career:['演出設計・設計監修','ハウスメーカー・工務店','公共系の実務設計'],
+    role:['図面整理・フォーマット','スケジュール表管理','実現性の検討','プレース作成'],
+    good:['VFIP（フィッシュ）— 丁寧×美意識','VSIP（カメ）— 誠実×慎重の充実'],
+    bad:['VSIE（イカ）— 丁寧さとスピードの摩擦'] },
+  RFIE: { code:'RFIE', name:'フィールドラッコ', emoji:'🦦', color:'#ef5350',
+    tagline:'手を動かしながら考える、柔軟な現場派。',
+    desc:'「触れて理解する」実践型。現場や模型の前でスイッチが入り、職人さんにも好かれやすい。図面より模型の説得力が高く、理論的な資料づくりは後手になりがち。',
+    strengths:['現場対応力','柔軟性と行動力','観察力','素材で本質を掴む'],
+    weaknesses:['机上作業が続かない','論理資料が苦手','資料化が遅れがち'],
+    anecdotes:['まず模型を作って理解する','現場見学が大好き','「模型はいい、図面を」と言われがち','工具の扱いが上手'],
+    career:['施工管理・現場監督','リノベ・工務店','住宅の細部対応'],
+    role:['模型制作','実現性の検証','素材・構法の検討','製作系タスク全般'],
+    good:['VSIE（イカ）— 実験×技術の現場系','RFCE（ペンギン）— 現場感×生活感'],
+    bad:['RSIP（シャチ）— 速度と深さのすれ違い'] },
+  RFIP: { code:'RFIP', name:'クラフトカワウソ', emoji:'🪚', color:'#ff8a65',
+    tagline:'職人技と誠実さで、形を磨く努力家。',
+    desc:'コツコツ努力で成長するタイプ。模型や細部作業に強く、仕上げの美しさで感動を与える。細部に没頭して全体の進行が遅れがちだが、信頼度は非常に高い。',
+    strengths:['職人気質のこだわり','継続力と誠実さ','仕上げ品質','信頼を得やすい'],
+    weaknesses:['スピードが遅い','マルチタスクが苦手','自己主張が苦手'],
+    anecdotes:['手を使う作業が好き','素材研究に時間をかける','「細部が綺麗」と褒められる','静かに長時間作業できる'],
+    career:['演出設計・家具制作','工務店・木工所','プロダクト開発'],
+    role:['模型仕上げ','細部の作り込み','図面調整','マテリアル選定'],
+    good:['VFIP（フィッシュ）— 細部職人コンビ','RFCP（フグ）— 細仕事×丁寧'],
+    bad:['VSIE（イカ）— 高速変更で作業が崩れる'] },
+  RSCE: { code:'RSCE', name:'ラショナルシロクマ', emoji:'🐻‍❄️', color:'#1565c0',
+    tagline:'ロジカルに世界を整理する、知恵者。',
+    desc:'理論的に美しさを構築するタイプ。複雑な内容を図解で明確にし、「地味なのに洗練されている」と言われやすい。感性だけの議論には乗り切れないが、根拠ある美の追求は圧倒的。',
+    strengths:['分析と構造化','根拠ある説明','ブレない判断','効率化・システム化'],
+    weaknesses:['直感だけの作品に疑問','細かすぎて厳しいと誤解','感性だけの話題が苦手'],
+    anecdotes:['構図に美しさと整理が両立','色数を極端に絞る','調査シートが異常に読みやすい','静かだが核心を突く発言'],
+    career:['リノベ・用途変更設計','構造・機能改善','品質管理・技術統括'],
+    role:['機能図・動線計画','分析・比較表作成','資料のビジュアル調整','最終成果の最適化'],
+    good:['VSCE（サメ）— 論理×体系化','VFCP（クジラ）— ロジックに構成力'],
+    bad:['VFIE（タコ）— ロジックと行動の言語差'] },
+  RSCP: { code:'RSCP', name:'ビルダーワニ', emoji:'🐊', color:'#558b2f',
+    tagline:'統率と実行力で、現場を制するリーダー。',
+    desc:'現場力と管理力を兼ね備えた頼れるタイプ。「実際に建てる」を最初に考え、施工性の高い提案をする。批評会では「現実的」「説得力がある」と評価されやすい。表現の遊び心は苦手。',
+    strengths:['リーダーシップ','現場統率力','調整能力','迅速な判断'],
+    weaknesses:['表現型の案が苦手','衝突時に強めに出がち','詰めの粘りで疲弊'],
+    anecdotes:['施工見学が異常に好き','図面の現実感が強い','自然とリーダー役','最終日の段取りが上手'],
+    career:['施工管理・PM','ゼネコン現場主任','構造設計','官庁工事部門'],
+    role:['現実性の整理','工程・タスク管理','批評会の実務的説明','納まり判断'],
+    good:['VSCP（アザラシ）— 現場×調整の最強運営','RSCE（シロクマ）— 現実×論理'],
+    bad:['VFCE（イルカ）— 世界観と現実の衝突'] },
+  RSIE: { code:'RSIE', name:'テックガニ', emoji:'🦀', color:'#0288d1',
+    tagline:'技術と発想を両立させる、研究肌の開拓者。',
+    desc:'好奇心と技術力を併せ持つ理系寄りタイプ。環境・構造・実験系に強く、数値やグラフで説得力を高める。世界観の表現は後手になりがちだが、研究力とデザイン力の両輪で強くなる。',
+    strengths:['研究力','技術開発の素質','改善・改良','深い思考と遊び心'],
+    weaknesses:['飽きっぎ','ルーティンが苦手','感覚的な表現が後手'],
+    anecdotes:['環境解析ソフトに強い','新素材の論文を読んでいる','性能比較グラフを資料に入れる','研究室の機器がお気に入り'],
+    career:['研究開発・BIM','大学研究室','建材メーカー','構造・設備の高度解析'],
+    role:['技術検証','環境シミュレーション','比較資料づくり','論理補強'],
+    good:['VSIE（イカ）— 技術×技術の最先端','RSCE（シロクマ）— 技術×ロジック'],
+    bad:['VFIE（タコ）— 精巧技術×突発感性'] },
+  RSIP: { code:'RSIP', name:'アナライズシャチ', emoji:'🐳', color:'#7b1fa2',
+    tagline:'理論で美を構築する、静かな分析家。',
+    desc:'静かに深く考える探索型。図面の精度と合理性が高く、批評会では「よく考えている」と評価されやすい。自分のペースで詰めるため、チームでは目立たないが信頼は厚い。',
+    strengths:['深い理論構築','静かな集中力','長期継続','論理的美学'],
+    weaknesses:['口数が少なく誤解されがち','スピード勝負に弱い','最初から主張しにくい'],
+    anecdotes:['作業中ほぼ無言','図面の細部が異常に整う','大人数の議論が苦手','「いつの間に仕上げた？」と言われる'],
+    career:['構造・設備設計','研究・技術検証','品質管理'],
+    role:['図面精度・整合チェック','論理的な設計説明','細部の美しさ追求'],
+    good:['VSIP（カメ）— 深い探索×丁寧','RFCP（フグ）— 分析×丁寧'],
+    bad:['RFIE（ラッコ）— 考え込み×即行動の速度差'] }
+};
+
+/* ── State ── */
+let answers = new Array(QUESTIONS.length).fill(null);
+let lastResult = null;
+let lastScores = null;
+
+const $ = id => document.getElementById(id);
+
+function showView(name) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  $('view-' + name).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'instant' in document.body.style ? 'instant' : 'auto' });
+}
+
+function scoreAnswer(idx) { return idx + 1; }
+
+function calcAxisScores() {
+  const s = { worldview: 0, value: 0, workstyle: 0, process: 0 };
+  QUESTIONS.forEach((q, i) => {
+    if (answers[i] !== null) s[q.axis] += scoreAnswer(answers[i]);
+  });
+  return s;
+}
+
+function calcTypeCode(scores) {
+  return AXES.map(a => scores[a.key] <= 12 ? a.codeA : a.codeB).join('');
+}
+
+function calcResult() {
+  const scores = calcAxisScores();
+  const code = calcTypeCode(scores);
+  return { type: TYPES[code] || TYPES.VFCE, scores, code };
+}
+
+/* ── Quiz UI ── */
+function startQuiz() {
+  answers = new Array(QUESTIONS.length).fill(null);
+  buildQuiz();
+  showView('quiz');
+  highlightCurrent();
+}
+
+function buildQuiz() {
+  const list = $('q-list');
+  list.innerHTML = QUESTIONS.map((q, i) => {
+    const ui = AXIS_UI[q.axis];
+    const stem = q.stem ? `<p class="q-stem">${q.stem}</p>` : '';
+    const opts = [0,1,2,3].map(v =>
+      `<button class="q-opt" data-q="${i}" data-v="${v}" onclick="pick(${i},${v})">${OPT_LABELS[v]}<small>${OPT_HINTS[v]}</small></button>`
+    ).join('');
+    return `<article class="q-card" id="qc-${i}" data-idx="${i}" style="--ac:${ui.color}">
+      <div class="q-head">
+        <span class="q-num">Q.${String(i+1).padStart(2,'0')}</span>
+        <span class="q-axis">${ui.sym} ${ui.label}</span>
+      </div>
+      ${stem}
+      <div class="q-ab">
+        <div class="q-line a"><span class="q-tag">A</span><span>${esc(q.A)}</span></div>
+        <div class="q-line b"><span class="q-tag">B</span><span>${esc(q.B)}</span></div>
+      </div>
+      <p class="q-scale">◀ Aに近い　—　Bに近い ▶</p>
+      <div class="q-opts">${opts}</div>
+      <p class="q-done-badge">✓ 回答済み</p>
+    </article>`;
+  }).join('');
+  updateProgress();
+}
+
+function esc(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function pick(qi, val) {
+  answers[qi] = val;
+  const card = $('qc-' + qi);
+  card.classList.add('answered');
+  card.querySelectorAll('.q-opt').forEach(b => {
+    b.classList.toggle('sel', +b.dataset.v === val);
+    b.disabled = true;
+  });
+  updateProgress();
+  const next = answers.findIndex((a, i) => a === null && i > qi);
+  const firstUnanswered = answers.findIndex(a => a === null);
+  const target = next >= 0 ? next : firstUnanswered;
+  if (target >= 0) {
+    setTimeout(() => {
+      $('qc-' + target).scrollIntoView({ behavior: 'smooth', block: 'center' });
+      highlightCurrent();
+    }, 280);
+  } else {
+    highlightCurrent();
+    $('quiz-fab').classList.add('show');
+  }
+}
+
+function highlightCurrent() {
+  const first = answers.findIndex(a => a === null);
+  document.querySelectorAll('.q-card').forEach((c, i) => {
+    c.classList.toggle('current', i === first);
+    c.classList.toggle('dim', first >= 0 && i > first + 2);
+  });
+}
+
+function updateProgress() {
+  const done = answers.filter(a => a !== null).length;
+  const pct = Math.round(done / QUESTIONS.length * 100);
+  $('prog-text').textContent = `${done} / ${QUESTIONS.length} 回答済み`;
+  $('prog-pct').textContent = pct + '%';
+  $('prog-fill').style.width = pct + '%';
+  if (done === QUESTIONS.length) $('quiz-fab').classList.add('show');
+  else $('quiz-fab').classList.remove('show');
+}
+
+function finishQuiz() {
+  if (answers.some(a => a === null)) return;
+  showView('loading');
+  setTimeout(showResult, 1100);
+}
+
+/* ── Result ── */
+function applyTheme(hex) {
+  const r = document.documentElement.style;
+  r.setProperty('--type', hex);
+  r.setProperty('--type-soft', hex + '22');
+  r.setProperty('--type-deep', shade(hex, -30));
+}
+
+function shade(hex, pct) {
+  const n = hex.replace('#','');
+  const r = parseInt(n.substr(0,2),16), g = parseInt(n.substr(2,2),16), b = parseInt(n.substr(4,2),16);
+  const f = (c) => Math.min(255, Math.max(0, Math.round(c + (pct/100)*255)));
+  return '#' + [f(r),f(g),f(b)].map(c => c.toString(16).padStart(2,'0')).join('');
+}
+
+function showResult() {
+  const { type: t, scores, code } = calcResult();
+  lastResult = t; lastScores = scores;
+  applyTheme(t.color);
+
+  $('r-code').textContent = code.split('').join(' ');
+  $('r-emoji').textContent = t.emoji;
+  $('r-name').textContent = t.name;
+  $('r-tagline').textContent = t.tagline;
+  $('r-pills').innerHTML = AXES.map(a => {
+    const left = code.includes(a.codeA);
+    return `<span>${left ? a.nameA : a.nameB}</span>`;
+  }).join('');
+  $('r-desc').textContent = t.desc;
+
+  $('r-bars').innerHTML = AXES.map(a => {
+    const sc = scores[a.key];
+    const pct = Math.round((sc - 5) / 15 * 100);
+    const left = sc <= 12;
+    return `<div class="axis-bar">
+      <div class="bar-labels">
+        <span class="${left?'on':''}">${a.codeA}・${a.nameA}</span>
+        <span class="${left?'':'on'}">${a.nameB}・${a.codeB}</span>
+      </div>
+      <div class="bar-score">${sc} / 20</div>
+      <div class="axis-meter"><i style="width:${pct}%"></i><span class="thr"></span></div>
+    </div>`;
+  }).join('');
+
+  $('r-str').innerHTML = t.strengths.map(s => `<div class="item">${s}</div>`).join('');
+  $('r-wek').innerHTML = t.weaknesses.map(s => `<div class="item">${s}</div>`).join('');
+  $('r-anec').innerHTML = t.anecdotes.map(s => `<div class="li">${s}</div>`).join('');
+  $('r-career').innerHTML = t.career.map(s => `<span>${s}</span>`).join('');
+  $('r-role').innerHTML = t.role.map(s => `<div class="li">${s}</div>`).join('');
+  $('r-good').innerHTML = t.good.map(g => {
+    const p = g.split('—');
+    return `<div class="compat-item"><b>${p[0].trim()}</b> ${p[1]||''}</div>`;
+  }).join('');
+  $('r-bad').innerHTML = t.bad.map(g => {
+    const p = g.split('—');
+    return `<div class="compat-item"><b>${p[0].trim()}</b> ${p[1]||''}</div>`;
+  }).join('');
+
+  setupShare(t);
+  showView('result');
+}
+
+function shareText(t) {
+  return `【ARCHIme 建築タイプ診断】\n私は ${t.emoji} ${t.name}（${t.code}）でした！\n${t.tagline}\nあなたも診断してみて →\n#ARCHIme #建築タイプ診断`;
+}
+
+function setupShare(t) {
+  $('sh-x').onclick = () => {
+    window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareText(t)) + '&url=' + encodeURIComponent(location.href), '_blank', 'noopener');
+  };
+  $('sh-line').onclick = () => {
+    window.open('https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(location.href) + '&text=' + encodeURIComponent(shareText(t)), '_blank', 'noopener');
+  };
+  $('sh-copy').onclick = async () => {
+    try {
+      await navigator.clipboard.writeText(location.href);
+      setStatus('リンクをコピーしました');
+    } catch { setStatus('コピーに失敗しました'); }
+  };
+  $('sh-img').onclick = () => {
+    setStatus('画像を生成中…');
+    try { saveShareImage(t, lastScores); setStatus('画像を保存しました'); }
+    catch { setStatus('画像の生成に失敗しました'); }
+  };
+}
+
+function setStatus(msg) { $('sh-status').textContent = msg; }
+
+function saveShareImage(t, scores) {
+  const cv = $('sr-canvas'), x = cv.getContext('2d'), W = 1080, H = 1350;
+  const grad = x.createLinearGradient(0, 0, W, H);
+  grad.addColorStop(0, t.color);
+  grad.addColorStop(1, shade(t.color, -40));
+  x.fillStyle = grad;
+  x.fillRect(0, 0, W, H);
+  x.textAlign = 'center';
+  x.fillStyle = '#fff';
+  x.font = '800 36px "Zen Maru Gothic", sans-serif';
+  x.fillText('ARCHIme', W/2, 100);
+  x.font = '500 24px "Noto Sans JP", sans-serif';
+  x.globalAlpha = .85;
+  x.fillText('建築タイプ診断', W/2, 140);
+  x.globalAlpha = 1;
+  x.font = '800 28px sans-serif';
+  x.fillText(t.code.split('').join('  '), W/2, 200);
+  x.font = '280px serif';
+  x.fillText(t.emoji, W/2, 560);
+  x.font = '900 64px "Noto Sans JP", sans-serif';
+  x.fillText(t.name, W/2, 700);
+  x.font = '500 28px "Noto Sans JP", sans-serif';
+  x.globalAlpha = .9;
+  wrapText(x, t.tagline, W/2, 760, 860, 40);
+  let by = 900;
+  AXES.forEach(a => {
+    const sc = scores[a.key], pct = (sc - 5) / 15;
+    x.globalAlpha = .9; x.font = '700 22px "Noto Sans JP", sans-serif';
+    x.textAlign = 'left'; x.fillText(a.nameA, 80, by);
+    x.textAlign = 'right'; x.fillText(a.nameB, W - 80, by);
+    x.globalAlpha = .25; x.fillStyle = '#fff';
+    roundRect(x, 80, by + 10, 920, 16, 8); x.fill();
+    x.globalAlpha = 1; x.fillStyle = '#fff';
+    roundRect(x, 80, by + 10, Math.max(16, 920 * pct), 16, 8); x.fill();
+    by += 70;
+  });
+  x.globalAlpha = .6; x.font = '400 20px sans-serif';
+  x.textAlign = 'center';
+  x.fillText('archime.jp', W/2, H - 50);
+  const a = document.createElement('a');
+  a.download = 'archime_' + t.code + '.png';
+  a.href = cv.toDataURL('image/png');
+  a.click();
+}
+
+function wrapText(ctx, text, cx, y, maxW, lh) {
+  const chars = text.split('');
+  let line = '';
+  for (const ch of chars) {
+    const test = line + ch;
+    if (ctx.measureText(test).width > maxW && line) {
+      ctx.fillText(line, cx, y);
+      line = ch; y += lh;
+    } else line = test;
+  }
+  if (line) ctx.fillText(line, cx, y);
+}
+
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+}
+
+function restart() {
+  answers = new Array(QUESTIONS.length).fill(null);
+  $('quiz-fab').classList.remove('show');
+  showView('intro');
+}
+</script>
+</body>
+</html>
