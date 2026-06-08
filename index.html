@@ -9,541 +9,13 @@
 <meta property="og:title" content="ARCHIme｜建築タイプ診断">
 <meta property="og:description" content="あなたはどんな建築家タイプ？ 無料・登録不要で診断できます。">
 <meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="assets/og.svg" id="meta-og-image">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@600;700&display=swap" rel="stylesheet">
-<style>
-:root {
-  --accent: #a84832;
-  --accent-soft: #f5ebe7;
-  --ink: #2b2b2b;
-  --ink-soft: #555;
-  --ink-mute: #888;
-  --bg: #f5f3ee;
-  --paper: #fff;
-  --line: #d9d4cb;
-  --line-light: #ece8e1;
-  --type: #5a6b7d;
-  --type-soft: #eef1f4;
-  --type-deep: #3d4a58;
-  --radius: 4px;
-  --font: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', sans-serif;
-  --font-serif: 'Noto Serif JP', 'Hiragino Mincho ProN', serif;
-  --max: 600px;
-  --axis-v: #6b5b8a;
-  --axis-f: #4a7c8c;
-  --axis-c: #5a7a5e;
-  --axis-e: #9a7b3c;
-}
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body {
-  font-family: var(--font);
-  font-size: 15px;
-  color: var(--ink);
-  background: var(--bg);
-  line-height: 1.85;
-  letter-spacing: .02em;
-  -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
-}
-button { font-family: inherit; cursor: pointer; border: none; background: none; }
-a { color: inherit; text-decoration: none; }
-
-/* ── 共通ヘッダー ── */
-.site-header {
-  background: var(--paper);
-  border-bottom: 1px solid var(--line);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-.site-header-inner {
-  max-width: var(--max);
-  margin: 0 auto;
-  padding: 14px 16px;
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-}
-.site-logo {
-  font-family: var(--font-serif);
-  font-weight: 700;
-  font-size: 18px;
-  letter-spacing: .06em;
-  color: var(--ink);
-}
-.site-tag {
-  font-size: 11px;
-  color: var(--ink-mute);
-  padding-left: 10px;
-  border-left: 1px solid var(--line);
-}
-
-.app { max-width: var(--max); margin: 0 auto; padding: 0 16px 56px; }
-.view { display: none; }
-.view.active { display: block; }
-
-/* ── Intro ── */
-.intro-lead { padding: 32px 0 0; }
-.intro-kicker {
-  font-size: 12px;
-  color: var(--accent);
-  font-weight: 700;
-  letter-spacing: .12em;
-  margin-bottom: 12px;
-}
-.intro-lead h1 {
-  font-family: var(--font-serif);
-  font-weight: 700;
-  font-size: clamp(24px, 6.5vw, 30px);
-  line-height: 1.55;
-  color: var(--ink);
-}
-.intro-lead .lead {
-  margin-top: 18px;
-  font-size: 14px;
-  color: var(--ink-soft);
-  line-height: 2;
-}
-.intro-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px 16px;
-  margin: 24px 0;
-  padding: 14px 0;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  font-size: 13px;
-  color: var(--ink-mute);
-}
-.intro-meta span::before { content: '・'; margin-right: 2px; color: var(--line); }
-.intro-meta span:first-child::before { content: none; }
-.sec-label {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--ink);
-  margin-bottom: 14px;
-  padding-bottom: 8px;
-  border-bottom: 2px solid var(--ink);
-  display: inline-block;
-}
-.axes-list {
-  list-style: none;
-  margin: 0 0 36px;
-  border: 1px solid var(--line);
-  background: var(--paper);
-}
-.axes-list li {
-  display: flex;
-  gap: 14px;
-  padding: 14px 16px;
-  border-bottom: 1px solid var(--line-light);
-  font-size: 13px;
-}
-.axes-list li:last-child { border-bottom: none; }
-.axes-list .sym {
-  flex: none;
-  width: 24px;
-  text-align: center;
-  font-size: 15px;
-  color: var(--ac);
-  font-weight: 700;
-}
-.axes-list h3 { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
-.axes-list p { font-size: 12px; color: var(--ink-soft); line-height: 1.65; }
-.btn-primary {
-  display: block;
-  width: 100%;
-  padding: 16px 20px;
-  border-radius: var(--radius);
-  font-weight: 700;
-  font-size: 15px;
-  color: #fff;
-  background: var(--accent);
-  transition: opacity .2s;
-}
-.btn-primary:hover { opacity: .88; }
-.foot {
-  margin-top: 40px;
-  padding-top: 20px;
-  border-top: 1px solid var(--line);
-  font-size: 11px;
-  color: var(--ink-mute);
-  text-align: center;
-  line-height: 1.7;
-}
-
-/* ── Quiz ── */
-.quiz-page-title {
-  padding: 24px 0 8px;
-  font-family: var(--font-serif);
-  font-size: 20px;
-  font-weight: 700;
-}
-.quiz-sticky {
-  position: sticky;
-  top: 49px;
-  z-index: 50;
-  margin: 0 -16px;
-  padding: 12px 16px;
-  background: rgba(245,243,238,.96);
-  border-bottom: 1px solid var(--line);
-}
-.quiz-progress-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 8px;
-  font-size: 13px;
-}
-.quiz-progress-meta .count { font-weight: 700; color: var(--ink); }
-.quiz-progress-meta .count em { font-style: normal; color: var(--accent); }
-.quiz-track { height: 3px; background: var(--line-light); overflow: hidden; }
-.quiz-fill {
-  height: 100%;
-  width: 0;
-  background: var(--accent);
-  transition: width .35s ease;
-}
-.quiz-hint-top { margin-top: 8px; font-size: 12px; color: var(--ink-mute); }
-.q-list { padding: 16px 0 90px; display: flex; flex-direction: column; gap: 20px; }
-.q-card {
-  background: var(--paper);
-  border: 1px solid var(--line);
-  padding: 20px 18px;
-  scroll-margin-top: 110px;
-  transition: opacity .25s;
-}
-.q-card.answered { background: #fafaf8; }
-.q-card.current { border-color: var(--ac, var(--accent)); border-left-width: 3px; }
-.q-card.dim { opacity: .45; }
-.q-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 14px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--line-light);
-}
-.q-num { font-size: 13px; font-weight: 700; color: var(--ink-mute); }
-.q-axis { font-size: 12px; color: var(--ac); font-weight: 500; }
-.q-stem {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--ink);
-  margin-bottom: 14px;
-  line-height: 1.7;
-}
-.q-ab { display: flex; flex-direction: column; gap: 0; margin-bottom: 16px; border: 1px solid var(--line-light); }
-.q-line {
-  display: flex;
-  gap: 12px;
-  padding: 12px 14px;
-  font-size: 13px;
-  line-height: 1.75;
-  border-bottom: 1px solid var(--line-light);
-}
-.q-line:last-child { border-bottom: none; }
-.q-tag {
-  flex: none;
-  width: 22px;
-  height: 22px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 700;
-  border: 1px solid var(--line);
-  color: var(--ink-soft);
-  background: var(--bg);
-}
-.q-scale {
-  font-size: 11px;
-  color: var(--ink-mute);
-  margin-bottom: 10px;
-  text-align: center;
-}
-.q-opts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
-.q-opt {
-  padding: 11px 4px;
-  border: 1px solid var(--line);
-  background: var(--paper);
-  font-size: 11px;
-  font-weight: 500;
-  line-height: 1.45;
-  color: var(--ink-soft);
-  transition: background .12s, border-color .12s, color .12s;
-}
-.q-opt small { display: block; font-size: 10px; color: var(--ink-mute); margin-top: 3px; }
-.q-opt:hover:not(:disabled) { border-color: var(--accent); color: var(--ink); }
-.q-opt.sel { border-color: var(--accent); background: var(--accent); color: #fff; }
-.q-opt.sel small { color: rgba(255,255,255,.8); }
-.q-opt:disabled { cursor: default; }
-.q-done-badge {
-  display: none;
-  margin-top: 12px;
-  font-size: 12px;
-  color: var(--ink-mute);
-  text-align: right;
-}
-.q-card.answered .q-done-badge { display: block; }
-.quiz-fab {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 60;
-  padding: 14px 16px;
-  border-top: 1px solid var(--line);
-  font-weight: 700;
-  font-size: 15px;
-  color: #fff;
-  background: var(--accent);
-  transform: translateY(100%);
-  transition: transform .3s ease;
-}
-.quiz-fab.show { transform: translateY(0); }
-
-/* ── Loading ── */
-.load-wrap {
-  min-height: 60dvh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  gap: 16px;
-  padding: 48px 0;
-}
-.load-dots { display: flex; gap: 6px; }
-.load-dots i {
-  width: 6px; height: 6px;
-  background: var(--accent);
-  border-radius: 50%;
-  animation: blink 1.2s ease-in-out infinite;
-}
-.load-dots i:nth-child(2) { animation-delay: .2s; }
-.load-dots i:nth-child(3) { animation-delay: .4s; }
-@keyframes blink { 0%,80%,100% { opacity: .2; } 40% { opacity: 1; } }
-.load-wrap p { font-size: 15px; font-weight: 700; }
-.load-wrap span { font-size: 13px; color: var(--ink-mute); }
-
-/* ── Result ── */
-.result-label {
-  padding: 28px 0 16px;
-  font-size: 12px;
-  color: var(--ink-mute);
-  letter-spacing: .1em;
-}
-.type-card {
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-top: 3px solid var(--type);
-  padding: 28px 20px 24px;
-  text-align: center;
-}
-.type-icon {
-  width: 100px;
-  height: 100px;
-  margin: 0 auto 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 56px;
-  line-height: 1;
-  background: var(--type-soft);
-  border: 1px solid var(--line-light);
-}
-.type-code {
-  font-size: 12px;
-  letter-spacing: .25em;
-  color: var(--ink-mute);
-  margin-bottom: 6px;
-}
-.type-name {
-  font-family: var(--font-serif);
-  font-weight: 700;
-  font-size: clamp(22px, 5.5vw, 26px);
-  color: var(--ink);
-  line-height: 1.4;
-}
-.type-tagline {
-  margin-top: 10px;
-  font-size: 14px;
-  color: var(--ink-soft);
-  line-height: 1.75;
-}
-.type-traits {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 6px 4px;
-  margin-top: 18px;
-  padding-top: 16px;
-  border-top: 1px solid var(--line-light);
-  font-size: 12px;
-  color: var(--ink-soft);
-}
-.type-traits span:not(:last-child)::after { content: '／'; margin-left: 4px; color: var(--line); }
-
-.result-block {
-  background: var(--paper);
-  border: 1px solid var(--line);
-  margin-top: 16px;
-}
-.result-block > summary,
-.result-block > .block-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 16px;
-  font-weight: 700;
-  font-size: 14px;
-  cursor: pointer;
-  list-style: none;
-  user-select: none;
-  border-bottom: 1px solid transparent;
-}
-.result-block[open] > summary,
-.result-block > .block-head { border-bottom-color: var(--line-light); }
-.result-block > summary::-webkit-details-marker { display: none; }
-.result-block .block-title { border-left: 3px solid var(--type); padding-left: 10px; }
-.result-block .chev { color: var(--ink-mute); font-size: 11px; }
-.result-block[open] .chev { transform: rotate(180deg); }
-.result-block .block-body { padding: 16px; }
-.result-desc { font-size: 14px; color: var(--ink-soft); line-height: 2; }
-
-.sw-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-top: 16px;
-}
-.sw-box {
-  background: var(--paper);
-  border: 1px solid var(--line);
-  padding: 14px 16px;
-}
-.sw-box h4 {
-  font-size: 13px;
-  font-weight: 700;
-  margin-bottom: 10px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--line-light);
-}
-.sw-box .item {
-  font-size: 13px;
-  padding: 7px 0;
-  border-bottom: 1px dotted var(--line-light);
-  line-height: 1.65;
-  color: var(--ink-soft);
-}
-.sw-box .item:last-child { border: none; }
-
-.axis-bars { display: flex; flex-direction: column; gap: 18px; }
-.axis-bar .bar-labels {
-  display: flex;
-  justify-content: space-between;
-  font-size: 12px;
-  margin-bottom: 6px;
-  color: var(--ink-mute);
-}
-.axis-bar .bar-labels .on { color: var(--type); font-weight: 700; }
-.axis-bar .bar-score { font-size: 11px; color: var(--ink-mute); margin-bottom: 6px; }
-.axis-meter {
-  height: 6px;
-  background: var(--line-light);
-  position: relative;
-}
-.axis-meter i {
-  display: block;
-  height: 100%;
-  background: var(--type);
-  transition: width .6s ease;
-}
-.axis-meter .thr {
-  position: absolute;
-  left: 46.67%;
-  top: -3px;
-  bottom: -3px;
-  width: 1px;
-  background: var(--ink-mute);
-  opacity: .4;
-}
-
-.linelist .li {
-  font-size: 13px;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--line-light);
-  line-height: 1.75;
-  color: var(--ink-soft);
-}
-.linelist .li:last-child { border: none; }
-.taglist { display: flex; flex-direction: column; gap: 0; }
-.taglist span {
-  font-size: 13px;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--line-light);
-  color: var(--ink-soft);
-  line-height: 1.65;
-}
-.taglist span:last-child { border: none; }
-.compat-grid h4 { font-size: 13px; font-weight: 700; margin-bottom: 8px; color: var(--ink); }
-.compat-item {
-  font-size: 13px;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--line-light);
-  line-height: 1.65;
-  color: var(--ink-soft);
-}
-.compat-item b { color: var(--type); font-weight: 700; }
-
-.share-zone {
-  margin-top: 28px;
-  padding-top: 24px;
-  border-top: 1px solid var(--line);
-}
-.share-zone .share-label {
-  font-size: 13px;
-  font-weight: 700;
-  margin-bottom: 14px;
-  color: var(--ink);
-}
-.share-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.share-btns button {
-  padding: 12px 10px;
-  border-radius: var(--radius);
-  font-weight: 500;
-  font-size: 13px;
-  border: 1px solid var(--line);
-  background: var(--paper);
-  color: var(--ink-soft);
-}
-.share-btns button:active { background: var(--bg); }
-.share-btns .line { background: #06c755; color: #fff; border-color: #06c755; }
-.share-btns .img { background: var(--type); color: #fff; border-color: var(--type); }
-.share-status { font-size: 12px; color: var(--ink-mute); min-height: 20px; margin-top: 10px; }
-.btn-restart {
-  display: block;
-  width: 100%;
-  margin-top: 20px;
-  padding: 14px;
-  border: 1px solid var(--line);
-  background: var(--paper);
-  font-weight: 500;
-  font-size: 14px;
-  color: var(--ink-soft);
-}
-
-.sr-canvas { position: fixed; left: -9999px; top: 0; }
-
-@media (max-width: 400px) {
-  .q-opts { grid-template-columns: 1fr 1fr; }
-  .sw-grid { grid-template-columns: 1fr; }
-}
-</style>
+<link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
@@ -556,7 +28,6 @@ a { color: inherit; text-decoration: none; }
 
 <div class="app">
 
-  <!-- トップ -->
   <section id="view-intro" class="view active">
     <div class="intro-lead">
       <p class="intro-kicker">建築学科・建築を学ぶ方へ</p>
@@ -578,11 +49,16 @@ a { color: inherit; text-decoration: none; }
       <li style="--ac:var(--axis-e)"><span class="sym">●</span><div><h3>プロセス（探索型 ⇔ 計画型）</h3><p>試行錯誤で進めるか、計画を立てて進めるか</p></div></li>
     </ul>
 
+    <div class="types-preview">
+      <p class="types-preview-h">全16タイプの動物キャラ（一例）</p>
+      <div class="types-grid" id="intro-types"></div>
+    </div>
+
     <button class="btn-primary" onclick="startQuiz()">診断を始める</button>
     <p class="foot">ARCHIme 建築タイプ診断<br>建築を学ぶ学生・若手の方を対象としています</p>
+    <p class="disclaimer">本診断は建築の学び方・設計傾向を楽しく知るための参考ツールです。能力や適性を断定するものではありません。</p>
   </section>
 
-  <!-- 質問（スクロール式） -->
   <section id="view-quiz" class="view">
     <h2 class="quiz-page-title">質問に回答する</h2>
     <div class="quiz-sticky">
@@ -592,625 +68,111 @@ a { color: inherit; text-decoration: none; }
       </div>
       <div class="quiz-track"><div class="quiz-fill" id="prog-fill"></div></div>
       <p class="quiz-hint-top">下にスクロールしながら、おおよそ当てはまるものを選んでください。</p>
+      <p class="quiz-milestone" id="quiz-milestone" aria-live="polite"></p>
     </div>
     <div class="q-list" id="q-list"></div>
     <button class="quiz-fab" id="quiz-fab" onclick="finishQuiz()">すべて回答しました — 結果を見る</button>
   </section>
 
-  <!-- 集計中 -->
   <section id="view-loading" class="view">
     <div class="load-wrap">
       <div class="load-dots"><i></i><i></i><i></i></div>
       <p>診断結果を集計しています</p>
-      <span>4つの設計軸からタイプを判定中です</span>
+      <span id="load-tease">4つの設計軸からタイプを判定中です</span>
     </div>
   </section>
 
-  <!-- 結果 -->
   <section id="view-result" class="view">
-    <p class="result-label">診断結果</p>
-
-    <div class="type-card" id="type-card">
-      <div class="type-icon" id="r-emoji"></div>
-      <p class="type-code" id="r-code"></p>
-      <h2 class="type-name" id="r-name"></h2>
-      <p class="type-tagline" id="r-tagline"></p>
-      <div class="type-traits" id="r-pills"></div>
-    </div>
-
-    <div class="result-block">
-      <div class="block-head"><span class="block-title">タイプバランス</span></div>
-      <div class="block-body"><div class="axis-bars" id="r-bars"></div></div>
-    </div>
-
-    <div class="result-block">
-      <div class="block-head"><span class="block-title">人物像</span></div>
-      <div class="block-body"><p class="result-desc" id="r-desc"></p></div>
-    </div>
-
-    <div class="sw-grid">
-      <div class="sw-box s"><h4>強み</h4><div id="r-str"></div></div>
-      <div class="sw-box w"><h4>気をつけたい点</h4><div id="r-wek"></div></div>
-    </div>
-
-    <details class="result-block" open>
-      <summary><span class="block-title">建築学生あるある</span><span class="chev">▼</span></summary>
-      <div class="block-body"><div class="linelist" id="r-anec"></div></div>
-    </details>
-    <details class="result-block">
-      <summary><span class="block-title">向いている進路</span><span class="chev">▼</span></summary>
-      <div class="block-body"><div class="taglist" id="r-career"></div></div>
-    </details>
-    <details class="result-block">
-      <summary><span class="block-title">チームでの役割</span><span class="chev">▼</span></summary>
-      <div class="block-body"><div class="linelist" id="r-role"></div></div>
-    </details>
-    <details class="result-block">
-      <summary><span class="block-title">他タイプとの相性</span><span class="chev">▼</span></summary>
-      <div class="block-body"><div class="compat-grid">
-        <div><h4>相性が良いタイプ</h4><div id="r-good"></div></div>
-        <div><h4>すれ違いやすいタイプ</h4><div id="r-bad"></div></div>
-      </div></div>
-    </details>
-
-    <div class="share-zone">
-      <p class="share-label">結果を共有する</p>
-      <div class="share-btns">
-        <button class="x" id="sh-x">Xに投稿</button>
-        <button class="line" id="sh-line">LINEで送る</button>
-        <button class="img" id="sh-img">結果画像を保存</button>
-        <button class="copy" id="sh-copy">URLをコピー</button>
+    <div class="board-stage" id="board-stage">
+      <p class="board-watermark">ARCHIme</p>
+      <div class="board-sheet board-reveal">
+        <div class="board-meta">
+          <p class="board-label">TYPE RESULT</p>
+          <p class="board-stamp" id="r-code"></p>
+          <h1 class="board-name" id="r-name"></h1>
+          <p class="board-tagline" id="r-tagline"></p>
+          <div class="board-legend" id="r-pills"></div>
+        </div>
+        <div class="board-cutout" id="board-cutout">
+          <span class="tape tape-tl" aria-hidden="true"></span>
+          <span class="tape tape-br" aria-hidden="true"></span>
+          <div class="cutout-inner">
+            <img id="r-illust" class="cutout-illust" alt="" hidden>
+            <div class="cutout-emoji" id="r-emoji"></div>
+          </div>
+        </div>
       </div>
-      <p class="share-status" id="sh-status"></p>
+
+      <div class="board-actions">
+        <div class="board-share">
+          <button type="button" class="share-btn line" id="sh-line">LINE</button>
+          <button type="button" class="share-btn img" id="sh-img">画像保存</button>
+          <button type="button" class="share-btn x" id="sh-x">X</button>
+          <button type="button" class="share-btn copy" id="sh-copy">URL</button>
+        </div>
+        <p class="share-status" id="sh-status"></p>
+        <button type="button" class="board-open-sheet" onclick="openBoardSheet()">くわしく読む</button>
+      </div>
     </div>
-    <button class="btn-restart" onclick="restart()">最初からやり直す</button>
+
+    <div class="board-sheet-overlay" id="board-overlay" onclick="closeBoardSheet(event)">
+      <div class="board-sheet-panel" onclick="event.stopPropagation()">
+        <div class="sheet-handle" aria-hidden="true"></div>
+        <div class="sheet-head">
+          <h2 class="sheet-title">設計シート詳細</h2>
+          <button type="button" class="sheet-close" onclick="closeBoardSheet()" aria-label="閉じる">×</button>
+        </div>
+        <div class="sheet-scroll">
+          <details class="sheet-section">
+            <summary><span class="section-title">人物像</span><span class="chev">▼</span></summary>
+            <div class="section-body"><p class="result-desc" id="r-desc"></p></div>
+          </details>
+          <details class="sheet-section">
+            <summary><span class="section-title">4軸バランス</span><span class="chev">▼</span></summary>
+            <div class="section-body"><div class="axis-bars" id="r-bars"></div></div>
+          </details>
+          <details class="sheet-section">
+            <summary><span class="section-title">強み・気をつけたい点</span><span class="chev">▼</span></summary>
+            <div class="section-body">
+              <div class="sw-grid">
+                <div class="sw-box s"><h4>強み</h4><div id="r-str"></div></div>
+                <div class="sw-box w"><h4>気をつけたい点</h4><div id="r-wek"></div></div>
+              </div>
+            </div>
+          </details>
+          <details class="sheet-section">
+            <summary><span class="section-title">建築学生あるある</span><span class="chev">▼</span></summary>
+            <div class="section-body"><div class="linelist" id="r-anec"></div></div>
+          </details>
+          <details class="sheet-section">
+            <summary><span class="section-title">向いている進路</span><span class="chev">▼</span></summary>
+            <div class="section-body"><div class="taglist" id="r-career"></div></div>
+          </details>
+          <details class="sheet-section">
+            <summary><span class="section-title">チームでの役割</span><span class="chev">▼</span></summary>
+            <div class="section-body"><div class="linelist" id="r-role"></div></div>
+          </details>
+          <details class="sheet-section">
+            <summary><span class="section-title">他タイプとの相性</span><span class="chev">▼</span></summary>
+            <div class="section-body"><div class="compat-grid">
+              <div><h4>相性が良いタイプ</h4><div id="r-good"></div></div>
+              <div><h4>すれ違いやすいタイプ</h4><div id="r-bad"></div></div>
+            </div></div>
+          </details>
+          <details class="sheet-section">
+            <summary><span class="section-title">全16タイプ一覧</span><span class="chev">▼</span></summary>
+            <div class="section-body"><div class="types-all-grid" id="r-all-types"></div></div>
+          </details>
+          <p class="disclaimer">本診断は建築の学び方・設計傾向を楽しく知るための参考ツールです。能力や適性を断定するものではありません。</p>
+          <button type="button" class="btn-restart" onclick="restart()">最初からやり直す</button>
+        </div>
+      </div>
+    </div>
   </section>
 
 </div>
 <canvas id="sr-canvas" class="sr-canvas" width="1080" height="1350"></canvas>
 
-<script>
-/* ═══════════════════════════════════════════
-   ARCHIme — 診断ロジック（スプレッドシート準拠）
-   ・各軸5問 × 4軸 = 20問
-   ・Aに共感=1 / ややA=2 / ややB=3 / Bに共感=4
-   ・各軸合計 ≤12 → 左タイプ、≥13 → 右タイプ
-   ・質問順序：スプレッドシート列9の並び
-   ═══════════════════════════════════════════ */
-
-const AXES = [
-  { key: 'worldview', codeA: 'V', codeB: 'R', nameA: '構想型', nameB: '現実型', color: 'var(--axis-v)' },
-  { key: 'value',     codeA: 'F', codeB: 'S', nameA: '造形志向', nameB: '機能志向', color: 'var(--axis-f)' },
-  { key: 'workstyle', codeA: 'C', codeB: 'I', nameA: '組織型', nameB: '個人型', color: 'var(--axis-c)' },
-  { key: 'process',   codeA: 'E', codeB: 'P', nameA: '探索型', nameB: '計画型', color: 'var(--axis-e)' }
-];
-
-const AXIS_UI = {
-  worldview: { sym: '○', label: '世界観', color: 'var(--axis-v)' },
-  value:     { sym: '△', label: '価値志向', color: 'var(--axis-f)' },
-  workstyle: { sym: '×', label: '働き方', color: 'var(--axis-c)' },
-  process:   { sym: '●', label: 'プロセス', color: 'var(--axis-e)' }
-};
-
-const OPT_LABELS = ['Aに共感', 'ややA', 'ややB', 'Bに共感'];
-const OPT_HINTS  = ['強く', 'やや', 'やや', '強く'];
-
-// 質問データ（スプレッドシート gid=761172376 の行順）
-const QUESTIONS = [
-  { axis: 'value', stem: '設計初期に最も重要視するスタディ手法は？',
-    A: 'スケッチ、粘土模型、3Dレンダリングによる造形の検討',
-    B: 'ダイアグラム、プログラム分析、パラメトリックな数値解析' },
-  { axis: 'worldview',
-    A: 'まだ見ぬ未来のライフスタイルや、社会へのメッセージを提案することにワクワクする。',
-    B: '目の前の敷地課題を解決し、具体的で質の高い空間を実現することにやりがいを感じる。' },
-  { axis: 'worldview',
-    A: '理想の建築像をまず自由に描きたい',
-    B: '条件や制約から最適な形を見つけたい' },
-  { axis: 'value',
-    A: '空間の雰囲気や素材の表情に敏感だ',
-    B: '動線や用途の合理性を意識して設計する' },
-  { axis: 'process',
-    A: '面白い案が見つかるなら、直前でも設計変更を厭わない。プロセスは「発見」のためにある。',
-    B: 'クオリティとリスクを管理するため、決定事項は覆さない。プロセスは「完遂」のためにある。' },
-  { axis: 'process',
-    A: '手を動かしながら試行錯誤して考える',
-    B: '計画を立ててから進める方が安心する' },
-  { axis: 'workstyle',
-    A: 'チーム全体の合意形成を重視したい',
-    B: '最終判断は自分の価値観で決めたい' },
-  { axis: 'workstyle',
-    A: 'チームで話しながら考える方が力を発揮できる',
-    B: '一人で黙々と集中する方が力を発揮できる' },
-  { axis: 'worldview',
-    A: '「いつか実現したい未来」に惹かれる',
-    B: '「今できる現実的な解」に価値を感じる' },
-  { axis: 'workstyle',
-    A: '他者の意見を取り入れながら調整するのが得意',
-    B: '自分の世界観や美学を大切にしている' },
-  { axis: 'process',
-    A: 'とにかく手を動かし、模型やドローイングを大量に作ることで、偶然性の中から答えを探る。',
-    B: '全体の要件を整理し、スケジュールとタスクを明確にしてから、着実に解像度を上げていく。' },
-  { axis: 'value',
-    A: '理屈では説明できない、感覚や情緒に訴えかける「現象的な美しさ」を信じている。',
-    B: '無駄が削ぎ落とされ、すべての要素に理由がある「論理的な美しさ」を信じている。' },
-  { axis: 'workstyle',
-    A: 'スタッフや異分野の専門家とブレインストーミングを行い、議論の中で予期せぬアイデアが出るのを好む。',
-    B: 'まずは一人で集中してスケッチやスタディを行い、自分の中の確固たるコアアイデアを固めるのを好む。' },
-  { axis: 'process',
-    A: '締切直前まで粘って最後に仕上げることが多い',
-    B: '段階的に進めて余裕を持って仕上げたい' },
-  { axis: 'worldview',
-    A: 'コンセプトづくりが一番楽しい',
-    B: '実際に形にしていく過程が好き' },
-  { axis: 'value',
-    A: '美しい形に心が動く',
-    B: '意図に適った機能性に納得感を感じる' },
-  { axis: 'process',
-    A: '全体のスケジュールやタスクに縛られすぎず、柔軟に進めていく方が安心できる。',
-    B: '設計を始める前に、全体のスケジュールとタスクをきっちり決めて、その通りに進まないと不安になる。' },
-  { axis: 'worldview',
-    A: 'まず「あるべき姿」や「強いコンセプト」を言語化・図式化し、そこから具体的な形を導き出す。',
-    B: '敷地の形状、周辺環境、法規といった「与条件」を整理し、パズルを解くように形を導き出す。' },
-  { axis: 'workstyle', stem: '設計上の難問に直面した際、どのように解決策を探るか？',
-    A: 'チームメンバーを集め、ブレインストーミングや議論を行う',
-    B: '一人で静かな場所に籠り、スケッチや思索に没頭する' },
-  { axis: 'value', stem: '魅力的だと感じる建築には、どんな特徴が多いですか？',
-    A: '大胆なフォルムや、視覚的に印象に残る空間構成が多い',
-    B: '使いやすさ・機能性・構造美がバランスよく成立していることが多い' }
-];
-
-// 16タイプ（コード体系は仕様準拠・文案は新規作成）
-const TYPES = {
-  VFCE: { code:'VFCE', name:'ビジョンイルカ', emoji:'🐬', color:'#4fc3f7',
-    tagline:'感性とチームワークで、未来の建築を描く構想家。',
-    desc:'直感と共感力でアイデアの核を見つけるタイプ。批評会では「世界観が伝わる」と評価されやすく、チームの潤滑油にもなれる。一方、図面の詰めや数値根拠の整理は後回しになりがち。企画・都市・空間演出など、物語を扱う分野で力を発揮しやすい。',
-    strengths:['コンセプトを言葉にするのが得意','チームの空気を読んでまとめる','未来志向の企画力','感性を活かしたプレゼン'],
-    weaknesses:['細部のルーティン作業が苦手','論理説明が弱くなりがち','気遣いすぎて疲れやすい','直前の調整で慌てることも'],
-    anecdotes:['スケッチブックに世界観メモが増え続ける','模型の雰囲気作りに異常なこだわり','「コンセプトはいい、根拠は？」と言われがち','窓際に観葉植物を置きがち'],
-    career:['企画開発・都市計画','公共建築の初期構想','デベロッパー企画職','空間演出・ブランディング'],
-    role:['テーマ設定・ストーリー構成','プレゼン冒頭の演出','模型の世界観仕上げ','工程管理は苦手になりやすい'],
-    good:['VFIE（タコ）— 感性×表現の爆発コンビ','VFCP（クジラ）— 構成で感性を支える安定ペア'],
-    bad:['RSCP（ワニ）— 世界観と現実主義が平行線'] },
-  VFCP: { code:'VFCP', name:'マエストロクジラ', emoji:'🐋', color:'#5c6bc0',
-    tagline:'美と秩序で、チームを大海原へ導くリーダー。',
-    desc:'落ち着きと統率力で信頼を集めるタイプ。課題を読んだ時点で全体構成が見え、批評会でも「破綻しない」と評価されやすい。レイアウト・優先順位の判断が鋭い。ただし大胆な挑戦を避けがちで、自由な発想にはやや厳しい面も。',
-    strengths:['全体構成の統率力','安定した美意識','大規模案件での実力','優先順位の判断'],
-    weaknesses:['突飛な案への理解が遅い','正しさ重視で窮屈になりがち','細部の遊びを削りがち'],
-    anecdotes:['要求条件を最初に全部読み込む','レイアウトの無駄を嫌う','1年から批評会で安定感を褒められる','図面チェックが鋭い'],
-    career:['プロジェクトマネージャー','官庁建設・設計監修','公共建築リーダー','組織の主任・主査'],
-    role:['チーム全体の構成整理','プレゼン最終調整','レイアウト・構図の決定','暴走する案を止める安全弁'],
-    good:['VSCE（サメ）— 論理×構成の無音コンビ','RFCE（ペンギン）— 共感と構成の温かい設計'],
-    bad:['VFIP（フィッシュ）— ペースの違いが摩擦に'] },
-  VFIE: { code:'VFIE', name:'アーティストタコ', emoji:'🐙', color:'#ec407a',
-    tagline:'自由な発想で、空間をアートのように紡ぐ夢想家。',
-    desc:'独創性と表現力が突出するタイプ。スケッチも模型もアート寄りで、批評会では「心に残る」と言われやすい。没入すると周囲が見えなくなる集中力がある。説明が感覚的になりすぎるのが課題で、言語化の練習で一気に伸びる。',
-    strengths:['圧倒的な独創性','素材・色彩への感度','アート×建築の融合','没入型の集中力'],
-    weaknesses:['論理説明が苦手','ムードに左右されやすい','スケジュール管理が苦手'],
-    anecdotes:['教室の隅でひそひそ模型作業','素材サンプルが机を占領','Pinterestが参考書','気分で生産性が激変'],
-    career:['アトリエ系演出','展示・インスタレーション','ブランディング空間','独立アトリエ'],
-    role:['コンセプトビジュアル','素材・表現の選定','空間の雰囲気作り','進行管理は任せない方がよい'],
-    good:['VSIE（イカ）— 表現×技術の革新ペア','VFCE（イルカ）— 物語と感性の共鳴'],
-    bad:['RSCE（シロクマ）— 感性と論理の温度差'] },
-  VFIP: { code:'VFIP', name:'ソロタリーフィッシュ', emoji:'🐠', color:'#80deea',
-    tagline:'美を極める、孤高のデザイン職人。',
-    desc:'美意識と精巧さが際立つタイプ。ひとりで黙々と作業すると圧倒的なクオリティを出す。線一本・余白1mmにも意識が届く。批評会では「丁寧で美しい」と評価されやすいが、細部に没頭して進行が遅れがち。',
-    strengths:['審美眼と精巧性','驚異的な集中力','寸法・仕上げの精度','高い完成度'],
-    weaknesses:['協調が苦手','方向転換に弱い','発言が少なく誤解されがち'],
-    anecdotes:['図面の線の太さにこだわる','批評会では寡黙','余白とモノトーンが好き','最終日の徹夜が習慣化'],
-    career:['アトリエ設計','家具・プロダクト','研究職・専門職'],
-    role:['細部図面・仕上げ','模型の最終仕上げ','高品質な作業全般','意見を聞かないと誤解される'],
-    good:['RSIP（シャチ）— 精度と論理の積み上げ','VFCP（クジラ）— 美と構成の静かな最適解'],
-    bad:['RFIE（ラッコ）— 試作ペースの不一致'] },
-  VSCE: { code:'VSCE', name:'ロジックサメ', emoji:'🦈', color:'#546e7a',
-    tagline:'理論とスピードで、構造を制す実務派。',
-    desc:'合理性と情報処理能力に優れたタイプ。「結論は？」と先に考え、図面の矛盾を瞬時に見つける。批評会では鋭い質問で場を整理できる。感性的な議論にはやや距離を感じるが、遊び心を少し混ぜると設計が一気に豊かになる。',
-    strengths:['論理力・分析力','構造的な視点','ブレない判断','問題解決力'],
-    weaknesses:['感情コミュニケーションが苦手','直感型との衝突','感性的な美の議論が難しい'],
-    anecdotes:['要求条件を箇条書きで整理','図面の整合性が合わないと眠れない','「結論から言うと…」が口癖','他人のミスを最終日に発見'],
-    career:['構造・設備設計','BIMエンジニア','建築コンサル','ゼネコン設計部'],
-    role:['要求条件の分析','論理的な図面構成','整合性チェック','プレゼン資料の構造化'],
-    good:['VFCP（クジラ）— 論理×構成の精度コンビ','RSCE（シロクマ）— 精緻と構造化'],
-    bad:['VFIE（タコ）— 整合主義と行動性の衝突'] },
-  VSCP: { code:'VSCP', name:'マネージャーアザラシ', emoji:'🦭', color:'#42a5f5',
-    tagline:'冷静沈着に、プロジェクトを導く調整型リーダー。',
-    desc:'落ち着きと調整力でチームを安定させるタイプ。混乱した現場に入ると空気が整う。スケジュール表やタスク分担を自然に作り、全員の進捗が気になって仕方ない。自分の案より調整を優先しがち。',
-    strengths:['抜群の調整力','現場と設計の橋渡し','冷静な判断力','リスク管理'],
-    weaknesses:['プレッシャーを抱え込みがち','強い個性に押されがち','発想力はやや控えめ'],
-    anecdotes:['グループLINEを管理しがち','課題スケジュールを真っ先に作る','自然と仲裁役になる','資料の清書が上手'],
-    career:['プロジェクトマネージャー','施工管理・設計監修','ゼネコン現場主任','官庁建築系'],
-    role:['進行・タスク管理','メンバー間の調整','現実路線の案のまとめ','批評会準備の段取り'],
-    good:['RFCE（ペンギン）— 調整×共感の現場最強','VFCP（クジラ）— 管理×構成の実務MAX'],
-    bad:['VFIE（タコ）— 管理と破壊的行動の衝突'] },
-  VSIE: { code:'VSIE', name:'イノベーションイカ', emoji:'🦑', color:'#29b6f6',
-    tagline:'技術と遊び心で、新しい建築を生み出す。',
-    desc:'デジタル技術への好奇心が旺盛なタイプ。GrasshopperやBIMをいち早く使いこなし、未来的な作品を作る。試行錯誤とCG表現が得意だが、使われ方の説明が後手になりがち。人の視点を学ぶと完成度が跳ね上がる。',
-    strengths:['技術探究心','改善・改良の提案','新ツール導入','柔軟な問題解決'],
-    weaknesses:['飽きっぽい','積み上げが苦手','時間が足りなくなりがち'],
-    anecdotes:['BIMの新機能を誰より早く試す','レンダリング設定を研究','気づくとパラメトリック設計中','建材ショールームが好き'],
-    career:['BIM開発・研究職','設備設計','ソフト・建材メーカー','デジタルファブリケーション'],
-    role:['デジタル技術導入','新しい模型・表現','改良アイデアの種','モデリングスピード担当'],
-    good:['VFIE（タコ）— 技術×表現の唯一無二','VSCE（サメ）— 実験を論理で固める'],
-    bad:['RSCP（ワニ）— 挑戦心と現実主義の衝突'] },
-  VSIP: { code:'VSIP', name:'マスターカメ', emoji:'🐢', color:'#66bb6a',
-    tagline:'慎重かつ緻密に、確実に積み上げる堅実派。',
-    desc:'丁寧さと正確性で信頼を得るタイプ。一つひとつ確実に積み上げ、最終段階で高い完成度に到達する。周りが焦っても動じないが、短期課題ではスピード不足が目立つことも。',
-    strengths:['正確性と安定性','リスク回避','継続力','寸法検討の充実'],
-    weaknesses:['決断が遅い','変化への対応が苦手','スピード負荷に弱い'],
-    anecdotes:['初日から作業計画を立てる','仕上げに妙な安定感','細部修正が丁寧すぎる','グループで裏方を一人で進める'],
-    career:['構造設計・施工管理','研究職','精度重視の設計職'],
-    role:['詳細図面・寸法担当','模型の仕上げ','精度チェック','暴走を防ぐ見守り役'],
-    good:['RSIP（シャチ）— 深い探索×丁寧の最強ペア','RFCP（フグ）— 誠実と丁寧のライン'],
-    bad:['VFCE（イルカ）— 慎重さと感性の温度差'] },
-  RFCE: { code:'RFCE', name:'コンテクストペンギン', emoji:'🐧', color:'#26a69a',
-    tagline:'環境と人をつなぐ、温かなデザイナー。',
-    desc:'共感力と文脈読解に優れたタイプ。敷地・地域・人の気持ちを自然に設計に反映する。批評会では「温かい」「使いやすい」と評価されやすい。刺激的なコンセプトへの踏み込みは控えめになりがち。',
-    strengths:['高い共感力','公共性・環境性','調和感覚','対話から価値を見つける力'],
-    weaknesses:['強い個性に押されがち','意見を言いにくい','スピード負荷が苦手'],
-    anecdotes:['ワークショップや街歩きが好き','敷地分析が丁寧','「ぬくもり」がキーワードに','模型に小さな人形を置く'],
-    career:['公共建築・都市計画','リフォーム・地域プロジェクト','住民参加型設計'],
-    role:['敷地分析・ヒアリング','使い方・雰囲気の調整','プレゼンの読みやすさ向上','意見の調和役'],
-    good:['VFCP（クジラ）— 共感×構成','RSCE（シロクマ）— 感性と論理の支え合い'],
-    bad:['VSCE（サメ）— 共感と合理の衝突'] },
-  RFCP: { code:'RFCP', name:'プランフグ', emoji:'🐡', color:'#ffa726',
-    tagline:'安定と丁寧さで、空間を整える堅実設計者。',
-    desc:'真面目で丁寧、約束を守るタイプ。派手なひらめきは少ないが、図面・資料・工程の基本を確実に押さえる。チームに一人いると全体が安定する。自分から大きな案を出すことは少ない。',
-    strengths:['丁寧さと正確性','読みやすい図面','スケジュール遵守','聴き役として優秀'],
-    weaknesses:['アイデア創出が苦手','主張が弱い','急な方針転換に弱い'],
-    anecdotes:['図面がいつもきれい','「基本がきっちり」と褒められる','作業スペースが整理されている','徹夜は淡々と作業'],
-    career:['演出設計・設計監修','ハウスメーカー・工務店','公共系の実務設計'],
-    role:['図面整理・フォーマット','スケジュール表管理','実現性の検討','プレース作成'],
-    good:['VFIP（フィッシュ）— 丁寧×美意識','VSIP（カメ）— 誠実×慎重の充実'],
-    bad:['VSIE（イカ）— 丁寧さとスピードの摩擦'] },
-  RFIE: { code:'RFIE', name:'フィールドラッコ', emoji:'🦦', color:'#ef5350',
-    tagline:'手を動かしながら考える、柔軟な現場派。',
-    desc:'「触れて理解する」実践型。現場や模型の前でスイッチが入り、職人さんにも好かれやすい。図面より模型の説得力が高く、理論的な資料づくりは後手になりがち。',
-    strengths:['現場対応力','柔軟性と行動力','観察力','素材で本質を掴む'],
-    weaknesses:['机上作業が続かない','論理資料が苦手','資料化が遅れがち'],
-    anecdotes:['まず模型を作って理解する','現場見学が大好き','「模型はいい、図面を」と言われがち','工具の扱いが上手'],
-    career:['施工管理・現場監督','リノベ・工務店','住宅の細部対応'],
-    role:['模型制作','実現性の検証','素材・構法の検討','製作系タスク全般'],
-    good:['VSIE（イカ）— 実験×技術の現場系','RFCE（ペンギン）— 現場感×生活感'],
-    bad:['RSIP（シャチ）— 速度と深さのすれ違い'] },
-  RFIP: { code:'RFIP', name:'クラフトカワウソ', emoji:'🪚', color:'#ff8a65',
-    tagline:'職人技と誠実さで、形を磨く努力家。',
-    desc:'コツコツ努力で成長するタイプ。模型や細部作業に強く、仕上げの美しさで感動を与える。細部に没頭して全体の進行が遅れがちだが、信頼度は非常に高い。',
-    strengths:['職人気質のこだわり','継続力と誠実さ','仕上げ品質','信頼を得やすい'],
-    weaknesses:['スピードが遅い','マルチタスクが苦手','自己主張が苦手'],
-    anecdotes:['手を使う作業が好き','素材研究に時間をかける','「細部が綺麗」と褒められる','静かに長時間作業できる'],
-    career:['演出設計・家具制作','工務店・木工所','プロダクト開発'],
-    role:['模型仕上げ','細部の作り込み','図面調整','マテリアル選定'],
-    good:['VFIP（フィッシュ）— 細部職人コンビ','RFCP（フグ）— 細仕事×丁寧'],
-    bad:['VSIE（イカ）— 高速変更で作業が崩れる'] },
-  RSCE: { code:'RSCE', name:'ラショナルシロクマ', emoji:'🐻‍❄️', color:'#1565c0',
-    tagline:'ロジカルに世界を整理する、知恵者。',
-    desc:'理論的に美しさを構築するタイプ。複雑な内容を図解で明確にし、「地味なのに洗練されている」と言われやすい。感性だけの議論には乗り切れないが、根拠ある美の追求は圧倒的。',
-    strengths:['分析と構造化','根拠ある説明','ブレない判断','効率化・システム化'],
-    weaknesses:['直感だけの作品に疑問','細かすぎて厳しいと誤解','感性だけの話題が苦手'],
-    anecdotes:['構図に美しさと整理が両立','色数を極端に絞る','調査シートが異常に読みやすい','静かだが核心を突く発言'],
-    career:['リノベ・用途変更設計','構造・機能改善','品質管理・技術統括'],
-    role:['機能図・動線計画','分析・比較表作成','資料のビジュアル調整','最終成果の最適化'],
-    good:['VSCE（サメ）— 論理×体系化','VFCP（クジラ）— ロジックに構成力'],
-    bad:['VFIE（タコ）— ロジックと行動の言語差'] },
-  RSCP: { code:'RSCP', name:'ビルダーワニ', emoji:'🐊', color:'#558b2f',
-    tagline:'統率と実行力で、現場を制するリーダー。',
-    desc:'現場力と管理力を兼ね備えた頼れるタイプ。「実際に建てる」を最初に考え、施工性の高い提案をする。批評会では「現実的」「説得力がある」と評価されやすい。表現の遊び心は苦手。',
-    strengths:['リーダーシップ','現場統率力','調整能力','迅速な判断'],
-    weaknesses:['表現型の案が苦手','衝突時に強めに出がち','詰めの粘りで疲弊'],
-    anecdotes:['施工見学が異常に好き','図面の現実感が強い','自然とリーダー役','最終日の段取りが上手'],
-    career:['施工管理・PM','ゼネコン現場主任','構造設計','官庁工事部門'],
-    role:['現実性の整理','工程・タスク管理','批評会の実務的説明','納まり判断'],
-    good:['VSCP（アザラシ）— 現場×調整の最強運営','RSCE（シロクマ）— 現実×論理'],
-    bad:['VFCE（イルカ）— 世界観と現実の衝突'] },
-  RSIE: { code:'RSIE', name:'テックガニ', emoji:'🦀', color:'#0288d1',
-    tagline:'技術と発想を両立させる、研究肌の開拓者。',
-    desc:'好奇心と技術力を併せ持つ理系寄りタイプ。環境・構造・実験系に強く、数値やグラフで説得力を高める。世界観の表現は後手になりがちだが、研究力とデザイン力の両輪で強くなる。',
-    strengths:['研究力','技術開発の素質','改善・改良','深い思考と遊び心'],
-    weaknesses:['飽きっぎ','ルーティンが苦手','感覚的な表現が後手'],
-    anecdotes:['環境解析ソフトに強い','新素材の論文を読んでいる','性能比較グラフを資料に入れる','研究室の機器がお気に入り'],
-    career:['研究開発・BIM','大学研究室','建材メーカー','構造・設備の高度解析'],
-    role:['技術検証','環境シミュレーション','比較資料づくり','論理補強'],
-    good:['VSIE（イカ）— 技術×技術の最先端','RSCE（シロクマ）— 技術×ロジック'],
-    bad:['VFIE（タコ）— 精巧技術×突発感性'] },
-  RSIP: { code:'RSIP', name:'アナライズシャチ', emoji:'🐳', color:'#7b1fa2',
-    tagline:'理論で美を構築する、静かな分析家。',
-    desc:'静かに深く考える探索型。図面の精度と合理性が高く、批評会では「よく考えている」と評価されやすい。自分のペースで詰めるため、チームでは目立たないが信頼は厚い。',
-    strengths:['深い理論構築','静かな集中力','長期継続','論理的美学'],
-    weaknesses:['口数が少なく誤解されがち','スピード勝負に弱い','最初から主張しにくい'],
-    anecdotes:['作業中ほぼ無言','図面の細部が異常に整う','大人数の議論が苦手','「いつの間に仕上げた？」と言われる'],
-    career:['構造・設備設計','研究・技術検証','品質管理'],
-    role:['図面精度・整合チェック','論理的な設計説明','細部の美しさ追求'],
-    good:['VSIP（カメ）— 深い探索×丁寧','RFCP（フグ）— 分析×丁寧'],
-    bad:['RFIE（ラッコ）— 考え込み×即行動の速度差'] }
-};
-
-/* ── State ── */
-let answers = new Array(QUESTIONS.length).fill(null);
-let lastResult = null;
-let lastScores = null;
-
-const $ = id => document.getElementById(id);
-
-function showView(name) {
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-  $('view-' + name).classList.add('active');
-  window.scrollTo({ top: 0, behavior: 'instant' in document.body.style ? 'instant' : 'auto' });
-}
-
-function scoreAnswer(idx) { return idx + 1; }
-
-function calcAxisScores() {
-  const s = { worldview: 0, value: 0, workstyle: 0, process: 0 };
-  QUESTIONS.forEach((q, i) => {
-    if (answers[i] !== null) s[q.axis] += scoreAnswer(answers[i]);
-  });
-  return s;
-}
-
-function calcTypeCode(scores) {
-  return AXES.map(a => scores[a.key] <= 12 ? a.codeA : a.codeB).join('');
-}
-
-function calcResult() {
-  const scores = calcAxisScores();
-  const code = calcTypeCode(scores);
-  return { type: TYPES[code] || TYPES.VFCE, scores, code };
-}
-
-/* ── Quiz UI ── */
-function startQuiz() {
-  answers = new Array(QUESTIONS.length).fill(null);
-  buildQuiz();
-  showView('quiz');
-  highlightCurrent();
-}
-
-function buildQuiz() {
-  const list = $('q-list');
-  list.innerHTML = QUESTIONS.map((q, i) => {
-    const ui = AXIS_UI[q.axis];
-    const opts = [0,1,2,3].map(v =>
-      `<button class="q-opt" data-q="${i}" data-v="${v}" onclick="pick(${i},${v})">${OPT_LABELS[v]}<small>${OPT_HINTS[v]}</small></button>`
-    ).join('');
-    return `<article class="q-card" id="qc-${i}" data-idx="${i}" style="--ac:${ui.color}">
-      <div class="q-head">
-        <span class="q-num">質問 ${i + 1}</span>
-        <span class="q-axis">${ui.sym} ${ui.label}</span>
-      </div>
-      ${q.stem ? `<p class="q-stem">${q.stem}</p>` : ''}
-      <div class="q-ab">
-        <div class="q-line a"><span class="q-tag">A</span><span>${esc(q.A)}</span></div>
-        <div class="q-line b"><span class="q-tag">B</span><span>${esc(q.B)}</span></div>
-      </div>
-      <p class="q-scale">Aに近い ←——→ Bに近い</p>
-      <div class="q-opts">${opts}</div>
-      <p class="q-done-badge">回答済み</p>
-    </article>`;
-  }).join('');
-  updateProgress();
-}
-
-function esc(s) {
-  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
-
-function pick(qi, val) {
-  answers[qi] = val;
-  const card = $('qc-' + qi);
-  card.classList.add('answered');
-  card.querySelectorAll('.q-opt').forEach(b => {
-    b.classList.toggle('sel', +b.dataset.v === val);
-    b.disabled = true;
-  });
-  updateProgress();
-  const next = answers.findIndex((a, i) => a === null && i > qi);
-  const firstUnanswered = answers.findIndex(a => a === null);
-  const target = next >= 0 ? next : firstUnanswered;
-  if (target >= 0) {
-    setTimeout(() => {
-      $('qc-' + target).scrollIntoView({ behavior: 'smooth', block: 'center' });
-      highlightCurrent();
-    }, 280);
-  } else {
-    highlightCurrent();
-    $('quiz-fab').classList.add('show');
-  }
-}
-
-function highlightCurrent() {
-  const first = answers.findIndex(a => a === null);
-  document.querySelectorAll('.q-card').forEach((c, i) => {
-    c.classList.toggle('current', i === first);
-    c.classList.toggle('dim', first >= 0 && i > first + 2);
-  });
-}
-
-function updateProgress() {
-  const done = answers.filter(a => a !== null).length;
-  const pct = Math.round(done / QUESTIONS.length * 100);
-  $('prog-text').innerHTML = `回答済み <em>${done}</em> / ${QUESTIONS.length}問`;
-  $('prog-pct').textContent = pct + '%';
-  $('prog-fill').style.width = pct + '%';
-  if (done === QUESTIONS.length) $('quiz-fab').classList.add('show');
-  else $('quiz-fab').classList.remove('show');
-}
-
-function finishQuiz() {
-  if (answers.some(a => a === null)) return;
-  showView('loading');
-  setTimeout(showResult, 1100);
-}
-
-/* ── Result ── */
-function applyTheme(hex) {
-  const r = document.documentElement.style;
-  r.setProperty('--type', hex);
-  r.setProperty('--type-soft', mixHex(hex, '#ffffff', 0.88));
-  r.setProperty('--type-deep', shade(hex, -22));
-}
-
-function mixHex(hex, base, amount) {
-  const n = hex.replace('#',''), b = base.replace('#','');
-  const f = (i, j) => Math.round(parseInt(n.substr(i,2),16) * (1-amount) + parseInt(b.substr(j,2),16) * amount);
-  return '#' + [f(0,0),f(2,2),f(4,4)].map(c => c.toString(16).padStart(2,'0')).join('');
-}
-
-function shade(hex, pct) {
-  const n = hex.replace('#','');
-  const r = parseInt(n.substr(0,2),16), g = parseInt(n.substr(2,2),16), b = parseInt(n.substr(4,2),16);
-  const f = (c) => Math.min(255, Math.max(0, Math.round(c + (pct/100)*255)));
-  return '#' + [f(r),f(g),f(b)].map(c => c.toString(16).padStart(2,'0')).join('');
-}
-
-function showResult() {
-  const { type: t, scores, code } = calcResult();
-  lastResult = t; lastScores = scores;
-  applyTheme(t.color);
-
-  $('r-code').textContent = code.split('').join(' ');
-  $('r-emoji').textContent = t.emoji;
-  $('r-name').textContent = t.name;
-  $('r-tagline').textContent = t.tagline;
-  $('r-pills').innerHTML = AXES.map(a => {
-    const left = code.includes(a.codeA);
-    return `<span>${left ? a.nameA : a.nameB}</span>`;
-  }).join('');
-  $('r-desc').textContent = t.desc;
-
-  $('r-bars').innerHTML = AXES.map(a => {
-    const sc = scores[a.key];
-    const pct = Math.round((sc - 5) / 15 * 100);
-    const left = sc <= 12;
-    return `<div class="axis-bar">
-      <div class="bar-labels">
-        <span class="${left?'on':''}">${a.codeA}・${a.nameA}</span>
-        <span class="${left?'':'on'}">${a.nameB}・${a.codeB}</span>
-      </div>
-      <div class="bar-score">${sc} / 20</div>
-      <div class="axis-meter"><i style="width:${pct}%"></i><span class="thr"></span></div>
-    </div>`;
-  }).join('');
-
-  $('r-str').innerHTML = t.strengths.map(s => `<div class="item">${s}</div>`).join('');
-  $('r-wek').innerHTML = t.weaknesses.map(s => `<div class="item">${s}</div>`).join('');
-  $('r-anec').innerHTML = t.anecdotes.map(s => `<div class="li">${s}</div>`).join('');
-  $('r-career').innerHTML = t.career.map(s => `<span>${s}</span>`).join('');
-  $('r-role').innerHTML = t.role.map(s => `<div class="li">${s}</div>`).join('');
-  $('r-good').innerHTML = t.good.map(g => {
-    const p = g.split('—');
-    return `<div class="compat-item"><b>${p[0].trim()}</b> ${p[1]||''}</div>`;
-  }).join('');
-  $('r-bad').innerHTML = t.bad.map(g => {
-    const p = g.split('—');
-    return `<div class="compat-item"><b>${p[0].trim()}</b> ${p[1]||''}</div>`;
-  }).join('');
-
-  setupShare(t);
-  showView('result');
-}
-
-function shareText(t) {
-  return `【ARCHIme 建築タイプ診断】\n私は ${t.emoji} ${t.name}（${t.code}）でした！\n${t.tagline}\nあなたも診断してみて →\n#ARCHIme #建築タイプ診断`;
-}
-
-function setupShare(t) {
-  $('sh-x').onclick = () => {
-    window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareText(t)) + '&url=' + encodeURIComponent(location.href), '_blank', 'noopener');
-  };
-  $('sh-line').onclick = () => {
-    window.open('https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(location.href) + '&text=' + encodeURIComponent(shareText(t)), '_blank', 'noopener');
-  };
-  $('sh-copy').onclick = async () => {
-    try {
-      await navigator.clipboard.writeText(location.href);
-      setStatus('リンクをコピーしました');
-    } catch { setStatus('コピーに失敗しました'); }
-  };
-  $('sh-img').onclick = () => {
-    setStatus('画像を生成中…');
-    try { saveShareImage(t, lastScores); setStatus('画像を保存しました'); }
-    catch { setStatus('画像の生成に失敗しました'); }
-  };
-}
-
-function setStatus(msg) { $('sh-status').textContent = msg; }
-
-function saveShareImage(t, scores) {
-  const cv = $('sr-canvas'), x = cv.getContext('2d'), W = 1080, H = 1350;
-  x.fillStyle = '#f5f3ee';
-  x.fillRect(0, 0, W, H);
-  x.fillStyle = t.color;
-  x.fillRect(0, 0, W, 8);
-  x.textAlign = 'center';
-  x.fillStyle = '#888';
-  x.font = '400 22px "Noto Sans JP", sans-serif';
-  x.fillText('ARCHIme 建築タイプ診断', W/2, 80);
-  x.fillStyle = '#888';
-  x.font = '400 20px "Noto Sans JP", sans-serif';
-  x.fillText('診断結果', W/2, 120);
-  x.fillStyle = t.color;
-  x.fillRect(120, 150, W - 240, 1);
-  x.font = '400 24px "Noto Sans JP", sans-serif';
-  x.fillStyle = '#888';
-  x.fillText(t.code.split('').join(' '), W/2, 200);
-  x.font = '200px serif';
-  x.fillText(t.emoji, W/2, 480);
-  x.font = '700 56px "Noto Serif JP", serif';
-  x.fillStyle = '#2b2b2b';
-  x.fillText(t.name, W/2, 600);
-  x.font = '400 28px "Noto Sans JP", sans-serif';
-  x.fillStyle = '#555';
-  wrapText(x, t.tagline, W/2, 660, 860, 44);
-  let by = 820;
-  AXES.forEach(a => {
-    const sc = scores[a.key], pct = (sc - 5) / 15;
-    x.font = '500 22px "Noto Sans JP", sans-serif';
-    x.fillStyle = '#888';
-    x.textAlign = 'left'; x.fillText(a.nameA, 100, by);
-    x.textAlign = 'right'; x.fillText(a.nameB, W - 100, by);
-    x.fillStyle = '#e8e4dc';
-    x.fillRect(100, by + 14, 880, 8);
-    x.fillStyle = t.color;
-    x.fillRect(100, by + 14, Math.max(8, 880 * pct), 8);
-    by += 72;
-  });
-  x.fillStyle = '#aaa';
-  x.font = '400 20px "Noto Sans JP", sans-serif';
-  x.textAlign = 'center';
-  x.fillText('archime.jp', W/2, H - 48);
-  const a = document.createElement('a');
-  a.download = 'archime_' + t.code + '.png';
-  a.href = cv.toDataURL('image/png');
-  a.click();
-}
-
-function wrapText(ctx, text, cx, y, maxW, lh) {
-  const chars = text.split('');
-  let line = '';
-  for (const ch of chars) {
-    const test = line + ch;
-    if (ctx.measureText(test).width > maxW && line) {
-      ctx.fillText(line, cx, y);
-      line = ch; y += lh;
-    } else line = test;
-  }
-  if (line) ctx.fillText(line, cx, y);
-}
-
-function roundRect(ctx, x, y, w, h, r) {
-  ctx.beginPath();
-  ctx.moveTo(x + r, y);
-  ctx.arcTo(x + w, y, x + w, y + h, r);
-  ctx.arcTo(x + w, y + h, x, y + h, r);
-  ctx.arcTo(x, y + h, x, y, r);
-  ctx.arcTo(x, y, x + w, y, r);
-  ctx.closePath();
-}
-
-function restart() {
-  answers = new Array(QUESTIONS.length).fill(null);
-  $('quiz-fab').classList.remove('show');
-  showView('intro');
-}
-</script>
+<script src="assets/js/app.js" defer></script>
 </body>
 </html>
