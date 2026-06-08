@@ -12,493 +12,528 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Zen+Maru+Gothic:wght@700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --purple: #5b4cdb;
-  --blue: #2a8fc4;
-  --green: #1fa87a;
-  --gold: #e8b84a;
-  --coral: #e85d5d;
-  --ink: #1a2233;
-  --ink-soft: #4d5a70;
-  --ink-mute: #8b97a8;
-  --bg: #f0f2f8;
-  --paper: #ffffff;
-  --line: #dde3ee;
-  --type: var(--purple);
-  --type-soft: #ede9ff;
-  --type-deep: #3d32a8;
-  --radius: 14px;
-  --radius-lg: 22px;
-  --shadow: 0 8px 28px rgba(26,34,51,.08);
-  --shadow-lg: 0 20px 50px rgba(26,34,51,.14);
-  --font: 'Noto Sans JP', system-ui, sans-serif;
-  --font-display: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif;
-  --max: 640px;
-  --axis-v: var(--purple);
-  --axis-f: var(--blue);
-  --axis-c: var(--green);
-  --axis-e: var(--gold);
+  --accent: #a84832;
+  --accent-soft: #f5ebe7;
+  --ink: #2b2b2b;
+  --ink-soft: #555;
+  --ink-mute: #888;
+  --bg: #f5f3ee;
+  --paper: #fff;
+  --line: #d9d4cb;
+  --line-light: #ece8e1;
+  --type: #5a6b7d;
+  --type-soft: #eef1f4;
+  --type-deep: #3d4a58;
+  --radius: 4px;
+  --font: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', sans-serif;
+  --font-serif: 'Noto Serif JP', 'Hiragino Mincho ProN', serif;
+  --max: 600px;
+  --axis-v: #6b5b8a;
+  --axis-f: #4a7c8c;
+  --axis-c: #5a7a5e;
+  --axis-e: #9a7b3c;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
   font-family: var(--font);
+  font-size: 15px;
   color: var(--ink);
   background: var(--bg);
-  line-height: 1.75;
+  line-height: 1.85;
+  letter-spacing: .02em;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
 button { font-family: inherit; cursor: pointer; border: none; background: none; }
-.app { max-width: var(--max); margin: 0 auto; padding: 0 16px 48px; }
-.view { display: none; animation: rise .45s ease both; }
-.view.active { display: block; }
-@keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+a { color: inherit; text-decoration: none; }
 
-/* ── Intro ── */
-.intro-hero {
-  margin-top: 20px;
-  padding: 40px 24px 36px;
-  border-radius: var(--radius-lg);
-  text-align: center;
-  color: #fff;
-  background:
-    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255,255,255,.18), transparent),
-    linear-gradient(155deg, #4f3fd4, #5b7fd4 45%, #2a9a8a);
-  box-shadow: var(--shadow-lg);
+/* ── 共通ヘッダー ── */
+.site-header {
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
-.intro-badge {
-  display: inline-block;
-  font-size: 11px;
+.site-header-inner {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 14px 16px;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.site-logo {
+  font-family: var(--font-serif);
   font-weight: 700;
-  letter-spacing: .2em;
-  padding: 6px 14px;
-  border-radius: 999px;
-  background: rgba(255,255,255,.15);
-  border: 1px solid rgba(255,255,255,.3);
-  margin-bottom: 18px;
-}
-.intro-hero h1 {
-  font-family: var(--font-display);
-  font-weight: 900;
-  font-size: clamp(28px, 8vw, 38px);
-  line-height: 1.35;
-}
-.intro-hero h1 em { font-style: normal; color: #ffe566; }
-.intro-hero p { margin-top: 14px; font-size: 14px; opacity: .92; font-weight: 500; }
-.intro-stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0;
-  margin: 24px 0 8px;
-  text-align: center;
-}
-.intro-stats div { padding: 8px 4px; }
-.intro-stats div + div { border-left: 1px solid var(--line); }
-.intro-stats b {
-  display: block;
-  font-family: var(--font-display);
-  font-size: 22px;
+  font-size: 18px;
+  letter-spacing: .06em;
   color: var(--ink);
 }
-.intro-stats span { font-size: 10px; color: var(--ink-mute); }
-.axes-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin: 28px 0 32px;
+.site-tag {
+  font-size: 11px;
+  color: var(--ink-mute);
+  padding-left: 10px;
+  border-left: 1px solid var(--line);
 }
-.axis-card {
+
+.app { max-width: var(--max); margin: 0 auto; padding: 0 16px 56px; }
+.view { display: none; }
+.view.active { display: block; }
+
+/* ── Intro ── */
+.intro-lead { padding: 32px 0 0; }
+.intro-kicker {
+  font-size: 12px;
+  color: var(--accent);
+  font-weight: 700;
+  letter-spacing: .12em;
+  margin-bottom: 12px;
+}
+.intro-lead h1 {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: clamp(24px, 6.5vw, 30px);
+  line-height: 1.55;
+  color: var(--ink);
+}
+.intro-lead .lead {
+  margin-top: 18px;
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 2;
+}
+.intro-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  margin: 24px 0;
+  padding: 14px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+  color: var(--ink-mute);
+}
+.intro-meta span::before { content: '・'; margin-right: 2px; color: var(--line); }
+.intro-meta span:first-child::before { content: none; }
+.sec-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--ink);
+  display: inline-block;
+}
+.axes-list {
+  list-style: none;
+  margin: 0 0 36px;
+  border: 1px solid var(--line);
   background: var(--paper);
-  border-radius: var(--radius);
-  padding: 14px;
-  box-shadow: var(--shadow);
-  border-top: 3px solid var(--ac);
 }
-.axis-card .sym { font-size: 18px; color: var(--ac); }
-.axis-card h3 { font-size: 14px; margin: 6px 0 4px; }
-.axis-card p { font-size: 11px; color: var(--ink-soft); line-height: 1.55; }
+.axes-list li {
+  display: flex;
+  gap: 14px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--line-light);
+  font-size: 13px;
+}
+.axes-list li:last-child { border-bottom: none; }
+.axes-list .sym {
+  flex: none;
+  width: 24px;
+  text-align: center;
+  font-size: 15px;
+  color: var(--ac);
+  font-weight: 700;
+}
+.axes-list h3 { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+.axes-list p { font-size: 12px; color: var(--ink-soft); line-height: 1.65; }
 .btn-primary {
   display: block;
   width: 100%;
-  max-width: 320px;
-  margin: 0 auto;
-  padding: 16px 24px;
-  border-radius: 999px;
-  font-weight: 800;
-  font-size: 16px;
-  color: var(--purple);
-  background: #fff;
-  box-shadow: 0 10px 28px rgba(0,0,0,.18);
-  transition: transform .2s, box-shadow .2s;
+  padding: 16px 20px;
+  border-radius: var(--radius);
+  font-weight: 700;
+  font-size: 15px;
+  color: #fff;
+  background: var(--accent);
+  transition: opacity .2s;
 }
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(0,0,0,.22); }
-.foot { text-align: center; font-size: 11px; color: var(--ink-mute); margin-top: 28px; }
+.btn-primary:hover { opacity: .88; }
+.foot {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+  font-size: 11px;
+  color: var(--ink-mute);
+  text-align: center;
+  line-height: 1.7;
+}
 
-/* ── Quiz (scroll) ── */
+/* ── Quiz ── */
+.quiz-page-title {
+  padding: 24px 0 8px;
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 700;
+}
 .quiz-sticky {
   position: sticky;
-  top: 0;
+  top: 49px;
   z-index: 50;
   margin: 0 -16px;
-  padding: 12px 16px 14px;
-  background: rgba(240,242,248,.94);
-  backdrop-filter: blur(10px);
+  padding: 12px 16px;
+  background: rgba(245,243,238,.96);
   border-bottom: 1px solid var(--line);
 }
 .quiz-progress-meta {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: baseline;
   margin-bottom: 8px;
   font-size: 13px;
-  font-weight: 700;
 }
-.quiz-progress-meta .count { color: var(--purple); font-family: var(--font-display); }
-.quiz-track {
-  height: 6px;
-  border-radius: 99px;
-  background: var(--line);
-  overflow: hidden;
-}
+.quiz-progress-meta .count { font-weight: 700; color: var(--ink); }
+.quiz-progress-meta .count em { font-style: normal; color: var(--accent); }
+.quiz-track { height: 3px; background: var(--line-light); overflow: hidden; }
 .quiz-fill {
   height: 100%;
   width: 0;
-  border-radius: 99px;
-  background: linear-gradient(90deg, var(--purple), var(--blue), var(--green));
-  transition: width .4s cubic-bezier(.4,0,.2,1);
+  background: var(--accent);
+  transition: width .35s ease;
 }
-.quiz-hint-top {
-  margin-top: 8px;
-  font-size: 11px;
-  color: var(--ink-mute);
-  text-align: center;
-}
-.q-list { padding: 20px 0 100px; display: flex; flex-direction: column; gap: 16px; }
+.quiz-hint-top { margin-top: 8px; font-size: 12px; color: var(--ink-mute); }
+.q-list { padding: 16px 0 90px; display: flex; flex-direction: column; gap: 20px; }
 .q-card {
   background: var(--paper);
-  border-radius: var(--radius-lg);
-  padding: 22px 20px;
-  box-shadow: var(--shadow);
-  border: 2px solid transparent;
-  transition: border-color .3s, opacity .3s, transform .3s;
-  scroll-margin-top: 88px;
+  border: 1px solid var(--line);
+  padding: 20px 18px;
+  scroll-margin-top: 110px;
+  transition: opacity .25s;
 }
-.q-card.answered { border-color: color-mix(in srgb, var(--ac, var(--purple)) 35%, transparent); }
-.q-card.current { border-color: var(--ac, var(--purple)); box-shadow: 0 0 0 4px color-mix(in srgb, var(--ac, var(--purple)) 12%, transparent); }
-.q-card.dim { opacity: .55; }
-.q-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-.q-num { font-family: var(--font-display); font-weight: 900; font-size: 22px; }
-.q-axis {
-  font-size: 11px;
-  font-weight: 800;
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--ac) 12%, #fff);
-  color: var(--ac);
+.q-card.answered { background: #fafaf8; }
+.q-card.current { border-color: var(--ac, var(--accent)); border-left-width: 3px; }
+.q-card.dim { opacity: .45; }
+.q-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line-light);
 }
-.q-stem { font-size: 13px; font-weight: 700; color: var(--ink-soft); margin-bottom: 12px; }
-.q-ab { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+.q-num { font-size: 13px; font-weight: 700; color: var(--ink-mute); }
+.q-axis { font-size: 12px; color: var(--ac); font-weight: 500; }
+.q-stem {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 14px;
+  line-height: 1.7;
+}
+.q-ab { display: flex; flex-direction: column; gap: 0; margin-bottom: 16px; border: 1px solid var(--line-light); }
 .q-line {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   padding: 12px 14px;
-  border-radius: var(--radius);
   font-size: 13px;
-  line-height: 1.65;
+  line-height: 1.75;
+  border-bottom: 1px solid var(--line-light);
 }
-.q-line.a { background: #f3f1ff; }
-.q-line.b { background: #fff8ec; }
+.q-line:last-child { border-bottom: none; }
 .q-tag {
   flex: none;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
+  width: 22px;
+  height: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 800;
-  font-size: 13px;
-  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  border: 1px solid var(--line);
+  color: var(--ink-soft);
+  background: var(--bg);
 }
-.q-line.a .q-tag { background: var(--purple); }
-.q-line.b .q-tag { background: var(--gold); }
-.q-scale { text-align: center; font-size: 11px; color: var(--ink-mute); margin-bottom: 10px; }
-.q-opts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.q-scale {
+  font-size: 11px;
+  color: var(--ink-mute);
+  margin-bottom: 10px;
+  text-align: center;
+}
+.q-opts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
 .q-opt {
-  padding: 10px 6px;
-  border-radius: 12px;
-  border: 2px solid var(--line);
+  padding: 11px 4px;
+  border: 1px solid var(--line);
   background: var(--paper);
   font-size: 11px;
-  font-weight: 700;
-  line-height: 1.4;
-  transition: all .15s;
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--ink-soft);
+  transition: background .12s, border-color .12s, color .12s;
 }
-.q-opt small { display: block; font-size: 9px; font-weight: 500; color: var(--ink-mute); margin-top: 2px; }
-.q-opt:hover:not(:disabled) { border-color: var(--purple); background: #f8f7ff; }
-.q-opt.sel { border-color: var(--purple); background: var(--purple); color: #fff; }
-.q-opt.sel small { color: rgba(255,255,255,.75); }
+.q-opt small { display: block; font-size: 10px; color: var(--ink-mute); margin-top: 3px; }
+.q-opt:hover:not(:disabled) { border-color: var(--accent); color: var(--ink); }
+.q-opt.sel { border-color: var(--accent); background: var(--accent); color: #fff; }
+.q-opt.sel small { color: rgba(255,255,255,.8); }
 .q-opt:disabled { cursor: default; }
 .q-done-badge {
   display: none;
   margin-top: 12px;
   font-size: 12px;
-  font-weight: 700;
-  color: var(--green);
-  text-align: center;
+  color: var(--ink-mute);
+  text-align: right;
 }
 .q-card.answered .q-done-badge { display: block; }
-
 .quiz-fab {
   position: fixed;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%) translateY(120px);
+  bottom: 0;
+  left: 0;
+  right: 0;
   z-index: 60;
-  padding: 14px 32px;
-  border-radius: 999px;
-  font-weight: 800;
+  padding: 14px 16px;
+  border-top: 1px solid var(--line);
+  font-weight: 700;
   font-size: 15px;
   color: #fff;
-  background: linear-gradient(135deg, var(--purple), #7b5cf0);
-  box-shadow: 0 12px 32px rgba(91,76,219,.45);
-  transition: transform .4s cubic-bezier(.34,1.56,.64,1), opacity .3s;
-  opacity: 0;
-  pointer-events: none;
+  background: var(--accent);
+  transform: translateY(100%);
+  transition: transform .3s ease;
 }
-.quiz-fab.show { transform: translateX(-50%) translateY(0); opacity: 1; pointer-events: auto; }
+.quiz-fab.show { transform: translateY(0); }
 
 /* ── Loading ── */
 .load-wrap {
-  min-height: 70dvh;
+  min-height: 60dvh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  gap: 12px;
+  gap: 16px;
+  padding: 48px 0;
 }
-.spinner {
-  width: 48px;
-  height: 48px;
-  border: 4px solid var(--line);
-  border-top-color: var(--purple);
+.load-dots { display: flex; gap: 6px; }
+.load-dots i {
+  width: 6px; height: 6px;
+  background: var(--accent);
   border-radius: 50%;
-  animation: spin .8s linear infinite;
+  animation: blink 1.2s ease-in-out infinite;
 }
-@keyframes spin { to { transform: rotate(360deg); } }
-.load-wrap p { font-weight: 800; font-size: 17px; }
+.load-dots i:nth-child(2) { animation-delay: .2s; }
+.load-dots i:nth-child(3) { animation-delay: .4s; }
+@keyframes blink { 0%,80%,100% { opacity: .2; } 40% { opacity: 1; } }
+.load-wrap p { font-size: 15px; font-weight: 700; }
 .load-wrap span { font-size: 13px; color: var(--ink-mute); }
 
 /* ── Result ── */
-.result-hero { margin-top: 16px; }
-
-/* Puzzle & Dragons style monster card */
-.monster-card {
-  position: relative;
-  border-radius: 20px;
-  padding: 3px;
-  background: linear-gradient(145deg, #ffe566 0%, #ff9f1a 25%, #ffd700 50%, #c9a227 75%, #ffe566 100%);
-  box-shadow:
-    0 0 0 1px rgba(255,220,100,.5),
-    0 16px 48px rgba(0,0,0,.25),
-    0 0 60px color-mix(in srgb, var(--type) 40%, transparent);
+.result-label {
+  padding: 28px 0 16px;
+  font-size: 12px;
+  color: var(--ink-mute);
+  letter-spacing: .1em;
 }
-.monster-inner {
-  border-radius: 17px;
-  overflow: hidden;
-  background: linear-gradient(180deg, #1e1248 0%, #2a1860 40%, #12082e 100%);
+.type-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--type);
+  padding: 28px 20px 24px;
   text-align: center;
-  color: #fff;
-  padding: 20px 20px 24px;
 }
-.monster-rarity {
-  display: flex;
-  justify-content: center;
-  gap: 4px;
-  margin-bottom: 8px;
-  font-size: 16px;
-  color: #ffe566;
-  letter-spacing: 2px;
-  text-shadow: 0 0 8px rgba(255,220,80,.8);
-}
-.monster-code {
-  font-family: var(--font-display);
-  font-weight: 900;
-  font-size: 14px;
-  letter-spacing: .35em;
-  opacity: .85;
-  margin-bottom: 4px;
-}
-.monster-frame {
-  position: relative;
-  margin: 12px auto 16px;
-  width: min(200px, 70vw);
-  aspect-ratio: 1;
+.type-icon {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-.monster-glow {
-  position: absolute;
-  inset: -20%;
-  border-radius: 50%;
-  background: radial-gradient(circle, color-mix(in srgb, var(--type) 55%, transparent), transparent 70%);
-  animation: pulse 3s ease-in-out infinite;
-}
-@keyframes pulse { 0%,100% { opacity: .7; transform: scale(1); } 50% { opacity: 1; transform: scale(1.05); } }
-.monster-emoji {
-  position: relative;
-  font-size: clamp(88px, 22vw, 120px);
+  font-size: 56px;
   line-height: 1;
-  filter: drop-shadow(0 8px 24px rgba(0,0,0,.4));
-  animation: float 4s ease-in-out infinite;
+  background: var(--type-soft);
+  border: 1px solid var(--line-light);
 }
-@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-.monster-name {
-  font-family: var(--font-display);
-  font-weight: 900;
-  font-size: clamp(22px, 6vw, 28px);
-  text-shadow: 0 2px 12px rgba(0,0,0,.4);
+.type-code {
+  font-size: 12px;
+  letter-spacing: .25em;
+  color: var(--ink-mute);
+  margin-bottom: 6px;
 }
-.monster-tagline {
-  margin-top: 8px;
-  font-size: 13px;
-  opacity: .9;
-  font-weight: 500;
+.type-name {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: clamp(22px, 5.5vw, 26px);
+  color: var(--ink);
+  line-height: 1.4;
 }
-.type-pills {
+.type-tagline {
+  margin-top: 10px;
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.type-traits {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
   justify-content: center;
-  margin-top: 16px;
+  gap: 6px 4px;
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line-light);
+  font-size: 12px;
+  color: var(--ink-soft);
 }
-.type-pills span {
-  font-size: 11px;
-  font-weight: 700;
-  padding: 5px 12px;
-  border-radius: 999px;
-  background: rgba(255,255,255,.12);
-  border: 1px solid rgba(255,255,255,.2);
-}
+.type-traits span:not(:last-child)::after { content: '／'; margin-left: 4px; color: var(--line); }
 
 .result-block {
   background: var(--paper);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow);
-  margin-top: 14px;
-  overflow: hidden;
+  border: 1px solid var(--line);
+  margin-top: 16px;
 }
 .result-block > summary,
 .result-block > .block-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 18px;
-  font-weight: 800;
+  padding: 14px 16px;
+  font-weight: 700;
   font-size: 14px;
   cursor: pointer;
   list-style: none;
   user-select: none;
+  border-bottom: 1px solid transparent;
 }
+.result-block[open] > summary,
+.result-block > .block-head { border-bottom-color: var(--line-light); }
 .result-block > summary::-webkit-details-marker { display: none; }
-.result-block .block-num {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  border-radius: 6px;
-  background: var(--type-soft);
-  color: var(--type);
-  font-size: 11px;
-  margin-right: 8px;
-}
-.result-block .chev { color: var(--ink-mute); font-size: 12px; transition: transform .2s; }
+.result-block .block-title { border-left: 3px solid var(--type); padding-left: 10px; }
+.result-block .chev { color: var(--ink-mute); font-size: 11px; }
 .result-block[open] .chev { transform: rotate(180deg); }
-.result-block .block-body { padding: 0 18px 18px; }
-.result-desc { font-size: 14px; color: var(--ink-soft); line-height: 1.85; }
-.sw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
-.sw-box { border-radius: var(--radius); padding: 14px; }
-.sw-box.s { background: #edf8f2; }
-.sw-box.w { background: #fff3f0; }
-.sw-box h4 { font-size: 12px; margin-bottom: 8px; }
-.sw-box .item { font-size: 12px; padding: 6px 0; border-bottom: 1px dashed rgba(0,0,0,.08); line-height: 1.5; }
+.result-block .block-body { padding: 16px; }
+.result-desc { font-size: 14px; color: var(--ink-soft); line-height: 2; }
+
+.sw-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 16px;
+}
+.sw-box {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  padding: 14px 16px;
+}
+.sw-box h4 {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line-light);
+}
+.sw-box .item {
+  font-size: 13px;
+  padding: 7px 0;
+  border-bottom: 1px dotted var(--line-light);
+  line-height: 1.65;
+  color: var(--ink-soft);
+}
 .sw-box .item:last-child { border: none; }
 
-.axis-bars { display: flex; flex-direction: column; gap: 14px; }
+.axis-bars { display: flex; flex-direction: column; gap: 18px; }
 .axis-bar .bar-labels {
   display: flex;
   justify-content: space-between;
-  font-size: 11px;
-  font-weight: 700;
+  font-size: 12px;
   margin-bottom: 6px;
+  color: var(--ink-mute);
 }
-.axis-bar .bar-labels .on { color: var(--type); }
-.axis-bar .bar-score { text-align: center; font-size: 11px; color: var(--ink-mute); margin-bottom: 4px; }
+.axis-bar .bar-labels .on { color: var(--type); font-weight: 700; }
+.axis-bar .bar-score { font-size: 11px; color: var(--ink-mute); margin-bottom: 6px; }
 .axis-meter {
-  height: 10px;
-  border-radius: 99px;
-  background: var(--line);
+  height: 6px;
+  background: var(--line-light);
   position: relative;
-  overflow: hidden;
 }
 .axis-meter i {
   display: block;
   height: 100%;
-  border-radius: 99px;
-  background: linear-gradient(90deg, var(--type), color-mix(in srgb, var(--type) 60%, #fff));
-  transition: width .8s cubic-bezier(.4,0,.2,1);
+  background: var(--type);
+  transition: width .6s ease;
 }
 .axis-meter .thr {
   position: absolute;
   left: 46.67%;
-  top: -2px;
-  bottom: -2px;
-  width: 2px;
+  top: -3px;
+  bottom: -3px;
+  width: 1px;
   background: var(--ink-mute);
-  opacity: .5;
+  opacity: .4;
 }
 
-.linelist .li { font-size: 13px; padding: 8px 0; border-bottom: 1px solid var(--line); line-height: 1.6; }
-.linelist .li:last-child { border: none; }
-.taglist { display: flex; flex-wrap: wrap; gap: 8px; }
-.taglist span { font-size: 12px; padding: 6px 12px; border-radius: 999px; background: var(--type-soft); color: var(--type-deep); font-weight: 600; }
-.compat-grid { display: grid; gap: 12px; }
-.compat-grid h4 { font-size: 12px; margin-bottom: 8px; color: var(--ink-soft); }
-.compat-item { font-size: 12px; padding: 8px 0; border-bottom: 1px solid var(--line); }
-.compat-item b { color: var(--type); }
-
-.share-zone { margin-top: 20px; text-align: center; }
-.share-zone .share-label { font-size: 12px; color: var(--ink-mute); margin-bottom: 12px; }
-.share-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.share-btns button {
-  padding: 13px;
-  border-radius: 12px;
-  font-weight: 800;
+.linelist .li {
   font-size: 13px;
-  color: #fff;
-  transition: transform .15s;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line-light);
+  line-height: 1.75;
+  color: var(--ink-soft);
 }
-.share-btns button:active { transform: scale(.96); }
-.share-btns .x { background: #0f1419; }
-.share-btns .line { background: #06c755; }
-.share-btns .img { background: var(--type); }
-.share-btns .copy { background: #4a5568; }
-.share-status { font-size: 12px; color: var(--ink-soft); min-height: 20px; margin-top: 10px; }
+.linelist .li:last-child { border: none; }
+.taglist { display: flex; flex-direction: column; gap: 0; }
+.taglist span {
+  font-size: 13px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line-light);
+  color: var(--ink-soft);
+  line-height: 1.65;
+}
+.taglist span:last-child { border: none; }
+.compat-grid h4 { font-size: 13px; font-weight: 700; margin-bottom: 8px; color: var(--ink); }
+.compat-item {
+  font-size: 13px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line-light);
+  line-height: 1.65;
+  color: var(--ink-soft);
+}
+.compat-item b { color: var(--type); font-weight: 700; }
+
+.share-zone {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+.share-zone .share-label {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  color: var(--ink);
+}
+.share-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.share-btns button {
+  padding: 12px 10px;
+  border-radius: var(--radius);
+  font-weight: 500;
+  font-size: 13px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink-soft);
+}
+.share-btns button:active { background: var(--bg); }
+.share-btns .line { background: #06c755; color: #fff; border-color: #06c755; }
+.share-btns .img { background: var(--type); color: #fff; border-color: var(--type); }
+.share-status { font-size: 12px; color: var(--ink-mute); min-height: 20px; margin-top: 10px; }
 .btn-restart {
   display: block;
-  margin: 24px auto 0;
-  padding: 13px 28px;
-  border-radius: 999px;
-  border: 2px solid var(--line);
+  width: 100%;
+  margin-top: 20px;
+  padding: 14px;
+  border: 1px solid var(--line);
   background: var(--paper);
-  font-weight: 800;
-  font-size: 13px;
+  font-weight: 500;
+  font-size: 14px;
   color: var(--ink-soft);
 }
 
@@ -511,118 +546,124 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 </style>
 </head>
 <body>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a class="site-logo" href="#" onclick="restart();return false;">ARCHIme</a>
+    <span class="site-tag">建築タイプ診断</span>
+  </div>
+</header>
+
 <div class="app">
 
-  <!-- イントロ -->
+  <!-- トップ -->
   <section id="view-intro" class="view active">
-    <div class="intro-hero">
-      <span class="intro-badge">建築タイプ診断</span>
-      <h1>あなたは<br>どんな<em>建築家</em>タイプ？</h1>
-      <p>20の質問に答えるだけ。<br>4つの設計軸から、全16タイプの動物キャラに診断します。</p>
+    <div class="intro-lead">
+      <p class="intro-kicker">建築学科・建築を学ぶ方へ</p>
+      <h1>あなたの建築家タイプを診断</h1>
+      <p class="lead">設計の考え方や働き方の傾向から、16種類のタイプに分類します。所要時間は約5分。登録は不要です。</p>
+      <div class="intro-meta">
+        <span>全20問</span>
+        <span>4つの設計軸</span>
+        <span>16タイプ</span>
+        <span>無料</span>
+      </div>
     </div>
-    <div class="intro-stats">
-      <div><b>約5分</b><span>で完了</span></div>
-      <div><b>20</b><span>問</span></div>
-      <div><b>16</b><span>タイプ</span></div>
-      <div><b>無料</b><span>登録不要</span></div>
-    </div>
-    <div class="axes-grid">
-      <div class="axis-card" style="--ac:var(--axis-v)"><div class="sym">○</div><h3>世界観</h3><p>構想型 ⇔ 現実型<br>理想を描くか、現実を読むか</p></div>
-      <div class="axis-card" style="--ac:var(--axis-f)"><div class="sym">△</div><h3>価値志向</h3><p>造形志向 ⇔ 機能志向<br>「美」か「理」か</p></div>
-      <div class="axis-card" style="--ac:var(--axis-c)"><div class="sym">×</div><h3>働き方</h3><p>組織型 ⇔ 個人型<br>協働か、ひとりの集中か</p></div>
-      <div class="axis-card" style="--ac:var(--axis-e)"><div class="sym">●</div><h3>プロセス</h3><p>探索型 ⇔ 計画型<br>発見か、段取りか</p></div>
-    </div>
-    <button class="btn-primary" onclick="startQuiz()">診断をはじめる</button>
-    <p class="foot">ARCHIme — 建築を学ぶあなたのためのタイプ診断</p>
+
+    <p class="sec-label">診断の4つの軸</p>
+    <ul class="axes-list">
+      <li style="--ac:var(--axis-v)"><span class="sym">○</span><div><h3>世界観（構想型 ⇔ 現実型）</h3><p>理想を描くか、現実を読み解くか</p></div></li>
+      <li style="--ac:var(--axis-f)"><span class="sym">△</span><div><h3>価値志向（造形志向 ⇔ 機能志向）</h3><p>形と美意識を重視するか、機能と合理性を重視するか</p></div></li>
+      <li style="--ac:var(--axis-c)"><span class="sym">×</span><div><h3>働き方（組織型 ⇔ 個人型）</h3><p>チームで考えるか、ひとりで集中するか</p></div></li>
+      <li style="--ac:var(--axis-e)"><span class="sym">●</span><div><h3>プロセス（探索型 ⇔ 計画型）</h3><p>試行錯誤で進めるか、計画を立てて進めるか</p></div></li>
+    </ul>
+
+    <button class="btn-primary" onclick="startQuiz()">診断を始める</button>
+    <p class="foot">ARCHIme 建築タイプ診断<br>建築を学ぶ学生・若手の方を対象としています</p>
   </section>
 
-  <!-- スクロール式クイズ -->
+  <!-- 質問（スクロール式） -->
   <section id="view-quiz" class="view">
+    <h2 class="quiz-page-title">質問に回答する</h2>
     <div class="quiz-sticky">
       <div class="quiz-progress-meta">
-        <span class="count" id="prog-text">0 / 20 回答済み</span>
+        <span class="count" id="prog-text">回答済み <em>0</em> / 20問</span>
         <span id="prog-pct">0%</span>
       </div>
       <div class="quiz-track"><div class="quiz-fill" id="prog-fill"></div></div>
-      <p class="quiz-hint-top">スクロールしながら、ひとつずつ答えてください</p>
+      <p class="quiz-hint-top">下にスクロールしながら、おおよそ当てはまるものを選んでください。</p>
     </div>
     <div class="q-list" id="q-list"></div>
-    <button class="quiz-fab" id="quiz-fab" onclick="finishQuiz()">結果を見る →</button>
+    <button class="quiz-fab" id="quiz-fab" onclick="finishQuiz()">すべて回答しました — 結果を見る</button>
   </section>
 
-  <!-- ローディング -->
+  <!-- 集計中 -->
   <section id="view-loading" class="view">
     <div class="load-wrap">
-      <div class="spinner"></div>
-      <p>タイプを分析しています</p>
-      <span>4つの設計軸を計算中…</span>
+      <div class="load-dots"><i></i><i></i><i></i></div>
+      <p>診断結果を集計しています</p>
+      <span>4つの設計軸からタイプを判定中です</span>
     </div>
   </section>
 
   <!-- 結果 -->
   <section id="view-result" class="view">
-    <div class="result-hero">
-      <div class="monster-card" id="monster-card">
-        <div class="monster-inner">
-          <div class="monster-rarity">★★★★★</div>
-          <div class="monster-code" id="r-code"></div>
-          <div class="monster-frame">
-            <div class="monster-glow"></div>
-            <div class="monster-emoji" id="r-emoji"></div>
-          </div>
-          <h2 class="monster-name" id="r-name"></h2>
-          <p class="monster-tagline" id="r-tagline"></p>
-          <div class="type-pills" id="r-pills"></div>
-        </div>
-      </div>
+    <p class="result-label">診断結果</p>
+
+    <div class="type-card" id="type-card">
+      <div class="type-icon" id="r-emoji"></div>
+      <p class="type-code" id="r-code"></p>
+      <h2 class="type-name" id="r-name"></h2>
+      <p class="type-tagline" id="r-tagline"></p>
+      <div class="type-traits" id="r-pills"></div>
     </div>
 
     <div class="result-block">
-      <div class="block-head"><span><span class="block-num">01</span>タイプバランス</span></div>
+      <div class="block-head"><span class="block-title">タイプバランス</span></div>
       <div class="block-body"><div class="axis-bars" id="r-bars"></div></div>
     </div>
 
     <div class="result-block">
-      <div class="block-head"><span><span class="block-num">02</span>あなたの人物像</span></div>
+      <div class="block-head"><span class="block-title">人物像</span></div>
       <div class="block-body"><p class="result-desc" id="r-desc"></p></div>
     </div>
 
     <div class="sw-grid">
-      <div class="sw-box s"><h4>▲ 強み</h4><div id="r-str"></div></div>
-      <div class="sw-box w"><h4>▼ 気をつけたい点</h4><div id="r-wek"></div></div>
+      <div class="sw-box s"><h4>強み</h4><div id="r-str"></div></div>
+      <div class="sw-box w"><h4>気をつけたい点</h4><div id="r-wek"></div></div>
     </div>
 
     <details class="result-block" open>
-      <summary><span><span class="block-num">03</span>建築学生あるある</span><span class="chev">▼</span></summary>
+      <summary><span class="block-title">建築学生あるある</span><span class="chev">▼</span></summary>
       <div class="block-body"><div class="linelist" id="r-anec"></div></div>
     </details>
     <details class="result-block">
-      <summary><span><span class="block-num">04</span>向いている進路</span><span class="chev">▼</span></summary>
+      <summary><span class="block-title">向いている進路</span><span class="chev">▼</span></summary>
       <div class="block-body"><div class="taglist" id="r-career"></div></div>
     </details>
     <details class="result-block">
-      <summary><span><span class="block-num">05</span>チームでの役割</span><span class="chev">▼</span></summary>
+      <summary><span class="block-title">チームでの役割</span><span class="chev">▼</span></summary>
       <div class="block-body"><div class="linelist" id="r-role"></div></div>
     </details>
     <details class="result-block">
-      <summary><span><span class="block-num">06</span>相性</span><span class="chev">▼</span></summary>
+      <summary><span class="block-title">他タイプとの相性</span><span class="chev">▼</span></summary>
       <div class="block-body"><div class="compat-grid">
-        <div><h4>◆ 相性が良いタイプ</h4><div id="r-good"></div></div>
-        <div><h4>◇ すれ違いやすいタイプ</h4><div id="r-bad"></div></div>
+        <div><h4>相性が良いタイプ</h4><div id="r-good"></div></div>
+        <div><h4>すれ違いやすいタイプ</h4><div id="r-bad"></div></div>
       </div></div>
     </details>
 
     <div class="share-zone">
-      <p class="share-label">結果をシェアする</p>
+      <p class="share-label">結果を共有する</p>
       <div class="share-btns">
-        <button class="x" id="sh-x">X（旧Twitter）</button>
-        <button class="line" id="sh-line">LINE</button>
-        <button class="img" id="sh-img">画像を保存</button>
-        <button class="copy" id="sh-copy">リンクをコピー</button>
+        <button class="x" id="sh-x">Xに投稿</button>
+        <button class="line" id="sh-line">LINEで送る</button>
+        <button class="img" id="sh-img">結果画像を保存</button>
+        <button class="copy" id="sh-copy">URLをコピー</button>
       </div>
       <p class="share-status" id="sh-status"></p>
     </div>
-    <button class="btn-restart" onclick="restart()">もう一度診断する</button>
+    <button class="btn-restart" onclick="restart()">最初からやり直す</button>
   </section>
 
 </div>
@@ -652,7 +693,7 @@ const AXIS_UI = {
 };
 
 const OPT_LABELS = ['Aに共感', 'ややA', 'ややB', 'Bに共感'];
-const OPT_HINTS  = ['つよく', 'どちらかと', 'どちらかと', 'つよく'];
+const OPT_HINTS  = ['強く', 'やや', 'やや', '強く'];
 
 // 質問データ（スプレッドシート gid=761172376 の行順）
 const QUESTIONS = [
@@ -927,23 +968,22 @@ function buildQuiz() {
   const list = $('q-list');
   list.innerHTML = QUESTIONS.map((q, i) => {
     const ui = AXIS_UI[q.axis];
-    const stem = q.stem ? `<p class="q-stem">${q.stem}</p>` : '';
     const opts = [0,1,2,3].map(v =>
       `<button class="q-opt" data-q="${i}" data-v="${v}" onclick="pick(${i},${v})">${OPT_LABELS[v]}<small>${OPT_HINTS[v]}</small></button>`
     ).join('');
     return `<article class="q-card" id="qc-${i}" data-idx="${i}" style="--ac:${ui.color}">
       <div class="q-head">
-        <span class="q-num">Q.${String(i+1).padStart(2,'0')}</span>
+        <span class="q-num">質問 ${i + 1}</span>
         <span class="q-axis">${ui.sym} ${ui.label}</span>
       </div>
-      ${stem}
+      ${q.stem ? `<p class="q-stem">${q.stem}</p>` : ''}
       <div class="q-ab">
         <div class="q-line a"><span class="q-tag">A</span><span>${esc(q.A)}</span></div>
         <div class="q-line b"><span class="q-tag">B</span><span>${esc(q.B)}</span></div>
       </div>
-      <p class="q-scale">◀ Aに近い　—　Bに近い ▶</p>
+      <p class="q-scale">Aに近い ←——→ Bに近い</p>
       <div class="q-opts">${opts}</div>
-      <p class="q-done-badge">✓ 回答済み</p>
+      <p class="q-done-badge">回答済み</p>
     </article>`;
   }).join('');
   updateProgress();
@@ -987,7 +1027,7 @@ function highlightCurrent() {
 function updateProgress() {
   const done = answers.filter(a => a !== null).length;
   const pct = Math.round(done / QUESTIONS.length * 100);
-  $('prog-text').textContent = `${done} / ${QUESTIONS.length} 回答済み`;
+  $('prog-text').innerHTML = `回答済み <em>${done}</em> / ${QUESTIONS.length}問`;
   $('prog-pct').textContent = pct + '%';
   $('prog-fill').style.width = pct + '%';
   if (done === QUESTIONS.length) $('quiz-fab').classList.add('show');
@@ -1004,8 +1044,14 @@ function finishQuiz() {
 function applyTheme(hex) {
   const r = document.documentElement.style;
   r.setProperty('--type', hex);
-  r.setProperty('--type-soft', hex + '22');
-  r.setProperty('--type-deep', shade(hex, -30));
+  r.setProperty('--type-soft', mixHex(hex, '#ffffff', 0.88));
+  r.setProperty('--type-deep', shade(hex, -22));
+}
+
+function mixHex(hex, base, amount) {
+  const n = hex.replace('#',''), b = base.replace('#','');
+  const f = (i, j) => Math.round(parseInt(n.substr(i,2),16) * (1-amount) + parseInt(b.substr(j,2),16) * amount);
+  return '#' + [f(0,0),f(2,2),f(4,4)].map(c => c.toString(16).padStart(2,'0')).join('');
 }
 
 function shade(hex, pct) {
@@ -1090,43 +1136,47 @@ function setStatus(msg) { $('sh-status').textContent = msg; }
 
 function saveShareImage(t, scores) {
   const cv = $('sr-canvas'), x = cv.getContext('2d'), W = 1080, H = 1350;
-  const grad = x.createLinearGradient(0, 0, W, H);
-  grad.addColorStop(0, t.color);
-  grad.addColorStop(1, shade(t.color, -40));
-  x.fillStyle = grad;
+  x.fillStyle = '#f5f3ee';
   x.fillRect(0, 0, W, H);
+  x.fillStyle = t.color;
+  x.fillRect(0, 0, W, 8);
   x.textAlign = 'center';
-  x.fillStyle = '#fff';
-  x.font = '800 36px "Zen Maru Gothic", sans-serif';
-  x.fillText('ARCHIme', W/2, 100);
-  x.font = '500 24px "Noto Sans JP", sans-serif';
-  x.globalAlpha = .85;
-  x.fillText('建築タイプ診断', W/2, 140);
-  x.globalAlpha = 1;
-  x.font = '800 28px sans-serif';
-  x.fillText(t.code.split('').join('  '), W/2, 200);
-  x.font = '280px serif';
-  x.fillText(t.emoji, W/2, 560);
-  x.font = '900 64px "Noto Sans JP", sans-serif';
-  x.fillText(t.name, W/2, 700);
-  x.font = '500 28px "Noto Sans JP", sans-serif';
-  x.globalAlpha = .9;
-  wrapText(x, t.tagline, W/2, 760, 860, 40);
-  let by = 900;
+  x.fillStyle = '#888';
+  x.font = '400 22px "Noto Sans JP", sans-serif';
+  x.fillText('ARCHIme 建築タイプ診断', W/2, 80);
+  x.fillStyle = '#888';
+  x.font = '400 20px "Noto Sans JP", sans-serif';
+  x.fillText('診断結果', W/2, 120);
+  x.fillStyle = t.color;
+  x.fillRect(120, 150, W - 240, 1);
+  x.font = '400 24px "Noto Sans JP", sans-serif';
+  x.fillStyle = '#888';
+  x.fillText(t.code.split('').join(' '), W/2, 200);
+  x.font = '200px serif';
+  x.fillText(t.emoji, W/2, 480);
+  x.font = '700 56px "Noto Serif JP", serif';
+  x.fillStyle = '#2b2b2b';
+  x.fillText(t.name, W/2, 600);
+  x.font = '400 28px "Noto Sans JP", sans-serif';
+  x.fillStyle = '#555';
+  wrapText(x, t.tagline, W/2, 660, 860, 44);
+  let by = 820;
   AXES.forEach(a => {
     const sc = scores[a.key], pct = (sc - 5) / 15;
-    x.globalAlpha = .9; x.font = '700 22px "Noto Sans JP", sans-serif';
-    x.textAlign = 'left'; x.fillText(a.nameA, 80, by);
-    x.textAlign = 'right'; x.fillText(a.nameB, W - 80, by);
-    x.globalAlpha = .25; x.fillStyle = '#fff';
-    roundRect(x, 80, by + 10, 920, 16, 8); x.fill();
-    x.globalAlpha = 1; x.fillStyle = '#fff';
-    roundRect(x, 80, by + 10, Math.max(16, 920 * pct), 16, 8); x.fill();
-    by += 70;
+    x.font = '500 22px "Noto Sans JP", sans-serif';
+    x.fillStyle = '#888';
+    x.textAlign = 'left'; x.fillText(a.nameA, 100, by);
+    x.textAlign = 'right'; x.fillText(a.nameB, W - 100, by);
+    x.fillStyle = '#e8e4dc';
+    x.fillRect(100, by + 14, 880, 8);
+    x.fillStyle = t.color;
+    x.fillRect(100, by + 14, Math.max(8, 880 * pct), 8);
+    by += 72;
   });
-  x.globalAlpha = .6; x.font = '400 20px sans-serif';
+  x.fillStyle = '#aaa';
+  x.font = '400 20px "Noto Sans JP", sans-serif';
   x.textAlign = 'center';
-  x.fillText('archime.jp', W/2, H - 50);
+  x.fillText('archime.jp', W/2, H - 48);
   const a = document.createElement('a');
   a.download = 'archime_' + t.code + '.png';
   a.href = cv.toDataURL('image/png');
