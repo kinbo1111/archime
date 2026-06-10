@@ -470,6 +470,40 @@ function demoScores(code) {
   return s;
 }
 
+const AXIS_SYM = { worldview: '○', value: '△', workstyle: '×', process: '●' };
+
+function renderAxisChart(scores) {
+  return AXES.map(a => {
+    const sc = scores[a.key];
+    const leftPct = Math.round((20 - sc) / 15 * 100);
+    const rightPct = 100 - leftPct;
+    const isLeft = sc <= 12;
+    const dominant = isLeft ? a.nameA : a.nameB;
+    const dominantPct = isLeft ? leftPct : rightPct;
+    const dotPos = ((sc - 5) / 15) * 100;
+    const ui = AXIS_UI[a.key];
+    return `<div class="axis-chart-row" style="--ax:${ui.color}">
+      <div class="axis-chart-head">
+        <span class="axis-chart-sym">${AXIS_SYM[a.key]}</span>
+        <span class="axis-chart-label">${ui.label}</span>
+        <span class="axis-chart-verdict">${dominant}寄り <strong>${dominantPct}%</strong></span>
+      </div>
+      <div class="axis-spectrum">
+        <div class="spec-track">
+          <div class="spec-zone spec-left"></div>
+          <div class="spec-zone spec-right"></div>
+          <span class="spec-threshold" aria-hidden="true"></span>
+          <span class="spec-dot" style="left:${dotPos}%"></span>
+        </div>
+        <div class="spec-pcts">
+          <span class="spec-side${isLeft ? ' on' : ''}"><b>${a.codeA}</b> ${a.nameA} <em>${leftPct}%</em></span>
+          <span class="spec-side${isLeft ? '' : ' on'}"><b>${a.codeB}</b> ${a.nameB} <em>${rightPct}%</em></span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
 function showResult(forcedCode) {
   let t, scores, code;
   if (forcedCode && TYPES[forcedCode]) {
@@ -494,29 +528,15 @@ function showResult(forcedCode) {
   illust.onerror = () => { illust.hidden = true; };
   illust.src = 'assets/characters/' + code + '.png';
 
-  const symMap = { worldview: '○', value: '△', workstyle: '×', process: '●' };
   $('r-pills').innerHTML = AXES.map(a => {
     const left = code.includes(a.codeA);
     const label = left ? a.nameA : a.nameB;
     const letter = left ? a.codeA : a.codeB;
     const ui = AXIS_UI[a.key];
-    return `<span class="legend-item" style="--leg:${ui.color}"><span class="leg-sym">${symMap[a.key]}</span><span class="leg-letter">${letter}</span><span class="leg-name">${label}</span></span>`;
+    return `<span class="legend-item" style="--leg:${ui.color}"><span class="leg-sym">${AXIS_SYM[a.key]}</span><span class="leg-letter">${letter}</span><span class="leg-name">${label}</span></span>`;
   }).join('');
   $('r-desc').textContent = t.desc;
-
-  $('r-bars').innerHTML = AXES.map(a => {
-    const sc = scores[a.key];
-    const pct = Math.round((sc - 5) / 15 * 100);
-    const left = sc <= 12;
-    return `<div class="axis-bar">
-      <div class="bar-labels">
-        <span class="${left?'on':''}">${a.codeA}・${a.nameA}</span>
-        <span class="${left?'':'on'}">${a.nameB}・${a.codeB}</span>
-      </div>
-      <div class="bar-score">${sc} / 20</div>
-      <div class="axis-meter"><i style="width:${pct}%"></i><span class="thr"></span></div>
-    </div>`;
-  }).join('');
+  $('r-bars').innerHTML = renderAxisChart(scores);
 
   $('r-str').innerHTML = t.strengths.map(s => `<div class="item">${s}</div>`).join('');
   $('r-wek').innerHTML = t.weaknesses.map(s => `<div class="item">${s}</div>`).join('');

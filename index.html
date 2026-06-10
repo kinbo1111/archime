@@ -16,6 +16,15 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
+<!-- GA4: 測定ID確定後、G-XXXXXXXXXX を差し替えてコメントを外してください
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+-->
 </head>
 <body>
 
@@ -103,6 +112,17 @@
         </div>
       </div>
 
+      <div class="board-panel board-persona">
+        <h2 class="board-section-title">人物像</h2>
+        <p class="board-desc" id="r-desc"></p>
+      </div>
+
+      <div class="board-panel board-balance">
+        <h2 class="board-section-title">4つの設計軸バランス</h2>
+        <p class="board-balance-hint">20問の回答から、各軸でどちらの傾向が強いかを％で示しています。</p>
+        <div class="axis-chart" id="r-bars"></div>
+      </div>
+
       <div class="board-actions">
         <div class="board-share">
           <button type="button" class="share-btn line" id="sh-line">LINE</button>
@@ -112,6 +132,7 @@
         </div>
         <p class="share-status" id="sh-status"></p>
         <button type="button" class="board-open-sheet" onclick="openBoardSheet()">くわしく読む</button>
+        <button type="button" class="btn-restart board-restart" onclick="restart()">最初からやり直す</button>
       </div>
     </div>
 
@@ -123,14 +144,6 @@
           <button type="button" class="sheet-close" onclick="closeBoardSheet()" aria-label="閉じる">×</button>
         </div>
         <div class="sheet-scroll">
-          <details class="sheet-section">
-            <summary><span class="section-title">人物像</span><span class="chev">▼</span></summary>
-            <div class="section-body"><p class="result-desc" id="r-desc"></p></div>
-          </details>
-          <details class="sheet-section">
-            <summary><span class="section-title">4軸バランス</span><span class="chev">▼</span></summary>
-            <div class="section-body"><div class="axis-bars" id="r-bars"></div></div>
-          </details>
           <details class="sheet-section">
             <summary><span class="section-title">強み・気をつけたい点</span><span class="chev">▼</span></summary>
             <div class="section-body">
