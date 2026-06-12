@@ -252,7 +252,64 @@ const MILESTONES = {
   20: 'すべて回答済みです'
 };
 
+const STORAGE_KEY = 'archime_session';
+
 const $ = id => document.getElementById(id);
+
+function normalizeAnswers(arr) {
+  const a = new Array(QUESTIONS.length).fill(null);
+  if (!Array.isArray(arr)) return a;
+  for (let i = 0; i < QUESTIONS.length; i++) {
+    const v = arr[i];
+    a[i] = typeof v === 'number' && v >= 0 && v <= 3 ? v : null;
+  }
+  return a;
+}
+
+function saveProgress(view) {
+  try {
+    const payload = { view, answers };
+    if (view === 'result' && !answers.includes(null)) {
+      payload.resultCode = calcTypeCode(calcAxisScores());
+    }
+    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+  } catch (_) {}
+}
+
+function loadProgress() {
+  try {
+    const raw = sessionStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch (_) {
+    return null;
+  }
+}
+
+function clearProgress() {
+  try { sessionStorage.removeItem(STORAGE_KEY); } catch (_) {}
+}
+
+function restoreQuizUI() {
+  answers.forEach((val, i) => {
+    if (val === null) return;
+    const card = $('qc-' + i);
+    if (!card) return;
+    card.classList.add('answered');
+    card.querySelectorAll('.q-opt').forEach(b => {
+      b.classList.toggle('sel', +b.dataset.v === val);
+    });
+  });
+  updateProgress();
+}
+
+function scrollToQuizPosition() {
+  const firstUnanswered = answers.findIndex(a => a === null);
+  const target = firstUnanswered >= 0 ? firstUnanswered : answers.length - 1;
+  const card = $('qc-' + target);
+  if (card) {
+    setTimeout(() => card.scrollIntoView({ behavior: 'auto', block: 'center' }), 80);
+  }
+}
 
 function gaEvent(name, params) {
   if (typeof gtag === 'function') gtag('event', name, params || {});
@@ -262,7 +319,10 @@ function buildIntroTypes() {
   const el = $('intro-types');
   if (!el) return;
   el.innerHTML = Object.values(TYPES).map(t =>
-    `<span><em>${t.emoji}</em>${t.code}</span>`
+    `<span class="intro-type">
+      ${characterThumbHtml(t.code, 'char-thumb-xs')}
+      <span class="intro-type-code">${t.code}</span>
+    </span>`
   ).join('');
 }
 
@@ -300,13 +360,27 @@ function resetPageMeta() {
   setMeta('og:description', 'あなたはどんな建築家タイプ？ 無料・登録不要で診断できます。', true);
 }
 
+function characterPath(code) {
+  return 'assets/characters/' + code + '.png';
+}
+
+function characterThumbHtml(code, className) {
+  const t = TYPES[code];
+  if (!t) return '';
+  const cls = 'char-thumb' + (className ? ' ' + className : '');
+  return `<span class="${cls}">
+    <img src="${characterPath(code)}" alt="${esc(t.name)}" loading="lazy" onerror="this.parentElement.classList.add('no-img')">
+    <span class="char-thumb-fallback" aria-hidden="true">${t.emoji}</span>
+  </span>`;
+}
+
 function compatHtml(items) {
   return items.map(g => {
     const p = g.split('—');
     const head = p[0].trim();
     const m = head.match(/^([A-Z]{4})/);
-    const emoji = m && TYPES[m[1]] ? TYPES[m[1]].emoji : '';
-    return `<div class="compat-item">${emoji ? `<span class="compat-emoji">${emoji}</span>` : ''}<div><b>${head}</b>${p[1] ? ' ' + p[1].trim() : ''}</div></div>`;
+    const thumb = m ? characterThumbHtml(m[1], 'char-thumb-sm') : '';
+    return `<div class="compat-item">${thumb}<div><b>${head}</b>${p[1] ? ' ' + p[1].trim() : ''}</div></div>`;
   }).join('');
 }
 
@@ -356,10 +430,12 @@ function calcResult() {
 }
 
 function startQuiz() {
+  clearProgress();
   answers = new Array(QUESTIONS.length).fill(null);
   buildQuiz();
   showView('quiz');
   highlightCurrent();
+  saveProgress('quiz');
   gaEvent('quiz_start');
 }
 
@@ -411,6 +487,7 @@ function pick(qi, val) {
     highlightCurrent();
     if (firstUnanswered < 0) $('quiz-fab').classList.add('show');
   }
+  saveProgress('quiz');
 }
 
 function highlightCurrent() {
@@ -472,6 +549,37 @@ function demoScores(code) {
 
 const AXIS_SYM = { worldview: '○', value: '△', workstyle: '×', process: '●' };
 
+function loadCharacterIllust(code, name) {
+  const illust = $('r-illust');
+  const wrap = illust.parentElement;
+  const path = 'assets/characters/' + code + '.png';
+
+  const show = () => {
+    illust.removeAttribute('hidden');
+    wrap.classList.add('has-illust');
+  };
+  const hide = () => {
+    illust.setAttribute('hidden', '');
+    wrap.classList.remove('has-illust');
+  };
+
+  illust.alt = name;
+  hide();
+  illust.onload = show;
+  illust.onerror = hide;
+
+  if (illust.dataset.code === code && illust.complete && illust.naturalWidth > 0) {
+    show();
+    return;
+  }
+
+  illust.dataset.code = code;
+  illust.removeAttribute('src');
+  illust.src = path;
+
+  if (illust.complete && illust.naturalWidth > 0) show();
+}
+
 function renderAxisChart(scores) {
   return AXES.map(a => {
     const sc = scores[a.key];
@@ -520,13 +628,7 @@ function showResult(forcedCode) {
   $('r-name').textContent = t.name;
   $('r-tagline').textContent = t.tagline;
   $('r-emoji').textContent = t.emoji;
-
-  const illust = $('r-illust');
-  illust.alt = t.name;
-  illust.hidden = true;
-  illust.onload = () => { illust.hidden = false; };
-  illust.onerror = () => { illust.hidden = true; };
-  illust.src = 'assets/characters/' + code + '.png';
+  loadCharacterIllust(code, t.name);
 
   $('r-pills').innerHTML = AXES.map(a => {
     const left = code.includes(a.codeA);
@@ -547,7 +649,10 @@ function showResult(forcedCode) {
   $('r-bad').innerHTML = compatHtml(t.bad);
 
   $('r-all-types').innerHTML = Object.values(TYPES).map(x =>
-    `<div class="type-chip${x.code === code ? ' you' : ''}"><em>${x.emoji}</em>${x.name}</div>`
+    `<div class="type-chip${x.code === code ? ' you' : ''}">
+      ${characterThumbHtml(x.code, 'char-thumb-md')}
+      <span class="type-chip-name">${x.name}</span>
+    </div>`
   ).join('');
 
   closeBoardSheet();
@@ -563,6 +668,7 @@ function showResult(forcedCode) {
   setupShare(t, code);
   gaEvent('result_view', { type_code: code });
   showView('result');
+  if (!forcedCode) saveProgress('result');
 }
 
 function shareText(t) {
@@ -729,6 +835,7 @@ function roundRect(ctx, x, y, w, h, r) {
 
 function restart() {
   closeBoardSheet();
+  clearProgress();
   answers = new Array(QUESTIONS.length).fill(null);
   $('quiz-fab').classList.remove('show');
   history.replaceState(null, '', location.pathname);
@@ -736,10 +843,36 @@ function restart() {
   showView('intro');
 }
 
+function restoreQuizSession() {
+  answers = normalizeAnswers(loadProgress().answers);
+  buildQuiz();
+  restoreQuizUI();
+  showView('quiz');
+  highlightCurrent();
+  scrollToQuizPosition();
+}
+
+function restoreResultSession() {
+  answers = normalizeAnswers(loadProgress().answers);
+  showResult();
+}
+
 buildIntroTypes();
 
 (function boot() {
+  const saved = loadProgress();
   const q = new URLSearchParams(location.search);
-  const code = q.get('r') || q.get('preview');
-  if (code && TYPES[code]) showResult(code);
+  const urlCode = q.get('r') || q.get('preview');
+
+  if (saved?.view === 'quiz' && saved.answers?.some(a => a !== null)) {
+    restoreQuizSession();
+    return;
+  }
+
+  if (saved?.view === 'result' && saved.answers && !saved.answers.includes(null)) {
+    restoreResultSession();
+    return;
+  }
+
+  if (urlCode && TYPES[urlCode]) showResult(urlCode);
 })();
