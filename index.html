@@ -14,7 +14,7 @@
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-6DW8SG2958"></script>
 <script>
@@ -24,7 +24,7 @@
   gtag('config', 'G-6DW8SG2958');
 </script>
 </head>
-<body>
+<body class="view-intro">
 
 <header class="site-header">
   <div class="site-header-inner">
@@ -36,34 +36,55 @@
 <div class="app">
 
   <section id="view-intro" class="view active">
-    <div class="intro-lead">
-      <p class="intro-kicker">建築学科・建築を学ぶ方へ</p>
-      <h1>あなたの建築家タイプを診断</h1>
-      <p class="lead">設計の考え方や働き方の傾向から、16種類のタイプに分類します。所要時間は約5分。登録は不要です。</p>
-      <div class="intro-meta">
-        <span>全20問</span>
-        <span>4つの設計軸</span>
-        <span>16タイプ</span>
-        <span>無料</span>
+    <div class="hero-sea">
+      <div class="hero-ocean-bg" aria-hidden="true">
+        <div class="hero-sunlight"></div>
+        <div class="hero-caustics"></div>
+        <ul class="hero-bubbles">
+          <li></li><li></li><li></li><li></li><li></li>
+          <li></li><li></li><li></li><li></li><li></li>
+        </ul>
+      </div>
+      <div class="hero-wave hero-wave-back" aria-hidden="true"></div>
+      <div class="hero-wave hero-wave-mid" aria-hidden="true"></div>
+      <div class="hero-wave hero-wave-front" aria-hidden="true"></div>
+      <div class="hero-seabed" aria-hidden="true"></div>
+      <div class="hero-chars" id="hero-chars" aria-hidden="true"></div>
+      <div class="hero-content">
+        <p class="hero-kicker">建築学科・建築を学ぶ方へ</p>
+        <h1 class="hero-title">あなたの建築家タイプを海のキャラで診断！</h1>
+        <p class="hero-lead">設計の考え方や働き方の傾向から、16種類のタイプに分類。<br>所要時間は約5分、登録不要です。</p>
+        <div class="hero-meta">
+          <span>全20問</span>
+          <span>4つの設計軸</span>
+          <span>16タイプ</span>
+        </div>
+        <button type="button" class="btn-cta" onclick="startQuiz()">診断を開始する</button>
       </div>
     </div>
 
-    <p class="sec-label">診断の4つの軸</p>
-    <ul class="axes-list">
-      <li style="--ac:var(--axis-v)"><span class="sym">○</span><div><h3>世界観（構想型 ⇔ 現実型）</h3><p>理想を描くか、現実を読み解くか</p></div></li>
-      <li style="--ac:var(--axis-f)"><span class="sym">△</span><div><h3>価値志向（造形志向 ⇔ 機能志向）</h3><p>形と美意識を重視するか、機能と合理性を重視するか</p></div></li>
-      <li style="--ac:var(--axis-c)"><span class="sym">×</span><div><h3>働き方（組織型 ⇔ 個人型）</h3><p>チームで考えるか、ひとりで集中するか</p></div></li>
-      <li style="--ac:var(--axis-e)"><span class="sym">●</span><div><h3>プロセス（探索型 ⇔ 計画型）</h3><p>試行錯誤で進めるか、計画を立てて進めるか</p></div></li>
-    </ul>
+    <div class="intro-body">
+      <section class="types-zukan">
+        <h2 class="section-title">全16タイプの海のキャラクター</h2>
+        <p class="section-lead">それぞれのタイプには、海の生き物キャラがいます。あなたはどのタイプ？</p>
+        <div class="types-grid" id="intro-types"></div>
+        <div class="cta-wrap">
+          <button type="button" class="btn-cta" onclick="startQuiz()">診断を開始する</button>
+        </div>
+      </section>
 
-    <div class="types-preview">
-      <p class="types-preview-h">全16タイプの動物キャラ（一例）</p>
-      <div class="types-grid" id="intro-types"></div>
+      <section class="axes-section">
+        <h2 class="section-title">診断の4つの軸</h2>
+        <ul class="axes-list">
+          <li style="--ac:var(--axis-v)"><span class="sym">○</span><div><h3>世界観（構想型 ⇔ 現実型）</h3><p>理想を描くか、現実を読み解くか</p></div></li>
+          <li style="--ac:var(--axis-f)"><span class="sym">△</span><div><h3>価値志向（造形志向 ⇔ 機能志向）</h3><p>形と美意識を重視するか、機能と合理性を重視するか</p></div></li>
+          <li style="--ac:var(--axis-c)"><span class="sym">×</span><div><h3>働き方（組織型 ⇔ 個人型）</h3><p>チームで考えるか、ひとりで集中するか</p></div></li>
+          <li style="--ac:var(--axis-e)"><span class="sym">●</span><div><h3>プロセス（探索型 ⇔ 計画型）</h3><p>試行錯誤で進めるか、計画を立てて進めるか</p></div></li>
+        </ul>
+      </section>
+
+      <p class="disclaimer">本診断は建築の学び方・設計傾向を楽しく知るための参考ツールです。能力や適性を断定するものではありません。</p>
     </div>
-
-    <button class="btn-primary" onclick="startQuiz()">診断を始める</button>
-    <p class="foot">ARCHIme 建築タイプ診断<br>建築を学ぶ学生・若手の方を対象としています</p>
-    <p class="disclaimer">本診断は建築の学び方・設計傾向を楽しく知るための参考ツールです。能力や適性を断定するものではありません。</p>
   </section>
 
   <section id="view-quiz" class="view">
@@ -182,6 +203,15 @@
   </section>
 
 </div>
+
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <a class="footer-link" href="https://www.unions.co.jp/privacy/" target="_blank" rel="noopener noreferrer">個人情報保護方針</a>
+    <p class="footer-org">運営会社：ユニオンシステム株式会社</p>
+    <p class="footer-copy">© UNION SYSTEM Inc.</p>
+  </div>
+</footer>
+
 <canvas id="sr-canvas" class="sr-canvas" width="1080" height="1350"></canvas>
 
 <script src="assets/js/app.js" defer></script>

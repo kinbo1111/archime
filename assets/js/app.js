@@ -315,14 +315,47 @@ function gaEvent(name, params) {
   if (typeof gtag === 'function') gtag('event', name, params || {});
 }
 
+const HERO_CHAR_LAYOUT = [
+  { top: 2, left: 0, size: 96, rotate: -18, delay: 0, dur: 4.2 },
+  { top: 0, left: 76, size: 88, rotate: 14, delay: 0.5, dur: 3.8 },
+  { top: 14, left: 84, size: 80, rotate: -8, delay: 1.1, dur: 4.5 },
+  { top: 24, left: -4, size: 84, rotate: 12, delay: 0.3, dur: 3.6 },
+  { top: 48, left: 0, size: 76, rotate: -22, delay: 0.8, dur: 4.0 },
+  { top: 54, left: 78, size: 80, rotate: 16, delay: 1.4, dur: 3.9 },
+  { top: 68, left: 68, size: 72, rotate: -12, delay: 0.2, dur: 4.3 },
+  { top: 74, left: 4, size: 68, rotate: 20, delay: 1.0, dur: 3.7 },
+  { top: 6, left: 38, size: 64, rotate: 6, delay: 0.6, dur: 4.1 },
+  { top: 10, left: 54, size: 60, rotate: -14, delay: 1.2, dur: 3.5 },
+  { top: 34, left: 86, size: 58, rotate: 10, delay: 0.4, dur: 4.4 },
+  { top: 40, left: -6, size: 60, rotate: -6, delay: 1.3, dur: 3.8 },
+  { top: 60, left: 44, size: 56, rotate: 8, delay: 0.7, dur: 4.0 },
+  { top: 82, left: 34, size: 52, rotate: -16, delay: 1.5, dur: 3.6 },
+  { top: 18, left: 16, size: 58, rotate: 18, delay: 0.9, dur: 4.2 },
+  { top: 28, left: 64, size: 54, rotate: -10, delay: 1.6, dur: 3.9 }
+];
+
+function buildHeroChars() {
+  const el = $('hero-chars');
+  if (!el) return;
+  const codes = Object.keys(TYPES);
+  el.innerHTML = codes.map((code, i) => {
+    const p = HERO_CHAR_LAYOUT[i] || HERO_CHAR_LAYOUT[0];
+    const t = TYPES[code];
+    return `<div class="hero-char" style="top:${p.top}%;left:${p.left}%;width:${p.size}px;height:${p.size}px;--rot:${p.rotate}deg;--delay:${p.delay}s;--dur:${p.dur}s">
+      <img src="${characterPath(code)}" alt="" loading="eager" onerror="this.style.display='none'">
+    </div>`;
+  }).join('');
+}
+
 function buildIntroTypes() {
   const el = $('intro-types');
   if (!el) return;
   el.innerHTML = Object.values(TYPES).map(t =>
-    `<span class="intro-type">
-      ${characterThumbHtml(t.code, 'char-thumb-xs')}
-      <span class="intro-type-code">${t.code}</span>
-    </span>`
+    `<article class="type-card">
+      <div class="type-card-illust">${characterThumbHtml(t.code, '')}</div>
+      <p class="type-card-name">${esc(t.name)}</p>
+      <p class="type-card-code">${t.code}</p>
+    </article>`
   ).join('');
 }
 
@@ -388,6 +421,7 @@ function showView(name) {
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   $('view-' + name).classList.add('active');
   document.body.classList.toggle('result-mode', name === 'result');
+  document.body.classList.toggle('view-intro', name === 'intro');
   window.scrollTo({ top: 0, behavior: 'instant' in document.body.style ? 'instant' : 'auto' });
 }
 
@@ -701,17 +735,13 @@ function setupShare(t, code) {
 
 function setStatus(msg) { $('sh-status').textContent = msg; }
 
-function drawGridPaper(ctx, W, H) {
-  ctx.fillStyle = '#f0ebe0';
+function drawSeaBg(ctx, W, H) {
+  const g = ctx.createLinearGradient(0, 0, W, H);
+  g.addColorStop(0, '#dff3fc');
+  g.addColorStop(0.5, '#b8e4f7');
+  g.addColorStop(1, '#eef9ff');
+  ctx.fillStyle = g;
   ctx.fillRect(0, 0, W, H);
-  ctx.strokeStyle = 'rgba(168, 72, 50, .08)';
-  ctx.lineWidth = 1;
-  for (let x = 0; x < W; x += 24) {
-    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
-  }
-  for (let y = 0; y < H; y += 24) {
-    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
-  }
 }
 
 function saveShareImage(t) {
@@ -721,7 +751,7 @@ function saveShareImage(t) {
   const tg = parseInt(hex.substr(2, 2), 16);
   const tb = parseInt(hex.substr(4, 2), 16);
 
-  drawGridPaper(ctx, W, H);
+  drawSeaBg(ctx, W, H);
 
   const bx = 70, by = 90, bw = W - 140, bh = 980;
   ctx.fillStyle = 'rgba(255, 252, 245, .92)';
@@ -857,6 +887,7 @@ function restoreResultSession() {
   showResult();
 }
 
+buildHeroChars();
 buildIntroTypes();
 
 (function boot() {
