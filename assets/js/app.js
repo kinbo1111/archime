@@ -426,24 +426,6 @@ function showView(name) {
   window.scrollTo({ top: 0, behavior: 'instant' in document.body.style ? 'instant' : 'auto' });
 }
 
-function openBoardSheet() {
-  const o = $('board-overlay');
-  o.classList.add('is-visible');
-  requestAnimationFrame(() => o.classList.add('is-open'));
-  document.body.style.overflow = 'hidden';
-  gaEvent('board_sheet_open');
-}
-
-function closeBoardSheet(e) {
-  if (e && e.target !== $('board-overlay')) return;
-  const o = $('board-overlay');
-  o.classList.remove('is-open');
-  setTimeout(() => {
-    o.classList.remove('is-visible');
-    document.body.style.overflow = '';
-  }, 350);
-}
-
 function scoreAnswer(idx) { return idx + 1; }
 
 function calcAxisScores() {
@@ -689,7 +671,6 @@ function showResult(forcedCode) {
     </div>`
   ).join('');
 
-  closeBoardSheet();
   const sheet = document.querySelector('.board-sheet');
   if (sheet) {
     sheet.classList.remove('board-reveal');
@@ -890,7 +871,6 @@ function roundRect(ctx, x, y, w, h, r) {
 }
 
 function restart() {
-  closeBoardSheet();
   clearProgress();
   answers = new Array(QUESTIONS.length).fill(null);
   $('quiz-fab').classList.remove('show');
