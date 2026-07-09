@@ -80,7 +80,7 @@ const QUESTIONS = [
 
 const TYPES = {
   VFCE: { code:'VFCE', name:'ビジョンイルカ', emoji:'🐬', color:'#4fc3f7',
-    tagline:'感性とチームワークで、未来の建築を描く構想家。',
+    tagline:'感性とチームワークで未来を描く構想家。',
     desc:'直感と共感力でアイデアの核を見つけるタイプ。批評会では「世界観が伝わる」と評価されやすく、チームの潤滑油にもなれる。一方、図面の詰めや数値根拠の整理は後回しになりがち。企画・都市・空間演出など、物語を扱う分野で力を発揮しやすい。',
     strengths:['コンセプトを言葉にするのが得意','チームの空気を読んでまとめる','未来志向の企画力','感性を活かしたプレゼン'],
     weaknesses:['細部のルーティン作業が苦手','論理説明が弱くなりがち','気遣いすぎて疲れやすい','直前の調整で慌てることも'],
@@ -90,7 +90,7 @@ const TYPES = {
     good:['VFIE（タコ）— 感性×表現の爆発コンビ','VFCP（クジラ）— 構成で感性を支える安定ペア'],
     bad:['RSCP（ワニ）— 世界観と現実主義が平行線'] },
   VFCP: { code:'VFCP', name:'マエストロクジラ', emoji:'🐋', color:'#5c6bc0',
-    tagline:'美と秩序で、チームを大海原へ導くリーダー。',
+    tagline:'美と秩序で大海原を導くリーダー設計者。',
     desc:'落ち着きと統率力で信頼を集めるタイプ。課題を読んだ時点で全体構成が見え、批評会でも「破綻しない」と評価されやすい。レイアウト・優先順位の判断が鋭い。ただし大胆な挑戦を避けがちで、自由な発想にはやや厳しい面も。',
     strengths:['全体構成の統率力','安定した美意識','大規模案件での実力','優先順位の判断'],
     weaknesses:['突飛な案への理解が遅い','正しさ重視で窮屈になりがち','細部の遊びを削りがち'],
@@ -100,7 +100,7 @@ const TYPES = {
     good:['VSCE（サメ）— 論理×構成の無音コンビ','RFCE（ペンギン）— 共感と構成の温かい設計'],
     bad:['VFIP（フィッシュ）— ペースの違いが摩擦に'] },
   VFIE: { code:'VFIE', name:'アーティストタコ', emoji:'🐙', color:'#ec407a',
-    tagline:'自由な発想で、空間をアートのように紡ぐ夢想家。',
+    tagline:'自由な発想で空間を紡ぐ夢想家。',
     desc:'独創性と表現力が突出するタイプ。スケッチも模型もアート寄りで、批評会では「心に残る」と言われやすい。没入すると周囲が見えなくなる集中力がある。説明が感覚的になりすぎるのが課題で、言語化の練習で一気に伸びる。',
     strengths:['圧倒的な独創性','素材・色彩への感度','アート×建築の融合','没入型の集中力'],
     weaknesses:['論理説明が苦手','ムードに左右されやすい','スケジュール管理が苦手'],
@@ -110,7 +110,7 @@ const TYPES = {
     good:['VSIE（イカ）— 表現×技術の革新ペア','VFCE（イルカ）— 物語と感性の共鳴'],
     bad:['RSCE（シロクマ）— 感性と論理の温度差'] },
   VFIP: { code:'VFIP', name:'ソロタリーフィッシュ', emoji:'🐠', color:'#80deea',
-    tagline:'美を極める、孤高のデザイン職人。',
+    tagline:'美を極める孤高のデザイン職人。',
     desc:'美意識と精巧さが際立つタイプ。ひとりで黙々と作業すると圧倒的なクオリティを出す。線一本・余白1mmにも意識が届く。批評会では「丁寧で美しい」と評価されやすいが、細部に没頭して進行が遅れがち。',
     strengths:['審美眼と精巧性','驚異的な集中力','寸法・仕上げの精度','高い完成度'],
     weaknesses:['協調が苦手','方向転換に弱い','発言が少なく誤解されがち'],
@@ -120,7 +120,7 @@ const TYPES = {
     good:['RSIP（シャチ）— 精度と論理の積み上げ','VFCP（クジラ）— 美と構成の静かな最適解'],
     bad:['RFIE（ラッコ）— 試作ペースの不一致'] },
   VSCE: { code:'VSCE', name:'ロジックサメ', emoji:'🦈', color:'#546e7a',
-    tagline:'理論とスピードで、構造を制す実務派。',
+    tagline:'理論とスピードで構造を制す実務派。',
     desc:'合理性と情報処理能力に優れたタイプ。「結論は？」と先に考え、図面の矛盾を瞬時に見つける。批評会では鋭い質問で場を整理できる。感性的な議論にはやや距離を感じるが、遊び心を少し混ぜると設計が一気に豊かになる。',
     strengths:['論理力・分析力','構造的な視点','ブレない判断','問題解決力'],
     weaknesses:['感情コミュニケーションが苦手','直感型との衝突','感性的な美の議論が難しい'],
@@ -130,7 +130,7 @@ const TYPES = {
     good:['VFCP（クジラ）— 論理×構成の精度コンビ','RSCE（シロクマ）— 精緻と構造化'],
     bad:['VFIE（タコ）— 整合主義と行動性の衝突'] },
   VSCP: { code:'VSCP', name:'マネージャーアザラシ', emoji:'🦭', color:'#42a5f5',
-    tagline:'冷静沈着に、プロジェクトを導く調整型リーダー。',
+    tagline:'冷静沈着にプロジェクトを導く調整型リーダー。',
     desc:'落ち着きと調整力でチームを安定させるタイプ。混乱した現場に入ると空気が整う。スケジュール表やタスク分担を自然に作り、全員の進捗が気になって仕方ない。自分の案より調整を優先しがち。',
     strengths:['抜群の調整力','現場と設計の橋渡し','冷静な判断力','リスク管理'],
     weaknesses:['プレッシャーを抱え込みがち','強い個性に押されがち','発想力はやや控えめ'],
@@ -140,7 +140,7 @@ const TYPES = {
     good:['RFCE（ペンギン）— 調整×共感の現場最強','VFCP（クジラ）— 管理×構成の実務MAX'],
     bad:['VFIE（タコ）— 管理と破壊的行動の衝突'] },
   VSIE: { code:'VSIE', name:'イノベーションイカ', emoji:'🦑', color:'#29b6f6',
-    tagline:'技術と遊び心で、新しい建築を生み出す。',
+    tagline:'技術と遊び心で新しい建築を生む。',
     desc:'デジタル技術への好奇心が旺盛なタイプ。GrasshopperやBIMをいち早く使いこなし、未来的な作品を作る。試行錯誤とCG表現が得意だが、使われ方の説明が後手になりがち。人の視点を学ぶと完成度が跳ね上がる。',
     strengths:['技術探究心','改善・改良の提案','新ツール導入','柔軟な問題解決'],
     weaknesses:['飽きっぽい','積み上げが苦手','時間が足りなくなりがち'],
@@ -150,7 +150,7 @@ const TYPES = {
     good:['VFIE（タコ）— 技術×表現の唯一無二','VSCE（サメ）— 実験を論理で固める'],
     bad:['RSCP（ワニ）— 挑戦心と現実主義の衝突'] },
   VSIP: { code:'VSIP', name:'マスターカメ', emoji:'🐢', color:'#66bb6a',
-    tagline:'慎重かつ緻密に、確実に積み上げる堅実派。',
+    tagline:'慎重かつ緻密に積み上げる堅実派。',
     desc:'丁寧さと正確性で信頼を得るタイプ。一つひとつ確実に積み上げ、最終段階で高い完成度に到達する。周りが焦っても動じないが、短期課題ではスピード不足が目立つことも。',
     strengths:['正確性と安定性','リスク回避','継続力','寸法検討の充実'],
     weaknesses:['決断が遅い','変化への対応が苦手','スピード負荷に弱い'],
@@ -160,7 +160,7 @@ const TYPES = {
     good:['RSIP（シャチ）— 深い探索×丁寧の最強ペア','RFCP（フグ）— 誠実と丁寧のライン'],
     bad:['VFCE（イルカ）— 慎重さと感性の温度差'] },
   RFCE: { code:'RFCE', name:'コンテクストペンギン', emoji:'🐧', color:'#26a69a',
-    tagline:'環境と人をつなぐ、温かなデザイナー。',
+    tagline:'環境と人をつなぐ温かなデザイナー。',
     desc:'共感力と文脈読解に優れたタイプ。敷地・地域・人の気持ちを自然に設計に反映する。批評会では「温かい」「使いやすい」と評価されやすい。刺激的なコンセプトへの踏み込みは控えめになりがち。',
     strengths:['高い共感力','公共性・環境性','調和感覚','対話から価値を見つける力'],
     weaknesses:['強い個性に押されがち','意見を言いにくい','スピード負荷が苦手'],
@@ -170,7 +170,7 @@ const TYPES = {
     good:['VFCP（クジラ）— 共感×構成','RSCE（シロクマ）— 感性と論理の支え合い'],
     bad:['VSCE（サメ）— 共感と合理の衝突'] },
   RFCP: { code:'RFCP', name:'プランフグ', emoji:'🐡', color:'#ffa726',
-    tagline:'安定と丁寧さで、空間を整える堅実設計者。',
+    tagline:'安定と丁寧さで空間を整える堅実設計者。',
     desc:'真面目で丁寧、約束を守るタイプ。派手なひらめきは少ないが、図面・資料・工程の基本を確実に押さえる。チームに一人いると全体が安定する。自分から大きな案を出すことは少ない。',
     strengths:['丁寧さと正確性','読みやすい図面','スケジュール遵守','聴き役として優秀'],
     weaknesses:['アイデア創出が苦手','主張が弱い','急な方針転換に弱い'],
@@ -180,7 +180,7 @@ const TYPES = {
     good:['VFIP（フィッシュ）— 丁寧×美意識','VSIP（カメ）— 誠実×慎重の充実'],
     bad:['VSIE（イカ）— 丁寧さとスピードの摩擦'] },
   RFIE: { code:'RFIE', name:'フィールドラッコ', emoji:'🦦', color:'#ef5350',
-    tagline:'手を動かしながら考える、柔軟な現場派。',
+    tagline:'手を動かしながら考える柔軟な現場派。',
     desc:'「触れて理解する」実践型。現場や模型の前でスイッチが入り、職人さんにも好かれやすい。図面より模型の説得力が高く、理論的な資料づくりは後手になりがち。',
     strengths:['現場対応力','柔軟性と行動力','観察力','素材で本質を掴む'],
     weaknesses:['机上作業が続かない','論理資料が苦手','資料化が遅れがち'],
@@ -190,7 +190,7 @@ const TYPES = {
     good:['VSIE（イカ）— 実験×技術の現場系','RFCE（ペンギン）— 現場感×生活感'],
     bad:['RSIP（シャチ）— 速度と深さのすれ違い'] },
   RFIP: { code:'RFIP', name:'クラフトカワウソ', emoji:'🪚', color:'#ff8a65',
-    tagline:'職人技と誠実さで、形を磨く努力家。',
+    tagline:'職人技と誠実さで形を磨く努力家。',
     desc:'コツコツ努力で成長するタイプ。模型や細部作業に強く、仕上げの美しさで感動を与える。細部に没頭して全体の進行が遅れがちだが、信頼度は非常に高い。',
     strengths:['職人気質のこだわり','継続力と誠実さ','仕上げ品質','信頼を得やすい'],
     weaknesses:['スピードが遅い','マルチタスクが苦手','自己主張が苦手'],
@@ -200,7 +200,7 @@ const TYPES = {
     good:['VFIP（フィッシュ）— 細部職人コンビ','RFCP（フグ）— 細仕事×丁寧'],
     bad:['VSIE（イカ）— 高速変更で作業が崩れる'] },
   RSCE: { code:'RSCE', name:'ラショナルシロクマ', emoji:'🐻‍❄️', color:'#1565c0',
-    tagline:'ロジカルに世界を整理する、知恵者。',
+    tagline:'ロジカルに世界を整理する知恵者。',
     desc:'理論的に美しさを構築するタイプ。複雑な内容を図解で明確にし、「地味なのに洗練されている」と言われやすい。感性だけの議論には乗り切れないが、根拠ある美の追求は圧倒的。',
     strengths:['分析と構造化','根拠ある説明','ブレない判断','効率化・システム化'],
     weaknesses:['直感だけの作品に疑問','細かすぎて厳しいと誤解','感性だけの話題が苦手'],
@@ -210,7 +210,7 @@ const TYPES = {
     good:['VSCE（サメ）— 論理×体系化','VFCP（クジラ）— ロジックに構成力'],
     bad:['VFIE（タコ）— ロジックと行動の言語差'] },
   RSCP: { code:'RSCP', name:'ビルダーワニ', emoji:'🐊', color:'#558b2f',
-    tagline:'統率と実行力で、現場を制するリーダー。',
+    tagline:'統率と実行力で現場を制するリーダー。',
     desc:'現場力と管理力を兼ね備えた頼れるタイプ。「実際に建てる」を最初に考え、施工性の高い提案をする。批評会では「現実的」「説得力がある」と評価されやすい。表現の遊び心は苦手。',
     strengths:['リーダーシップ','現場統率力','調整能力','迅速な判断'],
     weaknesses:['表現型の案が苦手','衝突時に強めに出がち','詰めの粘りで疲弊'],
@@ -220,7 +220,7 @@ const TYPES = {
     good:['VSCP（アザラシ）— 現場×調整の最強運営','RSCE（シロクマ）— 現実×論理'],
     bad:['VFCE（イルカ）— 世界観と現実の衝突'] },
   RSIE: { code:'RSIE', name:'テックガニ', emoji:'🦀', color:'#0288d1',
-    tagline:'技術と発想を両立させる、研究肌の開拓者。',
+    tagline:'技術と発想を両立させる研究肌の開拓者。',
     desc:'好奇心と技術力を併せ持つ理系寄りタイプ。環境・構造・実験系に強く、数値やグラフで説得力を高める。世界観の表現は後手になりがちだが、研究力とデザイン力の両輪で強くなる。',
     strengths:['研究力','技術開発の素質','改善・改良','深い思考と遊び心'],
     weaknesses:['飽きっぎ','ルーティンが苦手','感覚的な表現が後手'],
@@ -230,7 +230,7 @@ const TYPES = {
     good:['VSIE（イカ）— 技術×技術の最先端','RSCE（シロクマ）— 技術×ロジック'],
     bad:['VFIE（タコ）— 精巧技術×突発感性'] },
   RSIP: { code:'RSIP', name:'アナライズシャチ', emoji:'🐳', color:'#7b1fa2',
-    tagline:'理論で美を構築する、静かな分析家。',
+    tagline:'理論で美を構築する静かな分析家。',
     desc:'静かに深く考える探索型。図面の精度と合理性が高く、批評会では「よく考えている」と評価されやすい。自分のペースで詰めるため、チームでは目立たないが信頼は厚い。',
     strengths:['深い理論構築','静かな集中力','長期継続','論理的美学'],
     weaknesses:['口数が少なく誤解されがち','スピード勝負に弱い','最初から主張しにくい'],
@@ -355,6 +355,7 @@ function buildIntroTypes() {
       <div class="type-card-illust">${characterThumbHtml(t.code, '')}</div>
       <p class="type-card-name">${esc(t.name)}</p>
       <p class="type-card-code">${t.code}</p>
+      <p class="type-card-tagline">${esc(t.tagline)}</p>
     </article>`
   ).join('');
 }
@@ -483,7 +484,6 @@ function buildQuiz() {
     return `<article class="q-card" id="qc-${i}" data-idx="${i}" style="--ac:${ui.color}">
       <div class="q-head">
         <span class="q-num">質問 ${i + 1}</span>
-        <span class="q-axis">${ui.sym} ${ui.label}</span>
       </div>
       ${q.stem ? `<p class="q-stem">${q.stem}</p>` : ''}
       <div class="q-ab">
@@ -709,15 +709,41 @@ function shareText(t) {
   return `【ARCHIme 建築タイプ診断】\n私は ${t.emoji} ${t.name}（${t.code}）でした！\n${t.tagline}\nあなたも診断してみて →\n#ARCHIme #建築タイプ診断`;
 }
 
+function toggleSharePanel() {
+  const panel = $('sh-panel');
+  const willOpen = panel.hidden;
+  panel.hidden = !willOpen;
+  if (!willOpen) return;
+  setTimeout(() => {
+    document.addEventListener('click', function closePanel(e) {
+      if (!e.target.closest('.share-expand-wrap')) {
+        $('sh-panel').hidden = true;
+        document.removeEventListener('click', closePanel);
+      }
+    });
+  }, 0);
+}
+
 function setupShare(t, code) {
   const url = resultUrl(code);
   $('sh-x').onclick = () => {
     gaEvent('share', { method: 'x' });
     window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareText(t)) + '&url=' + encodeURIComponent(url), '_blank', 'noopener');
+    $('sh-panel').hidden = true;
   };
-  $('sh-line').onclick = () => {
-    gaEvent('share', { method: 'line' });
-    window.open('https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(shareText(t)), '_blank', 'noopener');
+  $('sh-insta').onclick = async () => {
+    gaEvent('share', { method: 'instagram' });
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: 'ARCHIme 建築タイプ診断', text: shareText(t), url });
+      } catch (e) { if (e.name !== 'AbortError') setStatus('シェアをキャンセルしました'); }
+    } else {
+      try {
+        await navigator.clipboard.writeText(shareText(t) + '\n' + url);
+        setStatus('テキストをコピーしました。インスタの投稿に貼り付けてください。');
+      } catch { setStatus('コピーできませんでした。URLをコピーしてインスタでシェアしてください。'); }
+    }
+    $('sh-panel').hidden = true;
   };
   $('sh-copy').onclick = async () => {
     try {
