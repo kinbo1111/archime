@@ -1035,6 +1035,8 @@ body.result-mode .site-footer { display: none; }
   color: var(--ink-soft);
 }
 .linelist .li:last-child { border: none; }
+#r-worknotes { margin-top: 10px; }
+#r-worknotes:empty { margin-top: 0; }
 .taglist { display: flex; flex-direction: column; gap: 0; }
 .taglist span {
   font-size: 16px;
@@ -1047,14 +1049,18 @@ body.result-mode .site-footer { display: none; }
 .compat-grid h4 { font-size: 16px; font-weight: 700; margin-bottom: 8px; color: var(--ink); }
 .compat-item {
   display: flex;
-  gap: 10px;
-  align-items: flex-start;
+  flex-direction: column;
+  gap: 8px;
   font-size: 16px;
-  padding: 10px 0;
+  padding: 14px 0;
   border-bottom: 1px solid var(--line-light);
-  line-height: 1.65;
+  line-height: 1.75;
   color: var(--ink-soft);
 }
+.compat-item:last-child { border-bottom: none; }
+.compat-head-row { display: flex; gap: 10px; align-items: center; }
+.compat-head { color: var(--sea-700); font-weight: 700; font-size: 16px; }
+.compat-body { margin: 0; color: var(--ink-soft); line-height: 1.85; }
 .compat-item b { color: var(--sea-700); font-weight: 700; }
 
 .char-thumb {
