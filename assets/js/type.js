@@ -25,7 +25,7 @@
     const label = left ? a.nameA : a.nameB;
     const letter = left ? a.codeA : a.codeB;
     const ui = AXIS_UI[a.key];
-    return `<span class="legend-item" style="--leg:${ui.color}"><span class="leg-sym">${AXIS_SYM[a.key]}</span><span class="leg-letter">${letter}</span><span class="leg-name">${label}</span></span>`;
+    return `<span class="legend-item" style="--leg:${ui.color}"><span class="leg-letter">${letter}</span><span class="leg-name">${label}</span></span>`;
   }).join('');
 
   $('r-desc').textContent = t.desc;

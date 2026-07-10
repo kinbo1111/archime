@@ -1364,6 +1364,10 @@ body.arch-page { background: var(--sea-100); }
 @media (max-width: 600px) {
   .footer-top { flex-direction: column; gap: 24px; }
   .footer-brand-links { flex-direction: row; }
+  .board-sheet { flex-direction: column-reverse; align-items: center; gap: 20px; }
+  .board-meta { width: 100%; }
+  .board-cutout { flex: none; width: min(64vw, 260px); }
+  .hero-char { opacity: .85; }
 }
 
 .sr-canvas { position: fixed; left: -9999px; top: 0; }
@@ -1378,8 +1382,4 @@ body.arch-page { background: var(--sea-100); }
 @media (max-width: 400px) {
   .q-opts { grid-template-columns: 1fr 1fr; }
   .sw-grid { grid-template-columns: 1fr; }
-  .board-sheet { flex-direction: column-reverse; align-items: center; }
-  .board-meta { width: 100%; }
-  .board-cutout { flex: none; width: min(72vw, 280px); }
-  .hero-char { opacity: .85; }
 }

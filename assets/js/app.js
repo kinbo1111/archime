@@ -612,8 +612,6 @@ function demoScores(code) {
   return s;
 }
 
-const AXIS_SYM = { worldview: '○', value: '△', workstyle: '×', process: '●' };
-
 function loadCharacterIllust(code, name) {
   const illust = $('r-illust');
   const wrap = illust.parentElement;
@@ -657,7 +655,6 @@ function renderAxisChart(scores) {
     const ui = AXIS_UI[a.key];
     return `<div class="axis-chart-row" style="--ax:${ui.color}">
       <div class="axis-chart-head">
-        <span class="axis-chart-sym">${AXIS_SYM[a.key]}</span>
         <span class="axis-chart-label">${ui.label}</span>
         <span class="axis-chart-verdict">${dominant}寄り <strong>${dominantPct}%</strong></span>
       </div>
@@ -699,7 +696,7 @@ function showResult(forcedCode) {
     const label = left ? a.nameA : a.nameB;
     const letter = left ? a.codeA : a.codeB;
     const ui = AXIS_UI[a.key];
-    return `<span class="legend-item" style="--leg:${ui.color}"><span class="leg-sym">${AXIS_SYM[a.key]}</span><span class="leg-letter">${letter}</span><span class="leg-name">${label}</span></span>`;
+    return `<span class="legend-item" style="--leg:${ui.color}"><span class="leg-letter">${letter}</span><span class="leg-name">${label}</span></span>`;
   }).join('');
   $('r-desc').textContent = t.desc;
   $('r-bars').innerHTML = renderAxisChart(scores);
@@ -778,7 +775,7 @@ function setupShare(t, code) {
   };
   $('sh-img').onclick = () => {
     setStatus('画像を生成中…');
-    try { saveShareImage(t); setStatus('画像を保存しました'); gaEvent('share', { method: 'image' }); }
+    try { saveShareImage(t, lastScores); setStatus('画像を保存しました'); gaEvent('share', { method: 'image' }); }
     catch { setStatus('画像の生成に失敗しました'); }
   };
 }
@@ -794,15 +791,15 @@ function drawSeaBg(ctx, W, H) {
   ctx.fillRect(0, 0, W, H);
 }
 
-function saveShareImage(t) {
+function saveShareImage(t, scores) {
   const img = new Image();
-  img.onload = () => renderShareImage(t, img);
-  img.onerror = () => renderShareImage(t, null);
+  img.onload = () => renderShareImage(t, img, scores);
+  img.onerror = () => renderShareImage(t, null, scores);
   img.src = characterPath(t.code);
 }
 
-function renderShareImage(t, charImg) {
-  const cv = $('sr-canvas'), ctx = cv.getContext('2d'), W = 1080, H = 1350;
+function renderShareImage(t, charImg, scores) {
+  const cv = $('sr-canvas'), ctx = cv.getContext('2d'), W = 1080, H = 1420;
   const hex = t.color.replace('#', '');
   const tr = parseInt(hex.substr(0, 2), 16);
   const tg = parseInt(hex.substr(2, 2), 16);
@@ -810,7 +807,7 @@ function renderShareImage(t, charImg) {
 
   drawSeaBg(ctx, W, H);
 
-  const bx = 70, by = 90, bw = W - 140, bh = 980;
+  const bx = 70, by = 90, bw = W - 140, bh = 1050;
   ctx.fillStyle = 'rgba(255, 252, 245, .92)';
   ctx.strokeStyle = 'rgba(43, 43, 43, .15)';
   ctx.lineWidth = 2;
@@ -868,12 +865,11 @@ function renderShareImage(t, charImg) {
   ctx.restore();
 
   const code = t.code;
-  const symMap = { worldview: '○', value: '△', workstyle: '×', process: '●' };
   let lx = bx + 40, ly = by + 380;
   ctx.font = '500 20px "Noto Sans JP", sans-serif';
   AXES.forEach(a => {
     const left = code.includes(a.codeA);
-    const lbl = `${symMap[a.key]} ${left ? a.codeA : a.codeB} ${left ? a.nameA : a.nameB}`;
+    const lbl = `${left ? a.codeA : a.codeB} ${left ? a.nameA : a.nameB}`;
     const tw = ctx.measureText(lbl).width + 28;
     ctx.fillStyle = '#fff';
     ctx.strokeStyle = '#d9d4cb';
@@ -890,6 +886,8 @@ function renderShareImage(t, charImg) {
     if (lx + tw > bx + 520) { lx = bx + 40; ly += 46; }
   });
 
+  if (scores) drawAxisBalance(ctx, scores, bx, bw, Math.max(ly + 60, by + 500));
+
   ctx.textAlign = 'center';
   ctx.fillStyle = '#888';
   ctx.font = '400 24px "Noto Sans JP", sans-serif';
@@ -899,6 +897,60 @@ function renderShareImage(t, charImg) {
   a.download = 'archime_' + t.code + '.png';
   a.href = cv.toDataURL('image/png');
   a.click();
+}
+
+function drawAxisBalance(ctx, scores, bx, bw, startY) {
+  const colors = { worldview: '#6b5b8a', value: '#2d8bc9', workstyle: '#3d9a6e', process: '#e8a838' };
+  const barX = bx + 40;
+  const barW = bw - 80;
+  let y = startY;
+
+  ctx.textAlign = 'left';
+  ctx.fillStyle = '#2b2b2b';
+  ctx.font = '700 30px "Noto Sans JP", sans-serif';
+  ctx.fillText('4つの設計軸バランス', barX, y);
+  y += 52;
+
+  AXES.forEach(a => {
+    const sc = scores[a.key];
+    const leftPct = Math.round((20 - sc) / 15 * 100);
+    const rightPct = 100 - leftPct;
+    const isLeft = sc <= 12;
+    const col = colors[a.key];
+    const ui = AXIS_UI[a.key];
+
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#2b2b2b';
+    ctx.font = '700 24px "Noto Sans JP", sans-serif';
+    ctx.fillText(ui.label, barX, y);
+    ctx.textAlign = 'right';
+    ctx.fillStyle = col;
+    ctx.font = '700 24px "Noto Sans JP", sans-serif';
+    ctx.fillText(`${isLeft ? a.nameA : a.nameB}寄り ${isLeft ? leftPct : rightPct}%`, barX + barW, y);
+    y += 30;
+
+    const trackH = 18;
+    const divX = barW * leftPct / 100;
+    ctx.save();
+    roundRect(ctx, barX, y, barW, trackH, trackH / 2);
+    ctx.clip();
+    ctx.fillStyle = shade(col, 62);
+    ctx.fillRect(barX, y, barW, trackH);
+    ctx.fillStyle = col;
+    if (isLeft) ctx.fillRect(barX, y, divX, trackH);
+    else ctx.fillRect(barX + divX, y, barW - divX, trackH);
+    ctx.restore();
+    y += trackH + 16;
+
+    ctx.font = '500 20px "Noto Sans JP", sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillStyle = isLeft ? col : '#999';
+    ctx.fillText(`${a.codeA} ${a.nameA} ${leftPct}%`, barX, y);
+    ctx.textAlign = 'right';
+    ctx.fillStyle = isLeft ? '#999' : col;
+    ctx.fillText(`${a.codeB} ${a.nameB} ${rightPct}%`, barX + barW, y);
+    y += 46;
+  });
 }
 
 function wrapText(ctx, text, cx, y, maxW, lh) {
