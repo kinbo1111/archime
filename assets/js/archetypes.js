@@ -67,7 +67,6 @@ const ARCHETYPES = [
 
     return `<section class="arch-group">
       <div class="arch-head">
-        <span class="arch-badge">${g.key}</span>
         <div class="arch-headtext">
           <h2 class="arch-name">${esc(g.name)}<span class="arch-en">${esc(g.en)}</span></h2>
           <p class="arch-sub">― ${esc(g.sub)} ―</p>
