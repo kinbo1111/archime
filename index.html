@@ -65,12 +65,13 @@
     </div>
 
     <div class="intro-body">
-      <section class="types-zukan">
+      <section class="types-zukan" id="types">
         <h2 class="section-title">建築という終わりなき海へ。</h2>
         <p class="section-lead">建築に、決まった正解はありません。進む航路は、人それぞれ。<br>ARCHImeは、あなたの価値観から自分らしい建築の進み方を見つけるコンパスです。</p>
         <div class="types-grid" id="intro-types"></div>
         <div class="cta-wrap">
           <button type="button" class="btn-cta" onclick="startQuiz()">診断を開始する</button>
+          <a class="btn-sub" href="archetypes.html">4大アーキタイプ分類を見る</a>
         </div>
       </section>
 
@@ -127,13 +128,12 @@
           <span class="tape tape-br" aria-hidden="true"></span>
           <div class="cutout-inner">
             <img id="r-illust" class="cutout-illust" alt="" hidden>
-            <div class="cutout-emoji" id="r-emoji"></div>
           </div>
         </div>
       </div>
 
       <div class="board-panel board-persona">
-        <h2 class="board-section-title">人物像</h2>
+        <h2 class="board-section-title">性格的ディテール</h2>
         <p class="board-desc" id="r-desc"></p>
       </div>
 
@@ -144,30 +144,25 @@
       </div>
 
       <div class="board-panel">
-        <h2 class="board-section-title">強み・気をつけたい点</h2>
-        <div class="sw-grid">
-          <div class="sw-box s"><h4>強み</h4><div id="r-str"></div></div>
-          <div class="sw-box w"><h4>気をつけたい点</h4><div id="r-wek"></div></div>
-        </div>
-      </div>
-
-      <div class="board-panel">
         <h2 class="board-section-title">建築学生あるある</h2>
         <div class="linelist" id="r-anec"></div>
       </div>
 
       <div class="board-panel">
-        <h2 class="board-section-title">向いている進路</h2>
-        <div class="taglist" id="r-career"></div>
+        <h2 class="board-section-title">強み・弱み</h2>
+        <div class="sw-grid">
+          <div class="sw-box s"><h4>強み</h4><div id="r-str"></div></div>
+          <div class="sw-box w"><h4>弱み</h4><div id="r-wek"></div></div>
+        </div>
       </div>
 
       <div class="board-panel">
-        <h2 class="board-section-title">チームでの役割</h2>
+        <h2 class="board-section-title">グループ課題での役割</h2>
         <div class="linelist" id="r-role"></div>
       </div>
 
       <div class="board-panel">
-        <h2 class="board-section-title">働く姿</h2>
+        <h2 class="board-section-title">働く姿（情景描写）</h2>
         <p class="board-desc" id="r-workscene"></p>
         <div class="linelist" id="r-worknotes"></div>
       </div>
@@ -181,8 +176,8 @@
       </div>
 
       <div class="board-panel">
-        <h2 class="board-section-title">全16タイプ一覧</h2>
-        <div class="types-all-grid" id="r-all-types"></div>
+        <h2 class="board-section-title">キャリアの方向性</h2>
+        <div class="taglist" id="r-career"></div>
       </div>
 
       <div class="board-actions">
