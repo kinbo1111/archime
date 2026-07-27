@@ -73,14 +73,19 @@ body:not(.view-intro) .site-header {
   margin: 0 auto;
   padding: 14px 16px;
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 10px;
 }
 .site-logo {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+  padding: 2px 0;
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 22px;
   letter-spacing: .08em;
+  white-space: nowrap;
 }
 body.view-intro .site-logo { color: #fff; text-shadow: 0 1px 8px rgba(0,0,0,.15); }
 body:not(.view-intro) .site-logo { color: var(--sea-800); }

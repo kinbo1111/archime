@@ -939,7 +939,7 @@ function drawAxisBalance(ctx, scores, bx, bw, startY) {
     if (isLeft) ctx.fillRect(barX, y, divX, trackH);
     else ctx.fillRect(barX + divX, y, barW - divX, trackH);
     ctx.restore();
-    y += trackH + 16;
+    y += trackH + 24;
 
     ctx.font = '500 20px "Noto Sans JP", sans-serif';
     ctx.textAlign = 'left';
@@ -948,7 +948,7 @@ function drawAxisBalance(ctx, scores, bx, bw, startY) {
     ctx.textAlign = 'right';
     ctx.fillStyle = isLeft ? '#999' : col;
     ctx.fillText(`${a.codeB} ${a.nameB} ${rightPct}%`, barX + barW, y);
-    y += 46;
+    y += 50;
   });
 }
 

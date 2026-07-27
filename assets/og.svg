@@ -7,11 +7,7 @@
     </linearGradient>
   </defs>
   <rect width="1200" height="630" fill="url(#bg)"/>
-  <ellipse cx="200" cy="520" rx="180" ry="40" fill="rgba(255,255,255,0.1)"/>
-  <ellipse cx="900" cy="560" rx="220" ry="50" fill="rgba(255,255,255,0.08)"/>
-  <text x="600" y="220" text-anchor="middle" font-family="sans-serif" font-size="80" font-weight="700" fill="#fff">ARCHIme</text>
-  <text x="600" y="310" text-anchor="middle" font-family="sans-serif" font-size="40" font-weight="500" fill="rgba(255,255,255,0.92)">???????</text>
-  <text x="600" y="380" text-anchor="middle" font-family="sans-serif" font-size="28" fill="rgba(255,255,255,0.75)">20??4???????16???</text>
-  <rect x="500" y="430" width="200" height="56" rx="28" fill="#ff7f50"/>
-  <text x="600" y="468" text-anchor="middle" font-family="sans-serif" font-size="24" font-weight="700" fill="#fff">???????</text>
+  <ellipse cx="220" cy="520" rx="190" ry="42" fill="rgba(255,255,255,0.1)"/>
+  <ellipse cx="910" cy="558" rx="230" ry="48" fill="rgba(255,255,255,0.08)"/>
+  <text x="600" y="315" text-anchor="middle" dominant-baseline="middle" font-family="'IBM Plex Sans JP', 'Noto Sans JP', 'Yu Gothic', sans-serif" font-size="88" font-weight="700" fill="#fff">ARCHIme</text>
 </svg>
