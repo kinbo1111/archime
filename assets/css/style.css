@@ -57,18 +57,31 @@ a { color: inherit; text-decoration: none; }
   z-index: 100;
   transition: background .3s, border-color .3s;
 }
-body.view-intro .site-header {
+/* Blur/background live on a pseudo-element behind the text, not on the
+   header itself — Safari can clip the edges of foreground text when
+   backdrop-filter is applied directly to the element containing it. */
+.site-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+body.view-intro .site-header::before {
   background: rgba(46, 140, 200, .55);
   border-bottom: 1px solid rgba(255, 255, 255, .25);
   backdrop-filter: blur(12px);
-  position: sticky;
+  -webkit-backdrop-filter: blur(12px);
 }
-body:not(.view-intro) .site-header {
+body:not(.view-intro) .site-header::before {
   background: rgba(255, 255, 255, .94);
   border-bottom: 1px solid var(--line);
   backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 .site-header-inner {
+  position: relative;
+  z-index: 1;
   max-width: var(--max);
   margin: 0 auto;
   padding: 14px 16px;
@@ -79,13 +92,14 @@ body:not(.view-intro) .site-header {
 .site-logo {
   display: inline-flex;
   align-items: center;
-  line-height: 1;
+  line-height: 1.2;
   padding: 2px 0;
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 22px;
   letter-spacing: .08em;
   white-space: nowrap;
+  overflow: visible;
 }
 body.view-intro .site-logo { color: #fff; text-shadow: 0 1px 8px rgba(0,0,0,.15); }
 body:not(.view-intro) .site-logo { color: var(--sea-800); }
@@ -251,23 +265,35 @@ body.view-intro .app { max-width: none; }
   text-align: center;
   color: #fff;
 }
+.hero-story {
+  font-family: var(--font-display);
+  font-size: clamp(15px, 3.6vw, 18px);
+  font-weight: 500;
+  line-height: 1.7;
+  letter-spacing: .03em;
+  color: rgba(255,255,255,.96);
+  text-shadow: 0 2px 16px rgba(0, 40, 80, .4), 0 1px 4px rgba(0, 0, 0, .2);
+  margin-bottom: 14px;
+  text-wrap: pretty;
+}
 .hero-kicker {
   display: inline-block;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   letter-spacing: .12em;
-  padding: 8px 16px;
-  margin-bottom: 18px;
+  padding: 6px 14px;
+  margin-bottom: 12px;
   background: rgba(255,255,255,.18);
   border-radius: var(--radius-pill);
   backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   white-space: nowrap;
 }
 .hero-title {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(28px, 6.2vw, 40px);
-  line-height: 1.35;
+  font-size: clamp(26px, 5.6vw, 36px);
+  line-height: 1.3;
   text-shadow: 0 2px 20px rgba(0, 40, 80, .35), 0 1px 4px rgba(0, 0, 0, .2);
 }
 .sp-br { display: none; }
@@ -275,9 +301,9 @@ body.view-intro .app { max-width: none; }
   .sp-br { display: block; }
 }
 .hero-lead {
-  margin-top: 18px;
-  font-size: 18px;
-  line-height: 1.75;
+  margin-top: 14px;
+  font-size: 16px;
+  line-height: 1.6;
   color: rgba(255,255,255,.92);
   text-wrap: pretty;
 }
@@ -286,8 +312,8 @@ body.view-intro .app { max-width: none; }
   justify-content: center;
   flex-wrap: nowrap;
   gap: 8px 20px;
-  margin: 22px 0 30px;
-  font-size: 18px;
+  margin: 18px 0 24px;
+  font-size: 16px;
   font-weight: 500;
   color: rgba(255,255,255,.88);
   white-space: nowrap;
@@ -470,6 +496,7 @@ body:not(.view-intro) .app { padding: 0 16px 56px; }
   background: rgba(238, 249, 255, .96);
   border-bottom: 1px solid var(--line);
   backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 .quiz-progress-meta {
   display: flex;
@@ -1101,6 +1128,7 @@ body.arch-page { background: var(--sea-100); }
 }
 .share-panel-btn:hover { transform: scale(1.1); opacity: .9; }
 .share-panel-btn.x { background: #000; color: #fff; }
+.share-panel-btn.line { background: #06c755; color: #fff; }
 .share-panel-btn.insta { background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: #fff; }
 .share-status {
   font-size: 16px;
