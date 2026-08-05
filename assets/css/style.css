@@ -234,7 +234,7 @@ body.view-intro .app { max-width: none; }
 }
 .hero-char {
   position: absolute;
-  transform: rotate(var(--rot, 0deg));
+  transform: rotate(var(--rot, 0deg)) scale(var(--char-scale, 1));
   animation: charFloat var(--dur, 4s) ease-in-out var(--delay, 0s) infinite;
   filter: drop-shadow(0 6px 16px rgba(0,0,0,.22));
   pointer-events: none;
@@ -248,8 +248,23 @@ body.view-intro .app { max-width: none; }
   background: transparent;
 }
 @keyframes charFloat {
-  0%, 100% { transform: translateY(0) rotate(var(--rot, 0deg)); }
-  50% { transform: translateY(-12px) rotate(calc(var(--rot, 0deg) + 5deg)); }
+  0%, 100% { transform: translateY(0) rotate(var(--rot, 0deg)) scale(var(--char-scale, 1)); }
+  50% { transform: translateY(-12px) rotate(calc(var(--rot, 0deg) + 5deg)) scale(var(--char-scale, 1)); }
+}
+/* Scale up the floating creatures on larger screens so they don't get
+   lost in the wide/tall hero area — keeps the sea-to-creature balance
+   consistent as viewport size grows. */
+@media (min-width: 640px) {
+  .hero-char { --char-scale: 1.3; }
+}
+@media (min-width: 960px) {
+  .hero-char { --char-scale: 1.6; }
+}
+@media (min-width: 1280px) {
+  .hero-char { --char-scale: 1.9; }
+}
+@media (min-width: 1600px) {
+  .hero-char { --char-scale: 2.2; }
 }
 @media (prefers-reduced-motion: reduce) {
   .hero-char, .hero-wave-back, .hero-wave-mid, .hero-wave-front, .hero-caustics, .hero-bubbles li { animation: none; }
@@ -267,14 +282,12 @@ body.view-intro .app { max-width: none; }
 }
 .hero-story {
   font-family: var(--font-display);
-  font-size: clamp(15px, 3.6vw, 18px);
+  font-size: clamp(12px, 3.2vw, 17px);
   font-weight: 500;
-  line-height: 1.7;
-  letter-spacing: .03em;
+  line-height: 1.6;
   color: rgba(255,255,255,.96);
   text-shadow: 0 2px 16px rgba(0, 40, 80, .4), 0 1px 4px rgba(0, 0, 0, .2);
   margin-bottom: 14px;
-  text-wrap: pretty;
 }
 .hero-kicker {
   display: inline-block;
