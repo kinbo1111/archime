@@ -351,22 +351,22 @@ function gaEvent(name, params) {
    edges (left 5–82%, top 12–78%) that even the largest responsive
    --char-scale (2.2x on very wide screens) can't push them off-canvas. */
 const HERO_CHAR_LAYOUT = [
-  { top: 14, left: 10, size: 80, rotate: -18, delay: 0, dur: 4.2 },
-  { top: 14, left: 76, size: 80, rotate: 14, delay: 0.5, dur: 3.8 },
-  { top: 20, left: 82, size: 80, rotate: -8, delay: 1.1, dur: 4.5 },
-  { top: 30, left: 10, size: 80, rotate: 12, delay: 0.3, dur: 3.6 },
-  { top: 48, left: 8, size: 80, rotate: -22, delay: 0.8, dur: 4.0 },
-  { top: 52, left: 78, size: 80, rotate: 16, delay: 1.4, dur: 3.9 },
-  { top: 66, left: 66, size: 80, rotate: -12, delay: 0.2, dur: 4.3 },
-  { top: 74, left: 14, size: 80, rotate: 20, delay: 1.0, dur: 3.7 },
-  { top: 16, left: 38, size: 80, rotate: 6, delay: 0.6, dur: 4.1 },
-  { top: 18, left: 54, size: 80, rotate: -14, delay: 1.2, dur: 3.5 },
-  { top: 36, left: 80, size: 80, rotate: 10, delay: 0.4, dur: 4.4 },
-  { top: 42, left: 9, size: 80, rotate: -6, delay: 1.3, dur: 3.8 },
-  { top: 58, left: 44, size: 80, rotate: 8, delay: 0.7, dur: 4.0 },
-  { top: 78, left: 34, size: 80, rotate: -16, delay: 1.5, dur: 3.6 },
-  { top: 24, left: 20, size: 80, rotate: 18, delay: 0.9, dur: 4.2 },
-  { top: 32, left: 62, size: 80, rotate: -10, delay: 1.6, dur: 3.9 }
+  { top: 14, left: 10, size: 48, rotate: -18, delay: 0, dur: 4.2 },
+  { top: 14, left: 76, size: 48, rotate: 14, delay: 0.5, dur: 3.8 },
+  { top: 20, left: 82, size: 48, rotate: -8, delay: 1.1, dur: 4.5 },
+  { top: 30, left: 10, size: 48, rotate: 12, delay: 0.3, dur: 3.6 },
+  { top: 48, left: 8, size: 48, rotate: -22, delay: 0.8, dur: 4.0 },
+  { top: 52, left: 78, size: 48, rotate: 16, delay: 1.4, dur: 3.9 },
+  { top: 66, left: 66, size: 48, rotate: -12, delay: 0.2, dur: 4.3 },
+  { top: 74, left: 14, size: 48, rotate: 20, delay: 1.0, dur: 3.7 },
+  { top: 16, left: 38, size: 48, rotate: 6, delay: 0.6, dur: 4.1 },
+  { top: 18, left: 54, size: 48, rotate: -14, delay: 1.2, dur: 3.5 },
+  { top: 36, left: 80, size: 48, rotate: 10, delay: 0.4, dur: 4.4 },
+  { top: 42, left: 9, size: 48, rotate: -6, delay: 1.3, dur: 3.8 },
+  { top: 58, left: 44, size: 48, rotate: 8, delay: 0.7, dur: 4.0 },
+  { top: 78, left: 34, size: 48, rotate: -16, delay: 1.5, dur: 3.6 },
+  { top: 24, left: 20, size: 48, rotate: 18, delay: 0.9, dur: 4.2 },
+  { top: 32, left: 62, size: 48, rotate: -10, delay: 1.6, dur: 3.9 }
 ];
 
 function buildHeroChars() {
