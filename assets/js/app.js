@@ -347,26 +347,28 @@ function gaEvent(name, params) {
 }
 
 /* All creatures share one size (matching the octopus) so nothing looks
-   over/under-scaled, and every position keeps enough margin from the
-   edges (left 5–82%, top 12–78%) that even the largest responsive
-   --char-scale (2.2x on very wide screens) can't push them off-canvas. */
+   over/under-scaled. Positions sit on a loose 4x4 grid (columns ~24%
+   apart, rows ~20% apart) with only small per-item jitter, so no two
+   creatures land close enough to overlap, and every position keeps a
+   margin from the edges so the largest responsive --char-scale (2.2x on
+   very wide screens) can't push them off-canvas either. */
 const HERO_CHAR_LAYOUT = [
-  { top: 14, left: 10, size: 48, rotate: -18, delay: 0, dur: 4.2 },
-  { top: 14, left: 76, size: 48, rotate: 14, delay: 0.5, dur: 3.8 },
-  { top: 20, left: 82, size: 48, rotate: -8, delay: 1.1, dur: 4.5 },
-  { top: 30, left: 10, size: 48, rotate: 12, delay: 0.3, dur: 3.6 },
-  { top: 48, left: 8, size: 48, rotate: -22, delay: 0.8, dur: 4.0 },
-  { top: 52, left: 78, size: 48, rotate: 16, delay: 1.4, dur: 3.9 },
-  { top: 66, left: 66, size: 48, rotate: -12, delay: 0.2, dur: 4.3 },
-  { top: 74, left: 14, size: 48, rotate: 20, delay: 1.0, dur: 3.7 },
-  { top: 16, left: 38, size: 48, rotate: 6, delay: 0.6, dur: 4.1 },
-  { top: 18, left: 54, size: 48, rotate: -14, delay: 1.2, dur: 3.5 },
-  { top: 36, left: 80, size: 48, rotate: 10, delay: 0.4, dur: 4.4 },
-  { top: 42, left: 9, size: 48, rotate: -6, delay: 1.3, dur: 3.8 },
-  { top: 58, left: 44, size: 48, rotate: 8, delay: 0.7, dur: 4.0 },
-  { top: 78, left: 34, size: 48, rotate: -16, delay: 1.5, dur: 3.6 },
-  { top: 24, left: 20, size: 48, rotate: 18, delay: 0.9, dur: 4.2 },
-  { top: 32, left: 62, size: 48, rotate: -10, delay: 1.6, dur: 3.9 }
+  { top: 12, left: 6, size: 48, rotate: -18, delay: 0, dur: 4.2 },
+  { top: 12, left: 82, size: 48, rotate: 14, delay: 0.5, dur: 3.8 },
+  { top: 34, left: 78, size: 48, rotate: -8, delay: 1.1, dur: 4.5 },
+  { top: 38, left: 10, size: 48, rotate: 12, delay: 0.3, dur: 3.6 },
+  { top: 56, left: 6, size: 48, rotate: -22, delay: 0.8, dur: 4.0 },
+  { top: 58, left: 74, size: 48, rotate: 16, delay: 1.4, dur: 3.9 },
+  { top: 76, left: 58, size: 48, rotate: -12, delay: 0.2, dur: 4.3 },
+  { top: 80, left: 10, size: 48, rotate: 20, delay: 1.0, dur: 3.7 },
+  { top: 16, left: 34, size: 48, rotate: 6, delay: 0.6, dur: 4.1 },
+  { top: 12, left: 54, size: 48, rotate: -14, delay: 1.2, dur: 3.5 },
+  { top: 34, left: 58, size: 48, rotate: 10, delay: 0.4, dur: 4.4 },
+  { top: 38, left: 30, size: 48, rotate: -6, delay: 1.3, dur: 3.8 },
+  { top: 60, left: 34, size: 48, rotate: 8, delay: 0.7, dur: 4.0 },
+  { top: 78, left: 24, size: 48, rotate: -16, delay: 1.5, dur: 3.6 },
+  { top: 56, left: 54, size: 48, rotate: 18, delay: 0.9, dur: 4.2 },
+  { top: 76, left: 82, size: 48, rotate: -10, delay: 1.6, dur: 3.9 }
 ];
 
 function buildHeroChars() {
